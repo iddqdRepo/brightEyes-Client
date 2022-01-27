@@ -14,9 +14,7 @@ const ProtectedRoutes = () => {
     verifyUser();
   }, []);
 
-  return setTimeout(() => {
-    state ? <Outlet /> : <AdminLogIn />;
-  }, 1000);
+  return state ? <Outlet /> : <AdminLogIn />;
 };
 
 export default ProtectedRoutes;
