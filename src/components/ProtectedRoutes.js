@@ -8,12 +8,15 @@ const ProtectedRoutes = () => {
   useEffect(() => {
     const verifyUser = async () => {
       const verification = await api.verifyUserToken(localStorage.getItem("token"));
+
       setstate(!!verification.data.isLoggedIn);
     };
     verifyUser();
   }, []);
 
-  return state ? <Outlet /> : <AdminLogIn />;
+  return setTimeout(() => {
+    state ? <Outlet /> : <AdminLogIn />;
+  }, 1000);
 };
 
 export default ProtectedRoutes;
