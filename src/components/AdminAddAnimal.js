@@ -1,0 +1,319 @@
+import React, { useState } from "react";
+import Compress from "react-image-file-resizer";
+import { v4 as uuidv4 } from "uuid";
+import * as api from "../api/apiIndex.js";
+
+function AdminAddAnimal() {
+  let uuid = uuidv4();
+
+  const [animal, setAnimal] = useState({
+    type: "",
+    name: "",
+    age: "",
+    yearsOrMonths: "",
+    breed: "",
+    size: "",
+    image: "",
+    suitableForChildren: "",
+    suitableForAnimals: "",
+    adopted: "No",
+    desc: "",
+  });
+
+  let animalCapitalized = {};
+
+  const [fileUploaded, setFileUploaded] = useState("");
+  const [warningText, setWarningText] = useState("");
+
+  const submitAnimal = async (e) => {
+    if (Object.values(animal).some((x) => x === "")) {
+      //^If the animal submitted has blank fields
+      e.preventDefault();
+      setWarningText("Please fill in all fields");
+      console.log("Please fill in all fields");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      // console.log(animal);
+    } else {
+      //^Submit the
+      e.preventDefault();
+      console.log(animal);
+      await capitalize([animal]);
+      console.log("animalCapitalized = ", animalCapitalized);
+      api.addPets(animalCapitalized);
+    }
+  };
+
+  let onFileResize = (e) => {
+    //^compress the file then store in base64
+    return new Promise((resolve, reject) => {
+      //^ Wait until the image is compressed before storing
+      console.log(e.target.files[0]);
+      const file = e.target.files[0];
+
+      Compress.imageFileResizer(
+        file, // the file from input
+        480, // width
+        480, // height
+        "JPEG", // compress format WEBP, JPEG, PNG
+        70, // quality
+        0, // rotation
+        (uri) => {
+          // console.log(uri);
+          // var stringLength = uri.length - "data:image/png;base64,".length;
+          // var sizeInBytes = 4 * Math.ceil(stringLength / 3) * 0.5624896334383812;
+          // var sizeInMb = sizeInBytes / 1000000;
+          // console.log(sizeInMb + "MB");
+          setFileUploaded(uri);
+          resolve(uri);
+        },
+        "base64" // blob or base64 default base64
+      );
+    });
+  };
+
+  const capitalize = (obj) => {
+    return new Promise((resolve, reject) => {
+      let toCapitalize = obj;
+
+      toCapitalize.map((e) => {
+        console.log(e);
+        console.log(e.name);
+        console.log(e.age);
+        console.log(e.breed);
+
+        e.name = e.name.charAt(0).toUpperCase() + e.name.slice(1);
+        e.breed = e.breed.charAt(0).toUpperCase() + e.breed.slice(1);
+        e.desc = e.desc.charAt(0).toUpperCase() + e.desc.slice(1);
+      });
+      console.log("toCapitalize", toCapitalize[0]);
+      // setAnimalCapitalized({ ...animalCapitalized, toCapitalize });
+      animalCapitalized = toCapitalize[0];
+      resolve(animalCapitalized);
+    });
+  };
+
+  const handleChange = (e) => {
+    console.log(animal);
+    const name = e.target.name;
+    let value = "";
+
+    if (name === "image") {
+      //^ If the on change detects it's an image upload
+      //^ Wait until the image is compressed before storing
+      onFileResize(e).then(function (uri) {
+        value = uri;
+        setAnimal({ ...animal, [name]: value });
+      });
+    } else {
+      value = e.target.value;
+      setAnimal({ ...animal, [name]: value });
+    }
+  };
+
+  return (
+    <div className="add-animal-page-container">
+      <div className="admin-title">ADD ANIMAL</div>
+      <div className="admin-subtitle">
+        When submitted, the animal will appear instantly on the website in the "adoption tab". <br />
+        (if you have the page open, refresh it if animal does not show)
+      </div>
+
+      {warningText ? <div className="admin-warning">Please Fill in all fields</div> : <div> </div>}
+
+      <form onSubmit={(e) => submitAnimal(e)}>
+        <div className="add-animal-content-container">
+          <div className="add-animal-content">
+            <div className="add-animal-title">Type:</div>
+            <div className="filter-dropdown">
+              <div className="dropdown">
+                <select
+                  name="type"
+                  className="dropdown-select"
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                >
+                  <option value="choose">Select…</option>
+                  <option value="Dog">Dog</option>
+                  <option value="Cat">Cat</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="add-animal-content">
+            <div className="add-animal-title">Name:</div>
+            <input
+              className="animal-form-box"
+              autoComplete="off"
+              type="text"
+              id="name"
+              name="name"
+              value={animal.name}
+              onInput={(e) => {
+                handleChange(e); //copy person from the state, then get name from object and change it
+              }}
+            />
+          </div>
+          <div className="add-animal-content">
+            <div className="add-animal-title">Age:</div>
+            <div className="add-animal-form-dropdown-age-container">
+              <input
+                className="animal-form-box animal-form-age"
+                autoComplete="off"
+                type="number"
+                id="age"
+                name="age"
+                value={animal.age}
+                onInput={(e) => {
+                  handleChange(e); //copy person from the state, then get name from object and change it
+                }}
+              />
+              <div className="filter-dropdown age">
+                <div className="dropdown-age">
+                  <select
+                    name="yearsOrMonths"
+                    className="dropdown-age-select"
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  >
+                    <option value="choose">Select…</option>
+                    <option value="Months">Months</option>
+                    <option value="Years">Years</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="add-animal-content">
+            <div className="add-animal-title">Breed:</div>
+            <input
+              className="animal-form-box"
+              autoComplete="off"
+              type="text"
+              id="breed"
+              name="breed"
+              value={animal.breed}
+              onInput={(e) => {
+                handleChange(e); //copy person from the state, then get name from object and change it
+              }}
+            />
+          </div>
+          <div className="add-animal-content">
+            <div className="add-animal-title">Size:</div>
+            <div className="filter-dropdown">
+              <div className="dropdown">
+                <select
+                  name="size"
+                  className="dropdown-select"
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                >
+                  <option value="choose">Select…</option>
+                  <option value="Small">Small</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Large">Large</option>
+                  <option value="Giant">Giant</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="add-animal-content">
+            <div className="add-animal-title">Suitable for children:</div>
+            <div className="filter-dropdown">
+              <div className="dropdown">
+                <select
+                  name="suitableForChildren"
+                  className="dropdown-select"
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                >
+                  <option value="choose">Select…</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="add-animal-content">
+            <div className="add-animal-title">Suitable for animals:</div>
+            <div className="filter-dropdown">
+              <div className="dropdown">
+                <select
+                  name="suitableForAnimals"
+                  className="dropdown-select"
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                >
+                  <option value="choose">Select…</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="add-animal-content">
+            <div className="add-animal-title">Adopted:</div>
+            <div className="filter-dropdown">
+              <div className="dropdown">
+                <select
+                  name="adopted"
+                  className="dropdown-select"
+                  onChange={(e) => {
+                    handleChange(e);
+                  }}
+                >
+                  <option value="choose">Select…</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="add-animal-content">
+            <div className="add-animal-title">Animal Image</div>
+            <input
+              type="file"
+              id="file"
+              accept="image/*"
+              name="image"
+              // value={animal.image}
+              onChange={(e) => {
+                // onFileResize(e);
+                handleChange(e);
+                // uploadImage(e);
+              }}
+            />
+          </div>
+          {fileUploaded ? <img src={fileUploaded} height="200px" width="200px" /> : <div> No File Chosen </div>}
+
+          <div className="add-animal-content">
+            <div className="add-animal-title">Description:</div>
+            <textarea
+              className="animal-text-area"
+              autoComplete="off"
+              type="text"
+              id="desc"
+              name="desc"
+              value={animal.desc}
+              onInput={(e) => {
+                handleChange(e); //copy person from the state, then get name from object and change it
+              }}
+            />
+          </div>
+
+          <button type="submit" className="button add-animal-button">
+            Add Animal
+          </button>
+        </div>
+      </form>
+      {/* <button className="button add-animal-button" onClick={() => console.log(animal)}></button> */}
+    </div>
+  );
+}
+
+export default AdminAddAnimal;
