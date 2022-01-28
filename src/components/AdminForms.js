@@ -225,7 +225,6 @@ function AdminForms() {
                       <div className="modal">
                         <button className="close" onClick={close}></button>
                         <div className="header">
-                          {" "}
                           Are You Sure You Want To Delete {obj.aboutQuestions.name} {obj.type} form{" "}
                         </div>
                         <div className="actions">
@@ -260,7 +259,6 @@ function AdminForms() {
     );
   };
 
-  //TODO Make dog only show dog, cat only show cat
   return (
     <>
       <div className="admin-forms-page-container">

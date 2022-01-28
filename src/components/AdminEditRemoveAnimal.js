@@ -132,7 +132,7 @@ function AdminEditRemoveAnimal() {
                     <Popup
                       trigger={
                         <button className="edit-button tooltip">
-                          <span class="tooltiptext">Archive Animal</span>
+                          <span className="tooltiptext">Archive Animal</span>
                           <span className="iconify-inline" data-icon="fluent:tray-item-remove-24-filled" data-width="30"></span>
                         </button>
                       }
@@ -169,7 +169,7 @@ function AdminEditRemoveAnimal() {
                   </div>
                   <div className="edit-animal-edit-icon">
                     <button className="edit-button tooltip" onClick={() => onClickEditButton(obj._id)}>
-                      <span class="tooltiptext">Edit Animal</span>
+                      <span className="tooltiptext">Edit Animal</span>
                       <span className="iconify-inline" data-icon="bx:bxs-edit-alt" data-width="30"></span>
                     </button>
                   </div>
@@ -177,7 +177,7 @@ function AdminEditRemoveAnimal() {
                     <Popup
                       trigger={
                         <button className="edit-button tooltip">
-                          <span class="tooltiptext">Delete Animal</span>
+                          <span className="tooltiptext">Delete Animal</span>
 
                           <span className="iconify-inline" data-icon="akar-icons:circle-x-fill" data-width="30"></span>
                         </button>
