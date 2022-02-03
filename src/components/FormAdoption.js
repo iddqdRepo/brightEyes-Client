@@ -195,6 +195,7 @@ function FormAdoption() {
       //^Submit the
       e.preventDefault();
       sendFormEmail();
+      setSubmittedSuccessfully(true);
       api.addForm("petAdoption", animalForm);
     }
   };

@@ -60,17 +60,47 @@ function AdminFormsArchive() {
   };
 
   const onClickDeleteButton = (type, id) => {
+    let arrayOfForms;
     console.log("ID passed AdminEditRemove is ", id);
     console.log(`deleting pet with id of ${id}`);
     if (type === "GiftAid") {
-      deleteForm(type, id);
-      window.location.reload();
+      arrayOfForms = [...giftAidForms];
+      arrayOfForms.forEach((key, index, arr) => {
+        if (key._id === id) {
+          arrayOfForms.splice(index, 1);
+          deleteForm(type, id);
+        }
+      });
+      setGiftAidForms([...arrayOfForms]);
     } else if (type === "Volunteer") {
-      deleteForm(type, id);
-      window.location.reload();
-    } else if (type === "Cat" || type === "Dog") {
-      deleteForm("petAdoption", id);
-      window.location.reload();
+      arrayOfForms = [...volunteerForms];
+      arrayOfForms.forEach((key, index, arr) => {
+        if (key._id === id) {
+          arrayOfForms.splice(index, 1);
+          deleteForm(type, id);
+        }
+      });
+      setVolunteerForms([...arrayOfForms]);
+    } else if (type === "Cat") {
+      type = "petAdoption";
+      arrayOfForms = [...catAdoptionForms];
+      arrayOfForms.forEach((key, index, arr) => {
+        if (key._id === id) {
+          arrayOfForms.splice(index, 1);
+          deleteForm(type, id);
+        }
+      });
+      setCatAdoptionForms([...arrayOfForms]);
+    } else if (type === "Dog") {
+      type = "petAdoption";
+      arrayOfForms = [...dogAdoptionForms];
+      arrayOfForms.forEach((key, index, arr) => {
+        if (key._id === id) {
+          arrayOfForms.splice(index, 1);
+          deleteForm(type, id);
+        }
+      });
+      setDogAdoptionForms([...arrayOfForms]);
     } else {
       console.log("ERROR: Type not found");
     }
@@ -132,33 +162,52 @@ function AdminFormsArchive() {
     let arrayOfForms;
     if (type === "Cat") {
       type = "petAdoption";
-      arrayOfForms = catAdoptionForms;
-      // window.location.reload();
+      arrayOfForms = [...catAdoptionForms];
+      arrayOfForms.forEach((key) => {
+        console.log("key = ", key._id);
+        if (key._id === id) {
+          key["archive"] = "No";
+          api.updateForm(type, id, key);
+        }
+      });
+      setCatAdoptionForms([...arrayOfForms]);
     }
     if (type === "Dog") {
       type = "petAdoption";
-      arrayOfForms = dogAdoptionForms;
-      // window.location.reload();
+      arrayOfForms = [...dogAdoptionForms];
+      arrayOfForms.forEach((key) => {
+        console.log("key = ", key._id);
+        if (key._id === id) {
+          key["archive"] = "No";
+          api.updateForm(type, id, key);
+        }
+      });
+      setDogAdoptionForms([...arrayOfForms]);
     }
     if (type === "GiftAid") {
-      arrayOfForms = giftAidForms;
-      // window.location.reload();
+      arrayOfForms = [...giftAidForms];
+      arrayOfForms.forEach((key) => {
+        console.log("key = ", key._id);
+        if (key._id === id) {
+          key["archive"] = "No";
+          api.updateForm(type, id, key);
+        }
+      });
+      setGiftAidForms([...arrayOfForms]);
     }
     if (type === "Volunteer") {
-      arrayOfForms = volunteerForms;
-      // window.location.reload();
+      arrayOfForms = [...volunteerForms];
+      arrayOfForms.forEach((key) => {
+        console.log("key = ", key._id);
+        if (key._id === id) {
+          key["archive"] = "No";
+          api.updateForm(type, id, key);
+        }
+      });
+      setVolunteerForms([...arrayOfForms]);
     }
 
-    console.log("obj ", arrayOfForms);
-    console.log(`id ${id}`);
-
-    arrayOfForms.forEach((key) => {
-      if (key._id === id) {
-        key["archive"] = "No";
-        api.updateForm(type, id, key);
-      }
-    });
-    window.location.reload();
+    // window.location.reload();
   };
 
   const GenerateFormLayout = (props) => {
@@ -168,106 +217,110 @@ function AdminFormsArchive() {
     console.log("catAdoptionForms = ", catAdoptionForms, "props length = ", catAdoptionForms.length);
     console.log("giftAidForms = ", giftAidForms);
     console.log("volunteerForms = ", volunteerForms);
-    console.log("dataObj = ", dataObj);
+    console.log("dataObj = ", JSON.stringify(dataObj));
     return dataObj.length === 0 ? (
       <>
         <div className="admin-forms-content-container">NO FORMS ARCHIVED</div>
       </>
     ) : (
       <div className="admin-forms-content-container">
-        {dataObj.map((obj) => {
-          return (
-            <div key={obj._id} className="admin-forms-content">
-              <div className="admin-forms-content-left">
-                <div className="admin-forms-name">{obj.aboutQuestions.name}</div>
-              </div>
-              <div className="admin-forms-content-right">
-                <div className="edit-animal-delete-icon" onClick={() => Modal()}>
-                  <Popup
-                    trigger={
-                      <button className="edit-button tooltip">
-                        <span className="tooltiptext">Un-archive Form (move back to Forms)</span>
-
-                        <span className="iconify-inline" data-icon="fluent:tray-item-add-24-filled" data-width="30"></span>
-                      </button>
-                    }
-                    modal
-                    nested
-                  >
-                    {(close) => (
-                      <div className="modal">
-                        <button className="close" onClick={close}></button>
-                        <div className="header">
-                          Are You Sure You Want To UNArchive {obj.aboutQuestions.name} {obj.type} form
-                        </div>
-                        <div className="actions">
-                          <button
-                            className="button"
-                            onClick={() => {
-                              onClickUnArchiveButton(obj.type, obj._id);
-                              close();
-                            }}
-                          >
-                            YES
-                          </button>
-                          <button
-                            className="button"
-                            onClick={() => {
-                              console.log("modal closed ");
-                              close();
-                            }}
-                          >
-                            NO
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </Popup>
+        {dataObj
+          .filter((x) => {
+            return x.archive !== "No";
+          })
+          .map((obj) => {
+            return (
+              <div key={obj._id} className="admin-forms-content">
+                <div className="admin-forms-content-left">
+                  <div className="admin-forms-name">{obj.aboutQuestions.name}</div>
                 </div>
-                <div className="admin-forms-delete-icon" onClick={() => Modal()}>
-                  <Popup
-                    trigger={
-                      <button className="edit-button tooltip">
-                        <span className="tooltiptext">Delete Form</span>
+                <div className="admin-forms-content-right">
+                  <div className="edit-animal-delete-icon" onClick={() => Modal()}>
+                    <Popup
+                      trigger={
+                        <button className="edit-button tooltip">
+                          <span className="tooltiptext">Un-archive Form (move back to Forms)</span>
 
-                        <span className="iconify-inline" data-icon="akar-icons:circle-x-fill" data-width="30"></span>
-                      </button>
-                    }
-                    modal
-                    nested
-                  >
-                    {(close) => (
-                      <div className="modal">
-                        <button className="close" onClick={close}></button>
-                        <div className="header"> Are You Sure You Want To Delete {obj.aboutQuestions.name} </div>
-                        <div className="actions">
-                          <button
-                            className="button"
-                            onClick={() => {
-                              onClickDeleteButton(obj.type, obj._id);
-                              close();
-                            }}
-                          >
-                            YES
-                          </button>
-                          <button
-                            className="button"
-                            onClick={() => {
-                              console.log("modal closed ");
-                              close();
-                            }}
-                          >
-                            NO
-                          </button>
+                          <span className="iconify-inline" data-icon="fluent:tray-item-add-24-filled" data-width="30"></span>
+                        </button>
+                      }
+                      modal
+                      nested
+                    >
+                      {(close) => (
+                        <div className="modal">
+                          <button className="close" onClick={close}></button>
+                          <div className="header">
+                            Are You Sure You Want To UNArchive {obj.aboutQuestions.name} {obj.type} form
+                          </div>
+                          <div className="actions">
+                            <button
+                              className="button"
+                              onClick={() => {
+                                onClickUnArchiveButton(obj.type, obj._id);
+                                close();
+                              }}
+                            >
+                              YES
+                            </button>
+                            <button
+                              className="button"
+                              onClick={() => {
+                                console.log("modal closed ");
+                                close();
+                              }}
+                            >
+                              NO
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </Popup>
+                      )}
+                    </Popup>
+                  </div>
+                  <div className="admin-forms-delete-icon" onClick={() => Modal()}>
+                    <Popup
+                      trigger={
+                        <button className="edit-button tooltip">
+                          <span className="tooltiptext">Delete Form</span>
+
+                          <span className="iconify-inline" data-icon="akar-icons:circle-x-fill" data-width="30"></span>
+                        </button>
+                      }
+                      modal
+                      nested
+                    >
+                      {(close) => (
+                        <div className="modal">
+                          <button className="close" onClick={close}></button>
+                          <div className="header"> Are You Sure You Want To Delete {obj.aboutQuestions.name} </div>
+                          <div className="actions">
+                            <button
+                              className="button"
+                              onClick={() => {
+                                onClickDeleteButton(obj.type, obj._id);
+                                close();
+                              }}
+                            >
+                              YES
+                            </button>
+                            <button
+                              className="button"
+                              onClick={() => {
+                                console.log("modal closed ");
+                                close();
+                              }}
+                            >
+                              NO
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </Popup>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     );
   };

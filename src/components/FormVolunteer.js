@@ -110,6 +110,7 @@ function FormVolunteer() {
     } else {
       //   //^Submit the
       e.preventDefault();
+      setSubmittedSuccessfully(true);
       api.addForm("volunteer", volunteerForm);
       sendFormEmail();
     }
