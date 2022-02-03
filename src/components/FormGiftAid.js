@@ -4,6 +4,7 @@ import * as api from "../api/apiIndex.js";
 function FormGiftAid() {
   const type = "GiftAid";
   const [warningText, setWarningText] = useState("");
+  const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
   const [giftAidForm, setGiftAidForm] = useState({
     type: "GiftAid",
     date: new Date(),
@@ -77,6 +78,7 @@ function FormGiftAid() {
     } else {
       //^Submit the
       e.preventDefault();
+      setSubmittedSuccessfully(true);
       sendFormEmail();
       api.addForm("giftAid", giftAidForm);
     }
@@ -213,10 +215,13 @@ function FormGiftAid() {
               </ul>
             </fieldset>
 
-            {/*  */}
-            <button className="button submit-form-button" type="submit" onClick={() => console.log(giftAidForm)}>
-              Submit Form
-            </button>
+            {submittedSuccessfully ? (
+              <div className="individual-form-header">Thank you</div>
+            ) : (
+              <button className="button submit-form-button" type="submit">
+                Submit Form
+              </button>
+            )}
           </div>
         </form>
       </div>

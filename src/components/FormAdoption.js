@@ -6,7 +6,7 @@ function FormAdoption() {
   const location = useLocation();
   let animalType = location.state.detail.type;
   const type = "Adoption";
-  console.log("FormAdoption type is", animalType);
+  const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
 
   const [animalForm, setAnimalForm] = useState({
     type: animalType,
@@ -1559,9 +1559,13 @@ function FormAdoption() {
               )}
             </fieldset>
             {/* onClick={() => console.log(animalForm)} */}
-            <button className="button submit-form-button" type="submit">
-              Submit Form
-            </button>
+            {submittedSuccessfully ? (
+              <div className="individual-form-header">Thank you</div>
+            ) : (
+              <button className="button submit-form-button" type="submit">
+                Submit Form
+              </button>
+            )}
           </div>
         </form>
       </div>

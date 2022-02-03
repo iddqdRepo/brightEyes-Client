@@ -3,6 +3,8 @@ import * as api from "../api/apiIndex.js";
 
 function FormVolunteer() {
   const type = "Volunteer";
+  const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
+
   const [volunteerForm, setVolunteerForm] = useState({
     type: "Volunteer",
     date: new Date(),
@@ -661,9 +663,13 @@ function FormVolunteer() {
               </div>
             </fieldset>
             {/* onClick={() => console.log(animalForm)} */}
-            <button className="button submit-form-button" type="submit">
-              Submit Form
-            </button>
+            {submittedSuccessfully ? (
+              <div className="individual-form-header">Thank you</div>
+            ) : (
+              <button className="button submit-form-button" type="submit">
+                Submit Form
+              </button>
+            )}
           </div>
         </form>
       </div>
