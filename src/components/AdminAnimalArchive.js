@@ -1,25 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { fetchPets, deletePet, updatePet } from "../api/apiIndex";
-import { useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 
 function AdminAnimalArchive() {
   const [animal, setAnimal] = useState("");
   const [search, setSearch] = useState("");
 
-  let navigate = useNavigate();
-  let changed = false;
   console.log("animal ", animal);
   useEffect(() => {
     console.log("useEffect");
     getAllPets();
   }, []);
-  // useEffect(() => {
-  //   if (changed) {
-  //     window.location.reload();
-  //     changed = false;
-  //   }
-  // }, [animal]);
 
   const getAllPets = async () => {
     console.log("fetching");
@@ -72,24 +63,25 @@ function AdminAnimalArchive() {
   //   });
   // };
 
-  const awaitUpdatePet = async (id, key, change) => {
-    const b = await updatePet(id, key);
-    // console.log(b)
-    if (b.data.message === "Pet updated successfully") {
-      console.log("Pet updated successfully");
-      setAnimal(change);
-    }
+  // const awaitUpdatePet = async (id, key, change) => {
+  //   const b = await updatePet(id, key);
+  //   // console.log(b)
+  //   if (b.data.message === "Pet updated successfully") {
+  //     console.log("Pet updated successfully");
+  //     setAnimal(change);
+  //   }
 
-    // myReject(console.log("ERROR SETTING ANIMAL")); // when error
-  };
+  //   // myReject(console.log("ERROR SETTING ANIMAL")); // when error
+  // };
 
-  //TODO not waiting for deletion before refreshing
   const onClickUnArchiveButton = async (id) => {
     console.log("ID passed AdminEditRemove is ", id);
     console.log(`archiving pet with id of ${id}`);
     let toChange = animal;
     let updatedObj;
-    toChange.map((key) => {
+    console.log("toChange = ", toChange);
+
+    toChange.forEach((key) => {
       if (key._id === id) {
         key["adopted"] = "No";
         updatedObj = key;
@@ -97,6 +89,7 @@ function AdminAnimalArchive() {
     });
 
     const awaitPetUpdate = await updatePet(id, updatedObj);
+
     if (awaitPetUpdate.data.message === "Pet updated successfully") {
       console.log("Pet updated successfully");
       setAnimal(toChange);
@@ -166,7 +159,7 @@ function AdminAnimalArchive() {
                     <Popup
                       trigger={
                         <button className="edit-button tooltip">
-                          <span class="tooltiptext">Un-archive Animal (move back to edit animal)</span>
+                          <span className="tooltiptext">Un-archive Animal (move back to edit animal)</span>
                           <span className="iconify-inline" data-icon="fluent:tray-item-add-24-filled" data-width="30"></span>
                         </button>
                       }
@@ -205,7 +198,7 @@ function AdminAnimalArchive() {
                     <Popup
                       trigger={
                         <button className="edit-button tooltip">
-                          <span class="tooltiptext">Delete Animal</span>
+                          <span className="tooltiptext">Delete Animal</span>
 
                           <span className="iconify-inline" data-icon="akar-icons:circle-x-fill" data-width="30"></span>
                         </button>

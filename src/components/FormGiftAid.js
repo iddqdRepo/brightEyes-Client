@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+import React, { useState } from "react";
 import * as api from "../api/apiIndex.js";
 
 function FormGiftAid() {
-  let uuid = uuidv4();
-
+  const type = "GiftAid";
+  const [warningText, setWarningText] = useState("");
   const [giftAidForm, setGiftAidForm] = useState({
     type: "GiftAid",
     date: new Date(),
@@ -24,10 +23,15 @@ function FormGiftAid() {
     archive: "No",
   });
 
-  const [warningText, setWarningText] = useState("");
+  const sendFormEmail = async () => {
+    const data = {
+      name: giftAidForm.aboutQuestions.name,
+      senderEmail: "",
+      message: "",
+      type,
+    };
 
-  const postForm = async (s) => {
-    await api.addForm(s);
+    await api.sendMail(data);
   };
 
   // const handleCheckBox = (e, e, category = "", subcategory = "")
@@ -62,17 +66,18 @@ function FormGiftAid() {
   };
 
   const submitForm = async (e) => {
-    console.log("submitform");
     if (Object.values(giftAidForm.aboutQuestions).some((x) => x === "")) {
       //^If the animal submitted has blank fields
       e.preventDefault();
       setWarningText("Please fill in all fields");
-      console.log("Please fill in all fields");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // console.log("Please fill in all fields");
       // console.log(animal);
     } else {
       //^Submit the
       e.preventDefault();
-      // TODO adding forms for testing admin, add giftaid to controller
+      sendFormEmail();
       api.addForm("giftAid", giftAidForm);
     }
   };

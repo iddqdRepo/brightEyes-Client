@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+import React, { useState } from "react";
 import * as api from "../api/apiIndex.js";
 
 function FormVolunteer() {
+  const type = "Volunteer";
   const [volunteerForm, setVolunteerForm] = useState({
     type: "Volunteer",
     date: new Date(),
@@ -59,6 +59,16 @@ function FormVolunteer() {
   });
 
   const [warningText, setWarningText] = useState("");
+  const sendFormEmail = async () => {
+    const data = {
+      name: volunteerForm.aboutQuestions.name,
+      senderEmail: "",
+      message: "",
+      type,
+    };
+
+    await api.sendMail(data);
+  };
 
   // const handleCheckBox = (e, e, category = "", subcategory = "")
 
@@ -88,18 +98,19 @@ function FormVolunteer() {
     }
   };
   const submitForm = async (e) => {
-    console.log("submitform");
-    // if (Object.values(animalForm.aboutQuestions).some((x) => x === "")) {
-    //   //^If the animal submitted has blank fields
-    //   e.preventDefault();
-    //   setWarningText("Please fill in all fields");
-    //   console.log("Please fill in all fields");
-    //   // console.log(animal);
-    // } else {
-    //   //^Submit the
-    e.preventDefault();
-    api.addForm("volunteer", volunteerForm);
-    // }
+    if (Object.values(volunteerForm.aboutQuestions).some((x) => x === "")) {
+      //^If the animal submitted has blank fields
+      e.preventDefault();
+      setWarningText("Please fill in all fields");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // console.log(animal);
+    } else {
+      //   //^Submit the
+      e.preventDefault();
+      api.addForm("volunteer", volunteerForm);
+      sendFormEmail();
+    }
   };
 
   return (

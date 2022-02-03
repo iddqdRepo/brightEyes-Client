@@ -1,10 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Forms() {
   let navigate = useNavigate();
   const onClickOnlineFormAdoptionButton = (type) => {
-    // console.log("ID passed AdminEditRemove is ", type);
     navigate(`/forms/adoption`, {
       state: {
         detail: { type },
@@ -72,11 +72,11 @@ function Forms() {
           </div>
           <div className="forms-page-content-right">
             <div className="forms-page-fill-online-button">
-              <a href="/forms/giftaid">
+              <Link to="/forms/giftaid">
                 <button className="button">
                   <span className="iconify-inline btn-icon" data-icon="bx:bxs-edit-alt" data-width="15"></span>Fill Online
                 </button>
-              </a>
+              </Link>
             </div>
             {/* <div className="forms-page-download-button">
               <button className="button">
@@ -97,11 +97,11 @@ function Forms() {
           </div>
           <div className="forms-page-content-right">
             <div className="forms-page-fill-online-button">
-              <a href="/forms/volunteer">
+              <Link to="/forms/volunteer">
                 <button className="button">
                   <span className="iconify-inline btn-icon" data-icon="bx:bxs-edit-alt" data-width="15"></span>Fill Online
                 </button>
-              </a>
+              </Link>
             </div>
             {/* <div className="forms-page-download-button">
               <button className="button">

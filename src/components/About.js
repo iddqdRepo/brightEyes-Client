@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function About() {
   return (
@@ -83,13 +84,15 @@ function About() {
             <span className="donation-script-text">Please</span> <br />
             <span className="donation-header">Make a Donation</span> <br />
             <div className="donation-subtext">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Et repellat quisquam nesciunt ipsam similique, quasi cupiditate? Ad nihil
-              consectetur quas quo rem debitis aut molestias itaque dolorum necessitatibus. Accusantium, quos?
+              In the past 5 years we have rehomed over 1,000 Cats and Dogs. Unfortunately, we receive no government funding and rely purely on the
+              generosity of the public to help us continue our work.
             </div>{" "}
             <br />
           </div>
           <div className="slanted-div-right-donate-button-container">
-            <button className="button slanted-div-donate-button">Donate</button>
+            <Link to="/donate">
+              <button className="button slanted-div-donate-button">Donate</button>
+            </Link>
           </div>
         </div>
       </div>

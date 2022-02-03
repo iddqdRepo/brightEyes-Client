@@ -1,6 +1,5 @@
 // import AdminNav from "./components/AdminNav";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
 import Home from "./components/Home";
 import About from "./components/About";
@@ -21,25 +20,10 @@ import FormAdoption from "./components/FormAdoption";
 import FormGiftAid from "./components/FormGiftAid";
 import FormVolunteer from "./components/FormVolunteer";
 import AnimalBio from "./components/AnimalBio";
-import AdminLogIn from "./components/AdminLogIn";
 import ProtectedRoutes from "./components/ProtectedRoutes";
+import AdminAddUser from "./components/AdminAddUser";
 
 const App = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  let log = false;
-
-  // useEffect(() => {
-  //   const verifyUser = async () => {
-  //     const verification = await api.verifyUserToken(localStorage.getItem("token"));
-  //     log = verification.data.isLoggedIn;
-  //     console.log(log);
-  //     // return verification.data.isLoggedIn;
-  //     // setLoggedIn();
-  //   };
-
-  //   verifyUser();
-  // });
-
   return (
     <>
       <Router>
@@ -218,16 +202,16 @@ const App = () => {
                 </>
               }
             />
+            <Route
+              path="/admin/addUser"
+              element={
+                <>
+                  <AdminNav />
+                  <AdminAddUser />
+                </>
+              }
+            />
           </Route>
-
-          {/* <Route
-            path="/admin/login"
-            element={
-              <>
-                <AdminLogIn />
-              </>
-            }
-          /> */}
         </Routes>
       </Router>
     </>

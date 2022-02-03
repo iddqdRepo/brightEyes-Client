@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as api from "../api/apiIndex";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Adoption() {
   let navigate = useNavigate();
@@ -68,11 +69,11 @@ function Adoption() {
             </div>
           </div>
         </div>
-        <a href="/forms">
+        <Link to="/forms">
           <button type="button" className="button adoption-form-button">
             Adoption Form
           </button>
-        </a>
+        </Link>
 
         <div className="slanted-div-filter">
           <div className="slanted-div-filter-content-container">

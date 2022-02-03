@@ -1,6 +1,5 @@
 import axios from "axios";
 import { prod } from "../prod";
-console.log("prod is ", prod);
 const petURL = prod ? "https://bright-eyes-as-backend.herokuapp.com/pets" : "http://localhost:5000/pets";
 const formURL = prod ? "https://bright-eyes-as-backend.herokuapp.com/forms" : "http://localhost:5000/forms";
 const userURL = prod ? "https://bright-eyes-as-backend.herokuapp.com/user" : "http://localhost:5000/user";
@@ -38,10 +37,13 @@ export const updateForm = (formType, id, updatedForm) => {
 };
 
 export const logUserIn = (userInfo) => {
-  console.log("ID passed to login form is ", userInfo);
+  console.log("info passed to login form is ", userInfo);
   return axios.post(userURL + "/login", userInfo);
 };
-
+export const addUser = (userInfo) => {
+  console.log("info passed to add User form is ", userInfo);
+  return axios.post(userURL + "/addUser", userInfo);
+};
 export const verifyUserToken = (user) =>
   axios.get(userURL + "/verify", {
     headers: { "x-access-token": user },

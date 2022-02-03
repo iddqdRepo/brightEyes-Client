@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Map from "./Map";
+import { Link } from "react-router-dom";
 import * as api from "../api/apiIndex";
 
 function Home() {
   const [senderEmail, setSenderEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
+  const type = "message";
   const [messageSentAlert, setMessageSentAlert] = useState("");
   const [errorAlertText, setErrorAlertText] = useState("");
   const regex =
@@ -28,6 +30,7 @@ function Home() {
       name,
       senderEmail,
       message,
+      type,
     };
     if (data.name === "" || data.senderEmail === "" || data.message === "") {
       setErrorAlertText("Please fill in all fields");
@@ -67,11 +70,11 @@ function Home() {
           <div className="about-us-split-image"> </div>
         </div>
 
-        <a href="/about">
+        <Link to="/about">
           <button type="button" className="button about-us-read-more-button">
             Learn More
           </button>
-        </a>
+        </Link>
       </div>
 
       <div className="stats-box-container">
@@ -96,7 +99,11 @@ function Home() {
           <div className="get-involved-split">
             <div className="involved-main-text"> Adopt</div>
             <div className="involved-image-1"></div>
-            <button className="button get-involved-more-info-button">More info</button>
+            <Link to="/adoption">
+              <button type="button" className="button get-involved-more-info-button">
+                More Info
+              </button>
+            </Link>
             <div className="involved-main-subtext">
               Take a look at our pets for Adoption. Join the 2000+ other people and find the perfect pet for your home!
             </div>
@@ -104,7 +111,11 @@ function Home() {
           <div className="get-involved-split">
             <div className="involved-main-text"> Donate</div>
             <div className="involved-image-2"> </div>
-            <button className="button get-involved-more-info-button">More info</button>
+            <Link to="/donate">
+              <button type="button" className="button get-involved-more-info-button">
+                More Info
+              </button>
+            </Link>
             <div className="involved-main-subtext">
               Unfortunately, we receive no government funding and rely purely on the generosity of the public to help us continue our work.
             </div>
@@ -112,7 +123,11 @@ function Home() {
           <div className="get-involved-split">
             <div className="involved-main-text"> Volunteer</div>
             <div className="involved-image-3"> </div>
-            <button className="button get-involved-more-info-button">More info</button>
+            <Link to="/forms/volunteer">
+              <button type="button" className="button get-involved-more-info-button">
+                More Info
+              </button>
+            </Link>
             <div className="involved-main-subtext">
               Our fantastic volunteers are the backbone of Bright Eyes, want to help care for the animals and earn some valuable experience?
             </div>
@@ -199,7 +214,7 @@ function Home() {
                       </>
                     ) : (
                       <>
-                        <div>Message sending failed, please try again</div>
+                        <div>Our email Server is down, please message us on Facebook</div>
                       </>
                     )}
                   </>
@@ -240,13 +255,17 @@ function Home() {
               <br />
               <span className="bold-noto">Phone:</span> 028 66 388885
               <br />
-              <span className="bold-noto">Email:</span> email@email.com
+              <span className="bold-noto">Email:</span> brighteyes.sanctuary@btinternet.com
             </div>
           </div>
           <div className="info-split">
             <div className="info-header">Follow Us</div>
-            <span className="iconify" data-icon="akar-icons:facebook-fill" data-width="20" data-height="20"></span>
-            <span className="iconify" data-icon="akar-icons:instagram-fill" data-width="20" data-height="20"></span>
+            <a target="_blank" rel="noreferrer" href="https://www.facebook.com/brighteyes.a.s/">
+              <span className="iconify" data-icon="akar-icons:facebook-fill" data-width="20" data-height="20"></span>
+            </a>
+            <a target="_blank" rel="noreferrer" href="https://www.instagram.com/brighteyesanimalsanctuary">
+              <span className="iconify" data-icon="akar-icons:instagram-fill" data-width="20" data-height="20"></span>
+            </a>
           </div>
         </div>
       </div>

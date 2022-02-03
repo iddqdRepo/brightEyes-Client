@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import Compress from "react-image-file-resizer";
-import { v4 as uuidv4 } from "uuid";
 import * as api from "../api/apiIndex.js";
 
 function AdminAddAnimal() {
-  let uuid = uuidv4();
-
   const [animal, setAnimal] = useState({
     type: "",
     name: "",
@@ -37,7 +34,7 @@ function AdminAddAnimal() {
       //^Submit the
       e.preventDefault();
       console.log(animal);
-      await capitalize([animal]);
+      await capitalize(animal);
       console.log("animalCapitalized = ", animalCapitalized);
       api.addPets(animalCapitalized);
     }
@@ -74,20 +71,10 @@ function AdminAddAnimal() {
   const capitalize = (obj) => {
     return new Promise((resolve, reject) => {
       let toCapitalize = obj;
-
-      toCapitalize.map((e) => {
-        console.log(e);
-        console.log(e.name);
-        console.log(e.age);
-        console.log(e.breed);
-
-        e.name = e.name.charAt(0).toUpperCase() + e.name.slice(1);
-        e.breed = e.breed.charAt(0).toUpperCase() + e.breed.slice(1);
-        e.desc = e.desc.charAt(0).toUpperCase() + e.desc.slice(1);
-      });
-      console.log("toCapitalize", toCapitalize[0]);
-      // setAnimalCapitalized({ ...animalCapitalized, toCapitalize });
-      animalCapitalized = toCapitalize[0];
+      toCapitalize.name = toCapitalize.name.charAt(0).toUpperCase() + toCapitalize.name.slice(1);
+      toCapitalize.breed = toCapitalize.breed.charAt(0).toUpperCase() + toCapitalize.breed.slice(1);
+      toCapitalize.desc = toCapitalize.desc.charAt(0).toUpperCase() + toCapitalize.desc.slice(1);
+      animalCapitalized = toCapitalize;
       resolve(animalCapitalized);
     });
   };
@@ -289,7 +276,7 @@ function AdminAddAnimal() {
               }}
             />
           </div>
-          {fileUploaded ? <img src={fileUploaded} height="200px" width="200px" /> : <div> No File Chosen </div>}
+          {fileUploaded ? <img src={fileUploaded} alt="Animal Uploaded" height="200px" width="200px" /> : <div> No File Chosen </div>}
 
           <div className="add-animal-content">
             <div className="add-animal-title">Description:</div>

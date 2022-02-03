@@ -1,28 +1,7 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import * as api from "../api/apiIndex";
 
-// let PayPalButton;
-
 function Donate() {
-  // useEffect(() => {
-  //   PayPalButton = window.paypal.Buttons.driver("react", { React, ReactDOM });
-  // }, []);
-
-  // const createOrder = (data, actions) => {
-  //   return actions.order.create({
-  //     purchase_units: [
-  //       {
-  //         amount: {
-  //           value: "0.01",
-  //         },
-  //       },
-  //     ],
-  //   });
-  // };
-  // const onApprove = (data, actions) => {
-  //   return actions.order.capture();
-  // };
   const [senderEmail, setSenderEmail] = useState("");
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -30,6 +9,12 @@ function Donate() {
   const [errorAlertText, setErrorAlertText] = useState("");
   const regex =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+  useEffect(() => {
+    //^When donate button is clicked from another page
+    //^ React-Router-Link goes to bottom of this page, this is to offset that
+    window.scrollTo(0, 0);
+  }, []);
 
   const updateForm = (e) => {
     console.log(e.target.name);
@@ -78,14 +63,35 @@ function Donate() {
               Unlike many other charities, we only have 2 paid employees to keep overhead costs to an absolute minimum, so we can promise that every
               penny you donate, will go towards helping animals in need and NOT paying staff salaries.
             </div>
-            <a href="/about">
+            {/* <a href="/about">
               <button type="button" className="button donate-donation-button">
                 Make a donation
               </button>
-            </a>
+            </a> */}
           </div>
 
-          <div className="donate-split-image"> </div>
+          <div className="donate-split-image"></div>
+        </div>
+      </div>
+
+      <div className="donate-container">
+        {/* <PayPalButton createOrder={(data, actions) => createOrder(data, actions)} onApprove={(data, actions) => onApprove(data, actions)} /> */}
+        <div className="donate-header">Donate</div>
+        <div className="donate-paypal-content">
+          <form action="https://www.paypal.com/donate" method="post" target="_top">
+            <input type="hidden" name="hosted_button_id" value="JPRFRRVZHSMY4" />
+            <input
+              type="image"
+              id="image"
+              className="paypal-donate-image"
+              src="https://www.paypal-community.com/t5/image/serverpage/image-id/56084iFE8EEC50D9040CCB/image-size/large?v=v2&px=999"
+              border="0"
+              name="submit"
+              title="PayPal - The safer, easier way to pay online!"
+              alt="Donate with PayPal button"
+            />
+            <img className="paypal-donate" alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
+          </form>
         </div>
       </div>
       <div className="donate-header">What your donation goes towards</div>
@@ -148,12 +154,6 @@ function Donate() {
           </div>
         </div>
       </div>
-      <div className="contact-us-container">
-        {/* <PayPalButton createOrder={(data, actions) => createOrder(data, actions)} onApprove={(data, actions) => onApprove(data, actions)} /> */}
-        <div className="contact-us-header">Donate</div>
-        <div className="contact-us-split-content"></div>
-      </div>
-      //TODO Donate contact us form different to home on mobile
       <div className="contact-us-container">
         <div className="contact-us-header">Contact Us</div>
 

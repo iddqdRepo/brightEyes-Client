@@ -51,7 +51,7 @@ function AdminEditRemoveAnimal() {
     console.log(`archiving pet with id of ${id}`);
     let toChange = animal;
     let updatedObj;
-    toChange.map((key) => {
+    toChange.forEach((key) => {
       if (key._id === id) {
         key["adopted"] = "Yes";
         updatedObj = key;

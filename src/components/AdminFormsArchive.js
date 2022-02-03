@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { fetchForms, deleteForm } from "../api/apiIndex";
-import { useNavigate } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Popup from "reactjs-popup";
@@ -12,29 +11,24 @@ function AdminFormsArchive() {
   const [catAdoptionForms, setCatAdoptionForms] = useState("");
   const [volunteerForms, setVolunteerForms] = useState("");
   const [giftAidForms, setGiftAidForms] = useState("");
-  let navigate = useNavigate();
   let dogAdoption = [];
   let catAdoption = [];
-
+  useEffect(() => {
+    getAllForms();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const getAllForms = async () => {
     console.log("fetching");
     const adoptionData = await fetchForms("petadoption");
     const volunteerData = await fetchForms("volunteer");
     const giftAidData = await fetchForms("giftaid");
-    // console.log("adoptionData = ", adoptionData.data);
-
-    // const notArchived =
-
-    // console.log("notArchived = ", notArchived);
-
     let adoption = adoptionData.data;
-    adoption.map((el) => {
-      console.log("el is ", el);
-      if (el.type === "Dog") {
-        // console.log("adoption data type = Dog ", el);
-        dogAdoption.push(el);
+    Object.keys(adoption).forEach((key) => {
+      if (adoption[key].type === "Dog") {
+        console.log("adoption data type = Dog ", adoption[key]);
+        dogAdoption.push(adoption[key]);
       } else {
-        catAdoption.push(el);
+        catAdoption.push(adoption[key]);
       }
     });
     // console.log("dogAdoption = ", dogAdoption);
@@ -82,95 +76,90 @@ function AdminFormsArchive() {
     }
   };
 
-  const onClickViewButton = (type, id) => {
-    if (type === "Cat" || type === "Dog") {
-      type = "petAdoption";
-      // window.location.reload();
-    }
-    console.log("ID passed AdminEditSingleForm is ", id);
-    console.log("type passed AdminEditSingleForm is ", type);
-    navigate(`/admin/viewForm?type=${type}?id=${id}`, {
-      state: {
-        detail: { type, id },
-      },
-    });
-  };
+  // const onClickViewButton = (type, id) => {
+  //   if (type === "Cat" || type === "Dog") {
+  //     type = "petAdoption";
+  //     // window.location.reload();
+  //   }
+  //   console.log("ID passed AdminEditSingleForm is ", id);
+  //   console.log("type passed AdminEditSingleForm is ", type);
+  //   navigate(`/admin/viewForm?type=${type}?id=${id}`, {
+  //     state: {
+  //       detail: { type, id },
+  //     },
+  //   });
+  // };
   const Modal = () => (
     <Popup trigger={<button className="button"> Open Modal </button>} modal>
       <span> Modal content </span>
     </Popup>
   );
 
-  const onClickArchiveButton = (type, id) => {
-    let objToMap;
-    if (type === "Cat") {
-      objToMap = catAdoptionForms;
-      // window.location.reload();
-    }
-    if (type === "Dog") {
-      objToMap = dogAdoptionForms;
-      // window.location.reload();
-    }
-    if (type === "GiftAid") {
-      objToMap = giftAidForms;
-      // window.location.reload();
-    }
-    if (type === "Volunteer") {
-      objToMap = volunteerForms;
-      // window.location.reload();
-    }
+  // const onClickArchiveButton = (type, id) => {
+  //   let objToMap;
+  //   if (type === "Cat") {
+  //     objToMap = catAdoptionForms;
+  //     // window.location.reload();
+  //   }
+  //   if (type === "Dog") {
+  //     objToMap = dogAdoptionForms;
+  //     // window.location.reload();
+  //   }
+  //   if (type === "GiftAid") {
+  //     objToMap = giftAidForms;
+  //     // window.location.reload();
+  //   }
+  //   if (type === "Volunteer") {
+  //     objToMap = volunteerForms;
+  //     // window.location.reload();
+  //   }
 
-    console.log(`objToMap ${objToMap}`);
-    console.log(`id ${id}`);
-    objToMap.map((key) => {
-      // console.log("key = ", key._id);
-      if (key._id === id) {
-        // let updatedKey = key;
-        key["archive"] = "Yes";
+  //   console.log(`objToMap ${objToMap}`);
+  //   console.log(`id ${id}`);
+  //   objToMap.map((key) => {
+  //     // console.log("key = ", key._id);
+  //     if (key._id === id) {
+  //       // let updatedKey = key;
+  //       key["archive"] = "Yes";
 
-        api.updateForm(type, id, key);
-      }
-    });
-    // deleteSelectedPet(id);
-    // window.location.reload();
-  };
+  //       api.updateForm(type, id, key);
+  //     }
+  //   });
+  //   // deleteSelectedPet(id);
+  //   // window.location.reload();
+  // };
   const onClickUnArchiveButton = (type, id) => {
-    let objToMap;
+    let arrayOfForms;
     if (type === "Cat") {
       type = "petAdoption";
-      objToMap = catAdoptionForms;
+      arrayOfForms = catAdoptionForms;
       // window.location.reload();
     }
     if (type === "Dog") {
       type = "petAdoption";
-      objToMap = dogAdoptionForms;
+      arrayOfForms = dogAdoptionForms;
       // window.location.reload();
     }
     if (type === "GiftAid") {
-      objToMap = giftAidForms;
+      arrayOfForms = giftAidForms;
       // window.location.reload();
     }
     if (type === "Volunteer") {
-      objToMap = volunteerForms;
+      arrayOfForms = volunteerForms;
       // window.location.reload();
     }
 
-    console.log(`objToMap ${objToMap}`);
+    console.log("obj ", arrayOfForms);
     console.log(`id ${id}`);
-    objToMap.map((key) => {
-      // console.log("key = ", key._id);
-      if (key._id === id) {
-        // let updatedKey = key;
-        key["archive"] = "No";
 
+    arrayOfForms.forEach((key) => {
+      if (key._id === id) {
+        key["archive"] = "No";
         api.updateForm(type, id, key);
       }
     });
     window.location.reload();
   };
-  useEffect(() => {
-    getAllForms();
-  }, []);
 
   const GenerateFormLayout = (props) => {
     let dataObj = props.data;
@@ -197,7 +186,7 @@ function AdminFormsArchive() {
                   <Popup
                     trigger={
                       <button className="edit-button tooltip">
-                        <span class="tooltiptext">Un-archive Form (move back to Forms)</span>
+                        <span className="tooltiptext">Un-archive Form (move back to Forms)</span>
 
                         <span className="iconify-inline" data-icon="fluent:tray-item-add-24-filled" data-width="30"></span>
                       </button>
@@ -239,7 +228,7 @@ function AdminFormsArchive() {
                   <Popup
                     trigger={
                       <button className="edit-button tooltip">
-                        <span class="tooltiptext">Delete Form</span>
+                        <span className="tooltiptext">Delete Form</span>
 
                         <span className="iconify-inline" data-icon="akar-icons:circle-x-fill" data-width="30"></span>
                       </button>
@@ -286,7 +275,7 @@ function AdminFormsArchive() {
   return (
     <>
       <div className="admin-forms-page-container">
-        <div className="admin-title">SUBMITTED FORMS</div>
+        <div className="admin-title">ARCHIVED FORMS</div>
         <div className="admin-subtitle">Click on the tabs below to view the forms inside</div>
         <br />
         <br />
@@ -341,14 +330,3 @@ function AdminFormsArchive() {
 }
 
 export default AdminFormsArchive;
-
-{
-  /* <button
-          className="button"
-          onClick={() => {
-            console.log(adoptionForms);
-            console.log(volunteerForms);
-            console.log(giftAidForms);
-          }}
-        ></button> */
-}

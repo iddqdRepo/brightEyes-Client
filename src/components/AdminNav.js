@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import "../AdminStyles.css";
 
 function AdminNav() {
@@ -16,28 +16,28 @@ function AdminNav() {
           <span></span>
           <span></span>
           <ul id="menu">
-            <a href="/admin/add">
+            <Link to="/admin/add">
               <li>Add Animal</li>
-            </a>
-            <a href="/admin/edit">
+            </Link>
+            <Link to="/admin/edit">
               <li>Edit Animal</li>
-            </a>
-            <a href="/admin/forms">
+            </Link>
+            <Link to="/admin/forms">
               <li>Forms</li>
-            </a>
-            <a href="/admin/animalArchive">
+            </Link>
+            <Link to="/admin/animalArchive">
               <li>Animal Archive</li>
-            </a>
-            <a href="/admin/formsArchive">
+            </Link>
+            <Link to="/admin/formsArchive">
               <li>Form Archive</li>
-            </a>
-            <a href="/admin/info">
+            </Link>
+            <Link to="/admin/info">
               <li>Instructions</li>
-            </a>
-            <a href="/admin/addUser">
+            </Link>
+            <Link to="/admin/addUser">
               <li>Add User</li>
-            </a>
-            <a onClick={() => logout()} href="">
+            </Link>
+            <a onClick={() => logout()}>
               <li>Log Out</li>
             </a>
           </ul>
@@ -49,26 +49,26 @@ function AdminNav() {
           <center>Admin Panel</center>
         </div>
         <ul>
-          <li>
-            <a href="/admin/add">&nbsp; Add Animal</a>
+          <li className="active-link">
+            <Link to="/admin/add">&nbsp; Add Animal</Link>
           </li>
           <li>
-            <a href="/admin/edit">&nbsp; Edit Animal</a>
+            <Link to="/admin/edit">&nbsp; Edit Animal</Link>
           </li>
           <li>
-            <a href="/admin/forms">&nbsp; Forms</a>
+            <Link to="/admin/forms">&nbsp; Forms</Link>
           </li>
           <li>
-            <a href="/admin/animalArchive">&nbsp; Animal Archive</a>
+            <Link to="/admin/animalArchive">&nbsp; Animal Archive</Link>
           </li>
           <li>
-            <a href="/admin/formsArchive">&nbsp; Form Archive</a>
+            <Link to="/admin/formsArchive">&nbsp; Form Archive</Link>
           </li>
           <li>
-            <a href="/admin/info">&nbsp; Instructions</a>
+            <Link to="/admin/info">&nbsp; Instructions</Link>
           </li>
           <li>
-            <a href="/admin/addUser">&nbsp; Add User</a>
+            <Link to="/admin/addUser">&nbsp; Add User</Link>
           </li>
 
           <li>

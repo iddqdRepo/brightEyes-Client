@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+import React, { useState } from "react";
 import * as api from "../api/apiIndex.js";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function FormAdoption() {
   const location = useLocation();
-  let uuid = uuidv4();
   let animalType = location.state.detail.type;
+  const type = "Adoption";
   console.log("FormAdoption type is", animalType);
 
   const [animalForm, setAnimalForm] = useState({
@@ -135,6 +134,16 @@ function FormAdoption() {
 
   const [warningText, setWarningText] = useState("");
 
+  const sendFormEmail = async () => {
+    const data = {
+      name: animalForm.aboutQuestions.name,
+      senderEmail: "",
+      message: "",
+      type,
+    };
+
+    await api.sendMail(data);
+  };
   // const handleCheckBox = (e, e, category = "", subcategory = "")
 
   const handleChange = (e, category = "", subcategory = "") => {
@@ -178,11 +187,14 @@ function FormAdoption() {
       //^If the animal submitted has blank fields
       e.preventDefault();
       setWarningText("Please fill in all fields");
-      console.log("Please fill in all fields");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+
+      // console.log("Please fill in all fields");
       // console.log(animal);
     } else {
       //^Submit the
       e.preventDefault();
+      sendFormEmail();
       api.addForm("petAdoption", animalForm);
     }
   };

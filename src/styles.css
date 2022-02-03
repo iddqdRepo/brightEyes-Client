@@ -169,15 +169,19 @@ Black 900 */
   /* padding-right: -30px; */
   width: 100%;
   font-family: var(--ff-lato);
-  font-size: 1.4em;
+  font-size: 1.45em;
   font-weight: 100;
 }
 
 .nav__item {
   margin: 0px 15px;
   /* border: 1px solid green; */
-  /* 	 display: flex; */
+  display: flex;
   /*    flex-direction: row; */
+}
+
+.active-link {
+  font-weight: 300;
 }
 
 .hero-image {
@@ -187,7 +191,7 @@ Black 900 */
   min-height: 500px;
   width: 100%;
   margin: 0%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/labSittingOnGrassSmaller.png");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/labSittingOnGrassHeroImage.jpg");
   /* 	min-min-height: 80vh;
 	background: #BBDEFB; */
   background-position: center;
@@ -1830,7 +1834,7 @@ ul.legal-list {
 .donate-container {
   display: flex;
   flex-direction: column;
-  min-height: 500px;
+  /* min-height: 500px; */
   align-items: center;
   color: var(--main-color);
 }
@@ -1897,7 +1901,9 @@ ul.legal-list {
   margin-top: 40px;
   padding: 0.75rem 1.25rem;
 }
-
+.donate-paypal-content {
+  margin-bottom: 100px;
+}
 @media (max-width: 900px) {
   .nav {
     flex-direction: column;
@@ -2001,7 +2007,7 @@ ul.legal-list {
     display: none;
   }
   .hero-image {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/labSittingOnGrassMobile.png");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./images/labSittingOnGrassHeroMobile.jpg");
     /* min-width: 100vw; */
   }
   .get-involved-split {
@@ -2043,7 +2049,7 @@ ul.legal-list {
     /* justify-content: left; */
   }
 }
-@media (min-width: 980px) {
+@media (min-width: 1200px) {
   .mobile-nav {
     display: none;
   }
@@ -2066,6 +2072,11 @@ ul.legal-list {
   }
   .pet-container {
     margin: 10px;
+  }
+  .paypal-donate-image {
+    width: auto;
+    height: 120px;
+    margin-bottom: 0px;
   }
 }
 @media (max-width: 580px) {

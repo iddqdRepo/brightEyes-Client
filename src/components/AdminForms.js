@@ -15,26 +15,23 @@ function AdminForms() {
   let navigate = useNavigate();
   let dogAdoption = [];
   let catAdoption = [];
+  useEffect(() => {
+    getAllForms();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const getAllForms = async () => {
     console.log("fetching");
     const adoptionData = await fetchForms("petadoption");
     const volunteerData = await fetchForms("volunteer");
     const giftAidData = await fetchForms("giftaid");
-    // console.log("adoptionData = ", adoptionData.data);
-
-    // const notArchived =
-
-    // console.log("notArchived = ", notArchived);
-
     let adoption = adoptionData.data;
-    adoption.map((el) => {
-      console.log("el is ", el);
-      if (el.type === "Dog") {
-        // console.log("adoption data type = Dog ", el);
-        dogAdoption.push(el);
+    Object.keys(adoption).forEach((key) => {
+      if (adoption[key].type === "Dog") {
+        console.log("adoption data type = Dog ", adoption[key]);
+        dogAdoption.push(adoption[key]);
       } else {
-        catAdoption.push(el);
+        catAdoption.push(adoption[key]);
       }
     });
     // console.log("dogAdoption = ", dogAdoption);
@@ -102,29 +99,29 @@ function AdminForms() {
   );
 
   const onClickArchiveButton = (type, id) => {
-    let objToMap;
+    let arrayOfForms;
     if (type === "Cat") {
       type = "petAdoption";
-      objToMap = catAdoptionForms;
+      arrayOfForms = catAdoptionForms;
       // window.location.reload();
     }
     if (type === "Dog") {
       type = "petAdoption";
-      objToMap = dogAdoptionForms;
+      arrayOfForms = dogAdoptionForms;
       // window.location.reload();
     }
     if (type === "GiftAid") {
-      objToMap = giftAidForms;
+      arrayOfForms = giftAidForms;
       // window.location.reload();
     }
     if (type === "Volunteer") {
-      objToMap = volunteerForms;
+      arrayOfForms = volunteerForms;
       // window.location.reload();
     }
 
-    console.log(`objToMap ${objToMap}`);
+    console.log(`objToMap ${arrayOfForms}`);
     console.log(`id ${id}`);
-    objToMap.map((key) => {
+    arrayOfForms.forEach((key) => {
       // console.log("key = ", key._id);
       if (key._id === id) {
         // let updatedKey = key;
@@ -135,10 +132,6 @@ function AdminForms() {
     });
     window.location.reload();
   };
-
-  useEffect(() => {
-    getAllForms();
-  }, []);
 
   const GenerateFormLayout = (props) => {
     let dataObj = props.data;
@@ -165,7 +158,7 @@ function AdminForms() {
                   <Popup
                     trigger={
                       <button className="edit-button tooltip">
-                        <span class="tooltiptext">Archive Form</span>
+                        <span className="tooltiptext">Archive Form</span>
 
                         <span className="iconify-inline" data-icon="fluent:tray-item-remove-24-filled" data-width="30"></span>
                       </button>
@@ -205,7 +198,7 @@ function AdminForms() {
                 </div>
                 <div className="admin-forms-edit-icon ">
                   <button className="edit-button tooltip" onClick={() => onClickViewButton(obj.type, obj._id)}>
-                    <span class="tooltiptext">View Form</span>
+                    <span className="tooltiptext">View Form</span>
                     <span className="iconify-inline" data-icon="carbon:view-filled" data-width="30"></span>
                   </button>
                 </div>
@@ -213,7 +206,7 @@ function AdminForms() {
                   <Popup
                     trigger={
                       <button className="edit-button tooltip">
-                        <span class="tooltiptext">View Form</span>
+                        <span className="tooltiptext">View Form</span>
 
                         <span className="iconify-inline" data-icon="akar-icons:circle-x-fill" data-width="30"></span>
                       </button>
@@ -317,14 +310,3 @@ function AdminForms() {
 }
 
 export default AdminForms;
-
-{
-  /* <button
-          className="button"
-          onClick={() => {
-            console.log(adoptionForms);
-            console.log(volunteerForms);
-            console.log(giftAidForms);
-          }}
-        ></button> */
-}
