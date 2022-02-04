@@ -257,7 +257,7 @@ function AdminForms() {
                     <Popup
                       trigger={
                         <button className="edit-button tooltip">
-                          <span className="tooltiptext">View Form</span>
+                          <span className="tooltiptext">Delete Form</span>
 
                           <span className="iconify-inline" data-icon="akar-icons:circle-x-fill" data-width="30"></span>
                         </button>
