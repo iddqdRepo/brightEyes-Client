@@ -34,7 +34,7 @@ function AdminForms() {
         catAdoption.push(adoption[key]);
       }
     });
-    // console.log("dogAdoption = ", dogAdoption);
+
     setAdoptionForms(
       adoptionData.data.filter((x) => {
         return x.archive !== "Yes";
