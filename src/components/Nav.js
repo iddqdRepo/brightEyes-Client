@@ -5,7 +5,14 @@ import "../styles.css";
 import "../reset.css";
 
 function Nav() {
-  const navLinks = [{ Home: "/" }, { "About Us": "/about" }, { Donate: "/donate" }, { Volunteer: "/forms/volunteer" }, { Forms: "/forms" }];
+  const navLinks = [
+    { Home: "/" },
+    { "About Us": "/about" },
+    { Adoption: "/adoption" },
+    { Donate: "/donate" },
+    { Volunteer: "/forms/volunteer" },
+    { Forms: "/forms" },
+  ];
   const refs = useRef([]);
 
   const activeToggle = (ref, text) => {
