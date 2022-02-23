@@ -128,12 +128,14 @@ function FormVolunteer() {
             <fieldset className="fieldset">
               <legend>About You</legend>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Title</div>
-                <input
+                <label htmlFor="title" className="adoption-form-title">
+                  Title
+                </label>
+                <div
                   className="animal-form-box"
                   autoComplete="off"
                   type="text"
-                  id="breed"
+                  id="title"
                   name="title"
                   value={volunteerForm.aboutQuestions.title}
                   onInput={(e) => {
@@ -142,7 +144,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Name</div>
+                <label htmlFor="name" className="adoption-form-title">
+                  Name
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -156,7 +160,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Address</div>
+                <label htmlFor="address" className="adoption-form-title">
+                  Address
+                </label>
                 <textarea
                   className="animal-form-box"
                   autoComplete="off"
@@ -170,7 +176,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Postcode</div>
+                <label htmlFor="postcode" className="adoption-form-title">
+                  Postcode
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -184,7 +192,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Home Phone</div>
+                <label htmlFor="homePhone" className="adoption-form-title">
+                  Home Phone
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -198,7 +208,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Work Phone</div>
+                <label htmlFor="workPhone" className="adoption-form-title">
+                  Work Phone
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -212,7 +224,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Mobile</div>
+                <label htmlFor="mobile" className="adoption-form-title">
+                  Mobile
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -226,7 +240,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Email</div>
+                <label htmlFor="email" className="adoption-form-title">
+                  Email
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -240,7 +256,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Occupation</div>
+                <label htmlFor="occupation" className="adoption-form-title">
+                  Occupation
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -254,17 +272,22 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">I am over 16</div>
+                <label htmlFor="overSixteen" className="adoption-form-title">
+                  I am over 16
+                </label>
                 <div className="checkbox-form">
                   <input type="checkbox" id="overSixteen" name="overSixteen" value="Yes" onClick={(e) => handleChange(e, "aboutQuestions")} />
                 </div>
               </div>
             </fieldset>
+
             {/* //* ---------------------- Emergency Contact Info */}
             <fieldset className="fieldset">
               <legend>Emergency Contact Infomation</legend>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Title</div>
+                <label htmlFor="emergencyContactTitle" className="adoption-form-title">
+                  Title
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -278,7 +301,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Name</div>
+                <label htmlFor="emergencyContactName" className="adoption-form-title">
+                  Name
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -292,7 +317,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Relationship to you?</div>
+                <label htmlFor="emergencyContactRelationship" className="adoption-form-title">
+                  Relationship to you?
+                </label>
                 <textarea
                   className="animal-form-box"
                   autoComplete="off"
@@ -307,7 +334,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Phone (primary)</div>
+                <label htmlFor="emergencyContactPhonePrimary" className="adoption-form-title">
+                  Phone (primary)
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -321,7 +350,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Phone (seconadry)</div>
+                <label htmlFor="emergencyContactPhoneSecondary" className="adoption-form-title">
+                  Phone (seconadry)
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -339,10 +370,13 @@ function FormVolunteer() {
             <fieldset className="fieldset">
               <legend>Health Questions</legend>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Are you physically fit?</div>
+                <label htmlFor="physicallyFit" className="adoption-form-title">
+                  Are you physically fit?
+                </label>
                 <div className="filter-dropdown">
                   <div className="dropdown">
                     <select
+                      id="physicallyFit"
                       name="physicallyFit"
                       className="dropdown-select"
                       onChange={(e) => {
@@ -350,17 +384,20 @@ function FormVolunteer() {
                       }}
                     >
                       <option value="choose">Select…</option>
-                      <option value="House">Yes</option>
-                      <option value="Flat">No</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
                 </div>
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Have you had a Tetanus Booster in the last 10 years</div>
+                <label htmlFor="tetanus" className="adoption-form-title">
+                  Have you had a Tetanus Booster in the last 10 years
+                </label>
                 <div className="filter-dropdown">
                   <div className="dropdown">
                     <select
+                      id="tetanus"
                       name="tetanus"
                       className="dropdown-select"
                       onChange={(e) => {
@@ -368,20 +405,20 @@ function FormVolunteer() {
                       }}
                     >
                       <option value="choose">Select…</option>
-                      <option value="Own">Own</option>
-                      <option value="Rent">Rent</option>
-                      <option value="Other">Other</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
                     </select>
                   </div>
                 </div>
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">
+                <label htmlFor="healthConditionSpecialNeeds" className="adoption-form-title">
                   Do you have any health conditions or special needs that could affect your ability to volunteer?
-                </div>
+                </label>
                 <div className="filter-dropdown">
                   <div className="dropdown">
                     <select
+                      id="healthConditionSpecialNeeds"
                       name="healthConditionSpecialNeeds"
                       className="dropdown-select"
                       onChange={(e) => {
@@ -398,7 +435,9 @@ function FormVolunteer() {
               {volunteerForm.healthInfo.healthConditionSpecialNeeds === "Yes" ? (
                 <>
                   <div className="adoption-form-content">
-                    <div className="adoption-form-title">Please give brief details of the health condition or special needs</div>
+                    <label htmlFor="healthConditionSpecialNeedsDetails" className="adoption-form-title">
+                      Please give brief details of the health condition or special needs
+                    </label>
                     <input
                       className="animal-form-box"
                       autoComplete="off"
@@ -420,7 +459,9 @@ function FormVolunteer() {
             <fieldset className="fieldset">
               <legend>Volunteering Questions</legend>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Please tell us what area of the sanctuary you would like to work in</div>
+                <label htmlFor="workInterestedIn" className="adoption-form-title">
+                  What area of the sanctuary you would like to work in
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -435,7 +476,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">What are the maximum hours you can commit to each week?</div>
+                <label htmlFor="maxHours" className="adoption-form-title">
+                  What are the maximum hours you can commit to each week?
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -450,7 +493,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Can you commit to a specific time slot each week?</div>
+                <label htmlFor="timeSlot" className="adoption-form-title">
+                  Can you commit to a specific time slot each week?
+                </label>
                 <textarea
                   className="animal-form-box"
                   autoComplete="off"
@@ -465,7 +510,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">What days of the week could you help?</div>
+                <label htmlFor="daysOfTheWeek" className="adoption-form-title">
+                  What days of the week could you help?
+                </label>
                 <textarea
                   className="animal-form-box"
                   autoComplete="off"
@@ -480,12 +527,13 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">
+                <label htmlFor="employeeOrVolunteerAnimals" className="adoption-form-title">
                   Are you an employee or volunteer eith any other charity/organization involved with the care of animals?
-                </div>
+                </label>
                 <div className="filter-dropdown">
                   <div className="dropdown">
                     <select
+                      id="employeeOrVolunteerAnimals"
                       name="employeeOrVolunteerAnimals"
                       className="dropdown-select"
                       onChange={(e) => {
@@ -504,7 +552,9 @@ function FormVolunteer() {
             <fieldset className="fieldset">
               <legend>Referee Information</legend>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Title</div>
+                <label htmlFor="refereeTitle" className="adoption-form-title">
+                  Title
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -518,7 +568,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Name</div>
+                <label htmlFor="refereeName" className="adoption-form-title">
+                  Name
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -532,7 +584,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Relationship to you?</div>
+                <label htmlFor="refereeRelationship" className="adoption-form-title">
+                  Relationship to you?
+                </label>
                 <textarea
                   className="animal-form-box"
                   autoComplete="off"
@@ -547,7 +601,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Address</div>
+                <label htmlFor="refereeAddress" className="adoption-form-title">
+                  Address
+                </label>
                 <textarea
                   className="animal-form-box"
                   autoComplete="off"
@@ -561,7 +617,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Postcode</div>
+                <label htmlFor="refereePostcode" className="adoption-form-title">
+                  Postcode
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -575,7 +633,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Phone</div>
+                <label htmlFor="refereePhone" className="adoption-form-title">
+                  Phone
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -589,7 +649,9 @@ function FormVolunteer() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Email</div>
+                <label htmlFor="refereeEmail" className="adoption-form-title">
+                  Email
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -607,10 +669,13 @@ function FormVolunteer() {
             <fieldset className="fieldset">
               <legend>Rehabilitation of Offenders Act 1974</legend>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Have you any unspent criminal convictions registered against you?</div>
+                <label htmlFor="offender" className="adoption-form-title">
+                  Have you any unspent criminal convictions registered against you?
+                </label>
                 <div className="filter-dropdown">
                   <div className="dropdown">
                     <select
+                      id="offender"
                       name="offender"
                       className="dropdown-select"
                       onChange={(e) => {
@@ -626,7 +691,9 @@ function FormVolunteer() {
               </div>
               {volunteerForm.offenderInfo.offender === "Yes" ? (
                 <div className="adoption-form-content">
-                  <div className="adoption-form-title">Please briefly state the convictions:</div>
+                  <label htmlFor="offenderDetails" className="adoption-form-title">
+                    Please briefly state the convictions:
+                  </label>
                   <textarea
                     className="animal-form-box"
                     autoComplete="off"

@@ -14,7 +14,6 @@ function Home() {
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const updateForm = (e) => {
-    console.log(e.target.name);
     if (e.target.name === "email") {
       setSenderEmail(e.target.value);
     } else if (e.target.name === "name") {
@@ -59,11 +58,12 @@ function Home() {
             <div className="about-us-split-text-description">
               Bright Eyes was established in 1989 and is based in <span className="slanted-about-us-bold-desc">Co.Fermanagh, Northern Ireland </span>.
               <br />
-              We operate a strict <span className="slanted-about-us-bold-desc">no kill policy</span> at Bright Eyes and if an animal for any reason
-              cannot get a home it will have shelter here with us for life. <br /> Our main purpose is a reduction in unnecessary suffering and
-              distress of companion animals, through the provision of a rescue and re-homing service. We receive no government funding and rely purely
-              on the generosity of the public to help us continue our work.
-              <br /> All animals rehomed from us are neutered/spayed, vaccinated, wormed and deflead.
+              Our main purpose is a reduction in unnecessary suffering and distress of companion animals through the provision of a rescue and
+              re-homing service. We operate a strict <span className="slanted-about-us-bold-desc">no kill policy</span> at Bright Eyes and if an
+              animal for any reason cannot get a home it will have shelter here with us for life. <br />
+              We offer volunteering opportunities, training and education on animal welfare and support the local community. <br />
+              We receive no government funding and rely purely on the generosity of the public to help us continue our work.
+              <br /> All animals rehomed from us are neutered/spayed, vaccinated, microchipped, dewormed and deflead.
             </div>
           </div>
 
@@ -100,7 +100,7 @@ function Home() {
             <div className="involved-main-text"> Adopt</div>
             <div className="involved-image-1"></div>
             <Link to="/adoption">
-              <button type="button" className="button get-involved-more-info-button">
+              <button type="button" data-testid={"moreInfoAdoptButton"} className="button get-involved-more-info-button">
                 More Info
               </button>
             </Link>
@@ -112,7 +112,7 @@ function Home() {
             <div className="involved-main-text"> Donate</div>
             <div className="involved-image-2"> </div>
             <Link to="/donate">
-              <button type="button" className="button get-involved-more-info-button">
+              <button type="button" data-testid={"moreInfoDonateButton"} className="button get-involved-more-info-button">
                 More Info
               </button>
             </Link>
@@ -124,7 +124,7 @@ function Home() {
             <div className="involved-main-text"> Volunteer</div>
             <div className="involved-image-3"> </div>
             <Link to="/forms/volunteer">
-              <button type="button" className="button get-involved-more-info-button">
+              <button type="button" data-testid={"moreInfoVolunteerButton"} className="button get-involved-more-info-button">
                 More Info
               </button>
             </Link>
@@ -142,53 +142,58 @@ function Home() {
           <div className="contact-us-split-name-email-message">
             {messageSentAlert === "" ? (
               <>
-                <div className="errorAlertText">{errorAlertText}</div>
+                <div className="errorAlertText" data-testid={"errorAlertText"}>
+                  {errorAlertText}
+                </div>
                 <form onSubmit={(e) => sendFormEmail(e)}>
                   <div className="contact-us-name-email-row">
                     <div className="contact-us-name-col">
-                      <div className="name-text">Name</div>
+                      <label htmlFor="name" className="name-text">
+                        Name
+                      </label>
                       <input
                         className="name-form-box"
                         onInput={(e) => {
                           updateForm(e);
                         }}
+                        id="name"
                         value={name}
                         type="text"
                         name="name"
                       />
                     </div>
                     <div className="contact-us-email-col">
-                      <div className="email-text">Email</div>
+                      <label htmlFor="email" className="email-text">
+                        Email
+                      </label>
                       <input
                         className="email-form-box"
                         onInput={(e) => {
                           updateForm(e);
                         }}
+                        id="email"
                         value={senderEmail}
-                        type="text"
+                        type="email"
                         name="email"
                       />
                     </div>
                   </div>
                   <div className="contact-us-message">
-                    <div className="message-text">Message</div>
+                    <label htmlFor="message" className="message-text">
+                      Message
+                    </label>
                     <textarea
                       className="message-form-box"
                       onInput={(e) => {
                         updateForm(e);
                       }}
                       value={message}
+                      id="message"
                       type="text"
                       name="message"
                     />
                   </div>
-                  <button
-                    className="button contact-us-submit-button"
-                    type="submit"
-                    // onClick={() => {
-                    //   contactUsSubmitHandler();
-                    // }}
-                  >
+                  <button className="button contact-us-submit-button" type="submit">
                     Submit
                   </button>
                 </form>
@@ -250,7 +255,6 @@ function Home() {
           <div className="info-split">
             <div className="info-header">Contact Info</div>
             <div className="info-main-text">
-              {" "}
               <span className="bold-noto">Mobile:</span> 07710607816
               <br />
               <span className="bold-noto">Phone:</span> 028 66 388885

@@ -2,26 +2,30 @@ import React, { useState, useEffect } from "react";
 import * as api from "../api/apiIndex";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import DonateSlantedComponent from "./DonateSlantedComponent";
 
 function Adoption() {
   let navigate = useNavigate();
   const [animals, setAnimals] = useState("");
   const [filteredAnimals, setFilteredAnimals] = useState("");
 
-  const getAllAnimals = async () => {
-    console.log("fetching");
-    const data = await api.fetchPets();
-    setAnimals(data.data);
-    setFilteredAnimals(data.data);
-    console.log(animals.data);
-  };
   useEffect(() => {
+    const getAllAnimals = async () => {
+      const data = await api.fetchPets();
+      // console.log(data);
+      setAnimals(
+        data.data.filter((animal) => {
+          return animal.adopted === "No";
+        })
+      );
+      setFilteredAnimals((animal) => {
+        return animal.adopted === "No";
+      });
+    };
     getAllAnimals();
   }, []);
 
   const handleViewBio = (id) => {
-    console.log("animal ID = ", id);
-
     navigate(`/adoption/viewBio?id=${id}`, {
       state: {
         detail: { id },
@@ -34,8 +38,8 @@ function Adoption() {
       <div className="adoption-container">
         <div className="adoption-header">Adoption Criteria</div>
         <div className="adoption-subtext">
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+          There are certain criteria that need to be met in order to adopt a pet from Bright Eyes, please make sure you meet the criteria before
+          submitting your application.
         </div>
 
         <div className="adoption-split-content">
@@ -100,7 +104,6 @@ function Adoption() {
         </div>
 
         <div className="pet-viewer-content-container">
-          {console.log("filteredAnimals = ", filteredAnimals)}
           {!animals ? (
             <>
               <div className="Loading-ring">
@@ -123,7 +126,7 @@ function Adoption() {
               })
               .map((key) => {
                 return (
-                  <div className="pet-container">
+                  <div data-testid="AnimalContainer" className="pet-container" key={key.name + key.age}>
                     <div
                       className="pet-image"
                       style={{
@@ -153,22 +156,7 @@ function Adoption() {
         </div>
       </div>
 
-      <div className="slanted-div-donate">
-        <div className="slanted-div-donate-content-container">
-          <div className="slanted-div-left-donate-text-container">
-            <span className="donation-script-text">Please</span> <br />
-            <span className="donation-header">Make a Donation</span> <br />
-            <div className="donation-subtext">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Et repellat quisquam nesciunt ipsam similique, quasi cupiditate? Ad nihil
-              consectetur quas quo rem debitis aut molestias itaque dolorum necessitatibus. Accusantium, quos?
-            </div>{" "}
-            <br />
-          </div>
-          <div className="slanted-div-right-donate-button-container">
-            <button className="button slanted-div-donate-button">Donate</button>
-          </div>
-        </div>
-      </div>
+      <DonateSlantedComponent />
     </>
   );
 }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { fetchForms, deleteForm } from "../api/apiIndex";
+import { fetchForms, deleteForm } from "../../api/apiIndex";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Popup from "reactjs-popup";
-import * as api from "../api/apiIndex";
+import * as api from "../../api/apiIndex";
 
 function AdminFormsArchive() {
   const [adoptionForms, setAdoptionForms] = useState("");

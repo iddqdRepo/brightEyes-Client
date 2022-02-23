@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { fetchSingleForm } from "../api/apiIndex";
+import { fetchSingleForm } from "../../api/apiIndex";
 import { useLocation } from "react-router-dom";
-import titleMap from "../mappingTitles";
+import titleMap from "../../mappingTitles";
 function AdminViewSingleForm() {
   const [form, setForm] = useState("");
   const [dogForm, setDogForm] = useState("");
@@ -17,15 +17,22 @@ function AdminViewSingleForm() {
     const data = await fetchSingleForm(location.state.detail.type, location.state.detail.id);
     const obj = data.data;
     // console.log("obj ", obj);
+    console.log("Data pased in for form to show is : ", data.data);
     setForm(data.data);
-    Object.keys(obj).map((element) => {
+
+    Object.keys(obj).forEach((element) => {
+      console.log("element.slice(0, 3)", element.slice(0, 3));
+
       if (element.slice(0, 3) !== "cat") {
-        return (dogTemp = { ...dogTemp, [element]: obj[element] });
+        dogTemp = { ...dogTemp, [element]: obj[element] };
       }
       if (element.slice(0, 3) !== "dog") {
-        return (catTemp = { ...catTemp, [element]: obj[element] });
+        console.log("[element]: obj[element]", [element], obj[element]);
+        catTemp = { ...catTemp, [element]: obj[element] };
       }
     });
+    console.log("dogTemp =  : ", dogTemp);
+    console.log("catTemp =  : ", catTemp);
     setDogForm(dogTemp);
     setCatForm(catTemp);
     // console.log("dogTemp ", dogTemp);
@@ -49,6 +56,7 @@ function AdminViewSingleForm() {
 
           {Object.keys(form[topLevelKey]).map((parentSubcategoryKey) => {
             //^ If it is a Dog subcategory (one object deep)
+            console.log("form = ", form);
             return (
               <DogCatFormSubCategory
                 key={form.aboutQuestions.name + form.aboutQuestions.postcode + parentSubcategoryKey}
@@ -75,6 +83,7 @@ function AdminViewSingleForm() {
     );
   };
   const DogCatFormSubCategory = (props) => {
+    console.log("DogCatFormSubCategory");
     const topLevelKey = props.topLevelKey;
     const parentSubcategoryKey = props.parentSubcategoryKey;
     const form = props.form;

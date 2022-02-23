@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { fetchForms, deleteForm } from "../api/apiIndex";
+import { fetchForms, deleteForm } from "../../api/apiIndex";
 import { useNavigate } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Popup from "reactjs-popup";
-import * as api from "../api/apiIndex";
+import * as api from "../../api/apiIndex";
 
 function AdminForms() {
   const [adoptionForms, setAdoptionForms] = useState("");

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchSinglePet, updatePet } from "../api/apiIndex";
+import { fetchSinglePet, updatePet } from "../../api/apiIndex";
 import Compress from "react-image-file-resizer";
 import { useNavigate, useLocation } from "react-router-dom";
 function AdminEditSingleAnimal() {

@@ -59,9 +59,9 @@ function Donate() {
             <div className="donate-split-text-description">
               In the past 5 years we have rehomed over <span className="slanted-about-us-bold-desc"> 1,000 Cats and Dogs. </span>
               <br />
-              Unfortunately, we receive no government funding and rely purely on the generosity of the public to help us continue our work. <br />
-              Unlike many other charities, we only have 2 paid employees to keep overhead costs to an absolute minimum, so we can promise that every
-              penny you donate, will go towards helping animals in need and NOT paying staff salaries.
+              We receive no government funding and rely purely on the generosity of the public to help us continue our work. <br />
+              We would be grateful if you would like to set up a standing order each month or leave a legacy in your will, your contribution will make
+              a huge difference to animal welfare and help us continue to rescue more animals that need us.
             </div>
             {/* <a href="/about">
               <button type="button" className="button donate-donation-button">

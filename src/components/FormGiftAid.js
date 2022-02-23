@@ -105,7 +105,9 @@ function FormGiftAid() {
               <legend>About You</legend>
 
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Name</div>
+                <label htmlFor="name" className="adoption-form-title">
+                  Name
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -119,7 +121,9 @@ function FormGiftAid() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Address</div>
+                <label htmlFor="address" className="adoption-form-title">
+                  Address
+                </label>
                 <textarea
                   className="animal-form-box"
                   autoComplete="off"
@@ -133,7 +137,9 @@ function FormGiftAid() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Postcode</div>
+                <label htmlFor="postcode" className="adoption-form-title">
+                  Postcode
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -147,7 +153,9 @@ function FormGiftAid() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Phone</div>
+                <label htmlFor="phone" className="adoption-form-title">
+                  Phone
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -161,7 +169,9 @@ function FormGiftAid() {
                 />
               </div>
               <div className="adoption-form-content">
-                <div className="adoption-form-title">Mobile</div>
+                <label htmlFor="mobile" className="adoption-form-title">
+                  Mobile
+                </label>
                 <input
                   className="animal-form-box"
                   autoComplete="off"
@@ -179,15 +189,17 @@ function FormGiftAid() {
             <fieldset className="fieldset">
               <legend>Gift Aid</legend>
               <div className="giftaid-form-content">
-                <div className="adoption-form-title">I would like to Gift Aid future donations until further notice</div>
+                <label htmlFor="giftAidFuture" className="adoption-form-title">
+                  I would like to Gift Aid future donations until further notice
+                </label>
                 <div className="checkbox-form">
                   <input type="checkbox" id="giftAidFuture" name="giftAidFuture" value="Yes" onClick={(e) => handleChange(e)} />
                 </div>
               </div>
               <div className="giftaid-form-content">
-                <div className="adoption-form-title">
+                <label htmlFor="giftAidPast" className="adoption-form-title">
                   I would like to Gift Aid previous donations for the current year, and all the previous four tax years
-                </div>
+                </label>
                 <div className="checkbox-form">
                   <input type="checkbox" id="giftAidPast" name="giftAidPast" value="Yes" onClick={(e) => handleChange(e)} />
                 </div>

@@ -7,21 +7,21 @@ import Adoption from "./components/Adoption";
 import Donate from "./components/Donate";
 import Volunteer from "./components/Volunteer";
 import Forms from "./components/Forms";
-import AdminNav from "./components/AdminNav";
-import AdminAddAnimal from "./components/AdminAddAnimal";
-import AdminInstructions from "./components/AdminInstructions";
-import AdminEditRemoveAnimal from "./components/AdminEditRemoveAnimal";
-import AdminAnimalArchive from "./components/AdminAnimalArchive";
-import AdminEditSingleAnimal from "./components/AdminEditSingleAnimal";
-import AdminViewSingleForm from "./components/AdminViewSingleForm";
-import AdminForms from "./components/AdminForms";
-import AdminFormsArchive from "./components/AdminFormsArchive";
+import AdminNav from "./components/AdminComponents/AdminNav";
+import AdminAddAnimal from "./components/AdminComponents/AdminAddAnimal";
+import AdminInstructions from "./components/AdminComponents/AdminInstructions";
+import AdminEditSingleAnimal from "./components/AdminComponents/AdminEditSingleAnimal";
+import AdminViewSingleForm from "./components/AdminComponents/AdminViewSingleForm";
+// import AdminEditRemoveAnimal from "./components/AdminComponents/AdminEditRemoveAnimal";
+// import AdminAnimalArchive from "./components/AdminComponents/AdminAnimalArchive";
+import AdminAddUser from "./components/AdminComponents/AdminAddUser";
 import FormAdoption from "./components/FormAdoption";
 import FormGiftAid from "./components/FormGiftAid";
 import FormVolunteer from "./components/FormVolunteer";
 import AnimalBio from "./components/AnimalBio";
 import ProtectedRoutes from "./components/ProtectedRoutes";
-import AdminAddUser from "./components/AdminAddUser";
+import EditAnimalAnimalArchive from "./components/AdminComponents/AdminEditAnimalAnimalArchive";
+import AdminFormsFormsArchive from "./components/AdminComponents/AdminFormsFormsArchive";
 
 const App = () => {
   return (
@@ -144,7 +144,7 @@ const App = () => {
               element={
                 <>
                   <AdminNav />
-                  <AdminEditRemoveAnimal />
+                  <EditAnimalAnimalArchive type={"edit"} />
                 </>
               }
             />
@@ -162,7 +162,7 @@ const App = () => {
               element={
                 <>
                   <AdminNav />
-                  <AdminForms />
+                  <AdminFormsFormsArchive type="forms" />
                 </>
               }
             />
@@ -171,7 +171,7 @@ const App = () => {
               element={
                 <>
                   <AdminNav />
-                  <AdminAnimalArchive />
+                  <EditAnimalAnimalArchive type="archive" />
                 </>
               }
             />
@@ -180,7 +180,7 @@ const App = () => {
               element={
                 <>
                   <AdminNav />
-                  <AdminFormsArchive />
+                  <AdminFormsFormsArchive type="archive" />
                 </>
               }
             />

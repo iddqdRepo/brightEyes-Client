@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import DonateSlantedComponent from "./DonateSlantedComponent";
 
 function About() {
   return (
@@ -50,15 +50,15 @@ function About() {
               Commission in 2016. <br />
               <br />
               We are based in <span className="slanted-about-us-bold-desc">Co.Fermanagh, Northern Ireland </span>.<br /> Our main purpose is a
-              reduction in unnecessary suffering and distress of companion animals, through the provision of a rescue and re-homing service. We
-              provide a sanctuary for the care, protection, treatment and temporary or permanent accommodation of such animals. We rely heavily on
-              volunteers to help with the running of the sanctuary and in return we provide social support, education, mental support, animal welfare
-              training (in some cases leading to employment in a related field or academic qualifications). We have undertaken intensive feral cat
-              neutering and spaying over the years resulting in a noticeable reduction in feral cat population. We operate a{" "}
-              <span className="slanted-about-us-bold-desc">no kill policy</span> at Bright Eyes and if an animal for any reason cannot get a home it
-              will have shelter here with us for life. We receive no government funding and rely purely on the generosity of the public to help us
-              continue our work. Rehoming from us All animals rehomed from us are neutered/spayed, vaccinated, wormed and deflead Please see page with
-              animals that need a home and relevant application form.
+              reduction in unnecessary suffering and distress of companion animals through the provision of a rescue and re-homing service. We provide
+              a sanctuary for the care, protection, treatment and temporary or permanent accommodation of such animals.
+              <br /> We rely heavily on volunteers to help with the running of the sanctuary and in return we provide social support, education,
+              mental support, animal welfare training (in some cases leading to employment in a related field or academic qualifications). We have
+              undertaken intensive feral cat neutering and spaying over the years resulting in a noticeable reduction in feral cat population. We
+              operate a <span className="slanted-about-us-bold-desc">no kill policy</span> at Bright Eyes and if an animal for any reason cannot get a
+              home it will have shelter here with us for life. We receive no government funding and rely purely on the generosity of the public to
+              help us continue our work. Rehoming from us All animals rehomed from us are neutered/spayed, vaccinated, microchipped, dewormed and
+              deflead Please see page with animals that need a home and relevant application form.
             </div>
           </div>
 
@@ -78,24 +78,7 @@ function About() {
         />
       </div>
 
-      <div className="slanted-div-donate">
-        <div className="slanted-div-donate-content-container">
-          <div className="slanted-div-left-donate-text-container">
-            <span className="donation-script-text">Please</span> <br />
-            <span className="donation-header">Make a Donation</span> <br />
-            <div className="donation-subtext">
-              In the past 5 years we have rehomed over 1,000 Cats and Dogs. Unfortunately, we receive no government funding and rely purely on the
-              generosity of the public to help us continue our work.
-            </div>{" "}
-            <br />
-          </div>
-          <div className="slanted-div-right-donate-button-container">
-            <Link to="/donate">
-              <button className="button slanted-div-donate-button">Donate</button>
-            </Link>
-          </div>
-        </div>
-      </div>
+      <DonateSlantedComponent />
     </>
   );
 }

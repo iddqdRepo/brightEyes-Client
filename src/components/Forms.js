@@ -16,7 +16,7 @@ function Forms() {
     <div className="forms-page-container">
       <div className="forms-page-header">Forms</div>
       <div className="adoption-subtext">
-        Here are the forms for Dog and Cat Adoption, Volunteering, Gift aid and standing orders.
+        Here are the forms for Dog and Cat Adoption, Volunteering and Gift aid.
         <br />
         Simply fill them in online and click "submit" or download, print off and post them to us.
       </div>

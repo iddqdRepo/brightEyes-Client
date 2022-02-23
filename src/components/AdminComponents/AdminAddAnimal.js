@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Compress from "react-image-file-resizer";
-import * as api from "../api/apiIndex.js";
+import * as api from "../../api/apiIndex.js";
 
 function AdminAddAnimal() {
   const [animal, setAnimal] = useState({

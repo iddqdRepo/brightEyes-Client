@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import AdminLogIn from "./AdminLogIn";
-import AdminNav from "./AdminNav";
+import AdminLogIn from "./AdminComponents/AdminLogIn";
+import AdminNav from "./AdminComponents/AdminNav";
 import * as api from "../api/apiIndex";
 import { useState, useEffect } from "react";
 

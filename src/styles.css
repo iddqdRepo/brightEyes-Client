@@ -298,6 +298,7 @@ Black 900 */
 
 .about-us-read-more-button {
   padding: 0.75rem 1.25rem;
+  margin-bottom: 40px;
 }
 
 .stats-box-container {
@@ -466,7 +467,7 @@ Black 900 */
 
 .contact-us-header {
   font-size: 3em;
-  margin: 70px 90px;
+  margin: 40px 90px;
   text-align: center;
   font-family: "Noto Sans", sans-serif;
   font-weight: 600;
@@ -534,7 +535,10 @@ Black 900 */
   width: 12em;
   height: 1.7em;
 }
-
+.contact-us-message {
+  display: flex;
+  flex-direction: column;
+}
 .message-text {
   font-family: var(--ff-noto);
   font-weight: var(--semibold);
@@ -1835,6 +1839,7 @@ ul.legal-list {
   display: flex;
   flex-direction: column;
   /* min-height: 500px; */
+  margin-top: -50px;
   align-items: center;
   color: var(--main-color);
 }
@@ -1904,36 +1909,145 @@ ul.legal-list {
 .donate-paypal-content {
   margin-bottom: 100px;
 }
-@media (max-width: 900px) {
-  .nav {
-    flex-direction: column;
-  }
 
-  .contact-us-split-content,
-  .about-us-split-content,
-  .bio-split-content {
-    display: inline;
-  }
+/* *------------------MOBILE NAV------------------ */
 
-  .about-us-container {
-    margin-bottom: 20px;
-  }
+.mobile-nav {
+  /* position: sticky; */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 60px;
+  top: 0;
+  /* border: 1px solid red; */
+  z-index: 9;
+  color: white;
+}
 
+.mobile-nav {
+  background: #8b3479;
+}
+#menuToggle {
+  display: block;
+  position: relative;
+  top: -18px;
+  left: 50px;
+
+  z-index: 1;
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#menuToggle a {
+  text-decoration: none;
+  color: #232323;
+
+  transition: color 0.3s ease;
+}
+
+#menuToggle a:hover {
+  color: tomato;
+}
+
+#menuToggle input {
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+
+  cursor: pointer;
+
+  opacity: 0; /* hide this */
+  z-index: 2; /* and place it over the hamburger */
+
+  -webkit-touch-callout: none;
+}
+
+#menuToggle span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-top: 5px;
+
+  position: relative;
+
+  background: black;
+  border-radius: 3px;
+
+  z-index: 1;
+
+  transform-origin: 4px 0px;
+
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+}
+
+#menuToggle span:first-child {
+  transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+#menuToggle input:checked ~ span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  /* background: #232323; */
+  background: var(--main-color);
+}
+
+#menuToggle input:checked ~ span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+#menuToggle input:checked ~ span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+#menu {
+  position: absolute;
+  width: 300px;
+  margin: -120px 0 0 -50px;
+  padding: 50px;
+  padding-top: 125px;
+
+  background: #ededed;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  /* to stop flickering of text in safari */
+
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+}
+
+#menu li {
+  padding: 10px 0;
+  font-size: 22px;
+}
+
+#menuToggle input:checked ~ ul {
+  transform: none;
+}
+/* *------------------MEDIA STYLES------------------ */
+
+/* *------------------MEDIA MAX 1350px------------------ */
+
+@media (max-width: 1350px) {
   .contact-us-name-email-row {
     flex-direction: column;
   }
-
-  .stats-box-container {
-    flex-wrap: wrap;
-  }
-
-  .stats-box-container > * {
-    margin: 10px;
+  .contact-us-email-col {
+    margin-top: 10px;
   }
 }
 
-.contact-us-split-name-email-message {
-}
+/* *------------------MEDIA MAX 1300px------------------ */
 
 @media (max-width: 1300px) {
   .slanted-about-us-split-content {
@@ -2000,7 +2114,14 @@ ul.legal-list {
     flex-direction: column;
   }
 }
-/*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss*/
+/* *------------------MEDIA MIN 1200px------------------ */
+
+@media (min-width: 1200px) {
+  .mobile-nav {
+    display: none;
+  }
+}
+/* *------------------MEDIA MAX 980px------------------ */
 
 @media (max-width: 980px) {
   .nav {
@@ -2018,16 +2139,7 @@ ul.legal-list {
     /* border: 1px solid black; */
     margin: 2em;
   }
-  form {
-    text-align: center;
-    display: inline;
-  }
 
-  .contact-us-name-email-row {
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
   .contact-us-name-col {
     margin-right: 0px;
     margin-bottom: 10px;
@@ -2049,11 +2161,48 @@ ul.legal-list {
     /* justify-content: left; */
   }
 }
-@media (min-width: 1200px) {
-  .mobile-nav {
-    display: none;
+
+/* *------------------MEDIA MAX 900px------------------ */
+
+@media (max-width: 900px) {
+  .nav {
+    flex-direction: column;
+  }
+  form {
+    text-align: center;
+    display: inline;
+  }
+
+  .contact-us-name-email-row,
+  .contact-us-message {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  .contact-us-split-content,
+  .about-us-split-content,
+  .bio-split-content {
+    display: inline;
+  }
+
+  .about-us-container {
+    margin-bottom: 20px;
+  }
+
+  .contact-us-name-email-row {
+    flex-direction: column;
+  }
+
+  .stats-box-container {
+    flex-wrap: wrap;
+  }
+
+  .stats-box-container > * {
+    margin: 10px;
   }
 }
+/* *------------------MEDIA MAX 700px------------------ */
+
 @media (max-width: 700px) {
   .get-involved-split-container {
     flex-wrap: wrap;
@@ -2079,163 +2228,11 @@ ul.legal-list {
     margin-bottom: 0px;
   }
 }
+/* *------------------MEDIA MAX 580px------------------ */
+
 @media (max-width: 580px) {
   .about-pat-split-image {
     /* min-width: none; */
     width: 80%;
   }
 }
-.mobile-nav {
-  /* position: sticky; */
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  height: 60px;
-  top: 0;
-  /* border: 1px solid red; */
-  z-index: 9;
-  color: white;
-}
-
-.mobile-nav {
-  background: #8b3479;
-}
-#menuToggle {
-  display: block;
-  position: relative;
-  top: -18px;
-  left: 50px;
-
-  z-index: 1;
-
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-#menuToggle a {
-  text-decoration: none;
-  color: #232323;
-
-  transition: color 0.3s ease;
-}
-
-#menuToggle a:hover {
-  color: tomato;
-}
-
-#menuToggle input {
-  display: block;
-  width: 40px;
-  height: 32px;
-  position: absolute;
-  top: -7px;
-  left: -5px;
-
-  cursor: pointer;
-
-  opacity: 0; /* hide this */
-  z-index: 2; /* and place it over the hamburger */
-
-  -webkit-touch-callout: none;
-}
-
-/*
- * Just a quick hamburger
- */
-#menuToggle span {
-  display: block;
-  width: 33px;
-  height: 4px;
-  margin-top: 5px;
-
-  position: relative;
-
-  /* background: var(--main-color); */
-  background: black;
-  border-radius: 3px;
-
-  z-index: 1;
-
-  transform-origin: 4px 0px;
-
-  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
-}
-
-#menuToggle span:first-child {
-  transform-origin: 0% 0%;
-}
-
-#menuToggle span:nth-last-child(2) {
-  transform-origin: 0% 100%;
-}
-
-/* 
- * Transform all the slices of hamburger
- * into a crossmark.
- */
-#menuToggle input:checked ~ span {
-  opacity: 1;
-  transform: rotate(45deg) translate(-2px, -1px);
-  /* background: #232323; */
-  background: var(--main-color);
-}
-
-/*
- * But let's hide the middle one.
- */
-#menuToggle input:checked ~ span:nth-last-child(3) {
-  opacity: 0;
-  transform: rotate(0deg) scale(0.2, 0.2);
-}
-
-/*
- * Ohyeah and the last one should go the other direction
- */
-#menuToggle input:checked ~ span:nth-last-child(2) {
-  transform: rotate(-45deg) translate(0, -1px);
-}
-
-/*
- * Make this absolute positioned
- * at the top left of the screen
- */
-#menu {
-  position: absolute;
-  width: 300px;
-  margin: -120px 0 0 -50px;
-  padding: 50px;
-  padding-top: 125px;
-
-  background: #ededed;
-  list-style-type: none;
-  -webkit-font-smoothing: antialiased;
-  /* to stop flickering of text in safari */
-
-  transform-origin: 0% 0%;
-  transform: translate(-100%, 0);
-
-  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
-}
-
-#menu li {
-  padding: 10px 0;
-  font-size: 22px;
-}
-
-/*
- * And let's slide it in from the left
- */
-#menuToggle input:checked ~ ul {
-  transform: none;
-}
-
-/* .get-involved-split-image{
-    border:1px solid black;
-  padding: 10px;
-  margin:5px;
-  flex:0 1 50%;
-   background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url("https://ggsc.s3.amazonaws.com/images/uploads/The_Science-Backed_Benefits_of_Being_a_Dog_Owner.jpg");
-} */

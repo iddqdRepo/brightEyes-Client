@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import * as api from "../api/apiIndex";
+import DonateSlantedComponent from "./DonateSlantedComponent";
 
 function AnimalBio() {
   const location = useLocation();
@@ -106,22 +107,7 @@ function AnimalBio() {
           </div>
         </div>
       </div>
-      <div className="slanted-div-donate">
-        <div className="slanted-div-donate-content-container">
-          <div className="slanted-div-left-donate-text-container">
-            <span className="donation-script-text">Please</span> <br />
-            <span className="donation-header">Make a Donation</span> <br />
-            <div className="donation-subtext">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Et repellat quisquam nesciunt ipsam similique, quasi cupiditate? Ad nihil
-              consectetur quas quo rem debitis aut molestias itaque dolorum necessitatibus. Accusantium, quos?
-            </div>{" "}
-            <br />
-          </div>
-          <div className="slanted-div-right-donate-button-container">
-            <button className="button slanted-div-donate-button">Donate</button>
-          </div>
-        </div>
-      </div>
+      <DonateSlantedComponent />
     </>
   );
 }
