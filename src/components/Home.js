@@ -117,7 +117,7 @@ function Home() {
               </button>
             </Link>
             <div className="involved-main-subtext">
-              Unfortunately, we receive no government funding and rely purely on the generosity of the public to help us continue our work.
+              We receive no government funding and rely purely on the generosity of the public to help us continue our work.
             </div>
           </div>
           <div className="get-involved-split">
