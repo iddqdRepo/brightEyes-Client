@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import * as api from "../../api/apiIndex";
+import { Helmet } from "react-helmet-async";
 
 function AdminLogIn() {
   const [username, setUser] = useState("");
@@ -31,50 +32,56 @@ function AdminLogIn() {
   };
 
   return (
-    <form onSubmit={(e) => logIn(e)}>
-      <div className="login-page-container">
-        <div className="login-page-content-container">
-          <div className="login-image-container">
-            <div className="login-page-top-image"></div>
-          </div>
-          <div className="add-animal-content">
-            <div className="add-animal-title">Username:</div>
-            <input
-              className="animal-form-box"
-              autoComplete="off"
-              type="text"
-              id="username"
-              name="username"
-              value={username}
-              onInput={(e) => {
-                handleChange(e); //copy person from the state, then get name from object and change it
-              }}
-            />
-          </div>
-          <div className="add-animal-content">
-            <div className="add-animal-title">Password:</div>
-            <input
-              className="animal-form-box"
-              autoComplete="off"
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onInput={(e) => {
-                handleChange(e); //copy person from the state, then get name from object and change it
-              }}
-            />
-          </div>
-          <div className="admin-warning">{warningText}</div>
+    <>
+      <Helmet>
+        <title>Log In</title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
+      <form onSubmit={(e) => logIn(e)}>
+        <div className="login-page-container">
+          <div className="login-page-content-container">
+            <div className="login-image-container">
+              <div className="login-page-top-image"></div>
+            </div>
+            <div className="add-animal-content">
+              <div className="add-animal-title">Username:</div>
+              <input
+                className="animal-form-box"
+                autoComplete="off"
+                type="text"
+                id="username"
+                name="username"
+                value={username}
+                onInput={(e) => {
+                  handleChange(e); //copy person from the state, then get name from object and change it
+                }}
+              />
+            </div>
+            <div className="add-animal-content">
+              <div className="add-animal-title">Password:</div>
+              <input
+                className="animal-form-box"
+                autoComplete="off"
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onInput={(e) => {
+                  handleChange(e); //copy person from the state, then get name from object and change it
+                }}
+              />
+            </div>
+            <div className="admin-warning">{warningText}</div>
 
-          <div className="login-button-container">
-            <button type="submit" className="button login-button">
-              Log In
-            </button>
+            <div className="login-button-container">
+              <button type="submit" className="button login-button">
+                Log In
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 

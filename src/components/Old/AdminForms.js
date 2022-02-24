@@ -5,6 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Popup from "reactjs-popup";
 import * as api from "../../api/apiIndex";
+import { Helmet } from "react-helmet-async";
 
 function AdminForms() {
   const [adoptionForms, setAdoptionForms] = useState("");
@@ -182,11 +183,6 @@ function AdminForms() {
 
   const GenerateFormLayout = (props) => {
     let dataObj = props.data;
-    // console.log("adoptionForms = ", adoptionForms);
-    // console.log("dogAdoptionForms = ", dogAdoptionForms);
-    // console.log("catAdoptionForms = ", catAdoptionForms, "props length = ", catAdoptionForms.length);
-    // console.log("giftAidForms = ", giftAidForms);
-    // console.log("volunteerForms = ", volunteerForms);
     console.log("dataObj = ", dataObj);
     return dataObj.length === 0 ? (
       <>
@@ -305,6 +301,10 @@ function AdminForms() {
 
   return (
     <>
+      <Helmet>
+        <title>Forms</title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
       <div className="admin-forms-page-container">
         <div className="admin-title">SUBMITTED FORMS</div>
         <div className="admin-subtitle">Click on the tabs below to view the forms inside</div>

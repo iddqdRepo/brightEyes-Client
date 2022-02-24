@@ -14,6 +14,7 @@ function Nav() {
     { Forms: "/forms" },
   ];
   const refs = useRef([]);
+  const hideNavRef = useRef();
 
   const activeToggle = (ref, text) => {
     //^ loop through each nav item, if it's the clicked link, set the classname to active-link
@@ -28,32 +29,71 @@ function Nav() {
     });
   };
 
+  const hideMobileNavOnLinkClick = () => {
+    hideNavRef.current.checked = false;
+  };
   return (
     <>
       <nav className="mobile-nav">
         <div id="menuToggle">
-          <input type="checkbox" />
+          <input ref={hideNavRef} type="checkbox" />
           <span></span>
           <span></span>
           <span></span>
           <ul id="menu">
             <Link to="/">
-              <li>Home</li>
+              <li
+                onClick={() => {
+                  hideMobileNavOnLinkClick();
+                }}
+              >
+                Home
+              </li>
             </Link>
             <Link to="/about">
-              <li>About Us</li>
+              <li
+                onClick={() => {
+                  hideMobileNavOnLinkClick();
+                }}
+              >
+                About Us
+              </li>
             </Link>
             <Link to="/adoption">
-              <li>Adoption</li>
+              <li
+                onClick={() => {
+                  hideMobileNavOnLinkClick();
+                }}
+              >
+                Adoption
+              </li>
             </Link>
             <Link to="/donate">
-              <li>Donate</li>
+              <li
+                onClick={() => {
+                  hideMobileNavOnLinkClick();
+                }}
+              >
+                Donate
+              </li>
             </Link>
             <Link to="/forms/volunteer">
-              <li>Volunteer</li>
+              <li
+                onClick={() => {
+                  hideMobileNavOnLinkClick();
+                }}
+              >
+                Volunteer
+              </li>
             </Link>
             <Link to="/forms">
-              <li>Forms</li>
+              <li
+                onClick={() => {
+                  hideMobileNavOnLinkClick();
+                }}
+              >
+                Forms
+              </li>
             </Link>
           </ul>
         </div>
@@ -76,6 +116,7 @@ function Nav() {
               return (
                 <li key={Object.keys(el)[0]}>
                   <Link
+                    data-testid={`nav${Object.keys(el)[0]}`}
                     to={el[Object.keys(el)[0]]}
                     className="nav__item"
                     ref={(element) => {

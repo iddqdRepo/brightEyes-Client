@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as api from "../api/apiIndex";
+import { Helmet } from "react-helmet-async";
 
 function Donate() {
   const [senderEmail, setSenderEmail] = useState("");
@@ -48,6 +49,14 @@ function Donate() {
   };
   return (
     <>
+      <Helmet>
+        <title>Donate</title>
+        <meta
+          name="description"
+          content="In the past 5 years we have rehomed over 1000 cats and dogs. We receive no government funding, every little helps."
+        />
+        <link rel="canonical" href="/donate" />
+      </Helmet>
       <div className="donate-container">
         <div className="donate-header"></div>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchPets, deletePet, updatePet } from "../../api/apiIndex";
 import Popup from "reactjs-popup";
+import { Helmet } from "react-helmet-async";
 
 function AdminAnimalArchive() {
   const [animal, setAnimal] = useState("");
@@ -99,7 +100,7 @@ function AdminAnimalArchive() {
 
   return !animal ? (
     <div className="add-animal-page-container">
-      <div className="admin-title">ARCHIVED ADOPTED ANIMALS</div>
+      <div className="admin-title">ARCsssHIVED ADOPTED ANIMALS</div>
       <div className="edit-animal-content-container">
         <>
           <div className="Loading-ring">
@@ -113,7 +114,7 @@ function AdminAnimalArchive() {
     </div>
   ) : (
     <div className="add-animal-page-container">
-      <div className="admin-title">ARCHIVED ADOPTED ANIMALS</div>
+      <div className="admin-title">ARCHIVssssED ADOPTED ANIMALS</div>
       <div className="add-animal-content-container">
         <div className="add-animal-content">
           <div className="add-animal-title">Search animal by name</div>

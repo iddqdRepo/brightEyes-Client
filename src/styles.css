@@ -1960,8 +1960,8 @@ ul.legal-list {
 
   cursor: pointer;
 
-  opacity: 0; /* hide this */
-  z-index: 2; /* and place it over the hamburger */
+  opacity: 0;
+  z-index: 2;
 
   -webkit-touch-callout: none;
 }
@@ -1992,10 +1992,10 @@ ul.legal-list {
   transform-origin: 0% 100%;
 }
 
+/* X close button*/
 #menuToggle input:checked ~ span {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
-  /* background: #232323; */
   background: var(--main-color);
 }
 
@@ -2020,12 +2020,14 @@ ul.legal-list {
   -webkit-font-smoothing: antialiased;
   /* to stop flickering of text in safari */
 
-  transform-origin: 0% 0%;
+  /* transform-origin: 0% 0%; */
   transform: translate(-100%, 0);
 
   transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
-
+.mobile-menu-link {
+  transform: none;
+}
 #menu li {
   padding: 10px 0;
   font-size: 22px;

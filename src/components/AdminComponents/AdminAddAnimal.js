@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Compress from "react-image-file-resizer";
 import * as api from "../../api/apiIndex.js";
+import { Helmet } from "react-helmet-async";
 
 function AdminAddAnimal() {
   const [animal, setAnimal] = useState({
@@ -98,208 +99,217 @@ function AdminAddAnimal() {
   };
 
   return (
-    <div className="add-animal-page-container">
-      <div className="admin-title">ADD ANIMAL</div>
-      <div className="admin-subtitle">
-        When submitted, the animal will appear instantly on the website in the "adoption tab". <br />
-        (if you have the page open, refresh it if animal does not show)
-      </div>
+    <>
+      <Helmet>
+        <title>Home</title>
+        <meta name="description" content="Admin add a new animal, Bright Eyes." />
+        <meta name="robots" content="noindex" />
+        <link rel="canonical" href="/admin" />
+      </Helmet>
 
-      {warningText ? <div className="admin-warning">Please Fill in all fields</div> : <div> </div>}
+      <div className="add-animal-page-container">
+        <div className="admin-title">ADD ANIMAL</div>
+        <div className="admin-subtitle">
+          When submitted, the animal will appear instantly on the website in the "adoption tab". <br />
+          (if you have the page open, refresh it if animal does not show)
+        </div>
 
-      <form onSubmit={(e) => submitAnimal(e)}>
-        <div className="add-animal-content-container">
-          <div className="add-animal-content">
-            <div className="add-animal-title">Type:</div>
-            <div className="filter-dropdown">
-              <div className="dropdown">
-                <select
-                  name="type"
-                  className="dropdown-select"
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                >
-                  <option value="choose">Select…</option>
-                  <option value="Dog">Dog</option>
-                  <option value="Cat">Cat</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="add-animal-content">
-            <div className="add-animal-title">Name:</div>
-            <input
-              className="animal-form-box"
-              autoComplete="off"
-              type="text"
-              id="name"
-              name="name"
-              value={animal.name}
-              onInput={(e) => {
-                handleChange(e); //copy person from the state, then get name from object and change it
-              }}
-            />
-          </div>
-          <div className="add-animal-content">
-            <div className="add-animal-title">Age:</div>
-            <div className="add-animal-form-dropdown-age-container">
-              <input
-                className="animal-form-box animal-form-age"
-                autoComplete="off"
-                type="number"
-                id="age"
-                name="age"
-                value={animal.age}
-                onInput={(e) => {
-                  handleChange(e); //copy person from the state, then get name from object and change it
-                }}
-              />
-              <div className="filter-dropdown age">
-                <div className="dropdown-age">
+        {warningText ? <div className="admin-warning">Please Fill in all fields</div> : <div> </div>}
+
+        <form onSubmit={(e) => submitAnimal(e)}>
+          <div className="add-animal-content-container">
+            <div className="add-animal-content">
+              <div className="add-animal-title">Type:</div>
+              <div className="filter-dropdown">
+                <div className="dropdown">
                   <select
-                    name="yearsOrMonths"
-                    className="dropdown-age-select"
+                    name="type"
+                    className="dropdown-select"
                     onChange={(e) => {
                       handleChange(e);
                     }}
                   >
                     <option value="choose">Select…</option>
-                    <option value="Months">Months</option>
-                    <option value="Years">Years</option>
+                    <option value="Dog">Dog</option>
+                    <option value="Cat">Cat</option>
                   </select>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="add-animal-content">
-            <div className="add-animal-title">Breed:</div>
-            <input
-              className="animal-form-box"
-              autoComplete="off"
-              type="text"
-              id="breed"
-              name="breed"
-              value={animal.breed}
-              onInput={(e) => {
-                handleChange(e); //copy person from the state, then get name from object and change it
-              }}
-            />
-          </div>
-          <div className="add-animal-content">
-            <div className="add-animal-title">Size:</div>
-            <div className="filter-dropdown">
-              <div className="dropdown">
-                <select
-                  name="size"
-                  className="dropdown-select"
-                  onChange={(e) => {
-                    handleChange(e);
+            <div className="add-animal-content">
+              <div className="add-animal-title">Name:</div>
+              <input
+                className="animal-form-box"
+                autoComplete="off"
+                type="text"
+                id="name"
+                name="name"
+                value={animal.name}
+                onInput={(e) => {
+                  handleChange(e); //copy person from the state, then get name from object and change it
+                }}
+              />
+            </div>
+            <div className="add-animal-content">
+              <div className="add-animal-title">Age:</div>
+              <div className="add-animal-form-dropdown-age-container">
+                <input
+                  className="animal-form-box animal-form-age"
+                  autoComplete="off"
+                  type="number"
+                  id="age"
+                  name="age"
+                  value={animal.age}
+                  onInput={(e) => {
+                    handleChange(e); //copy person from the state, then get name from object and change it
                   }}
-                >
-                  <option value="choose">Select…</option>
-                  <option value="Small">Small</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Large">Large</option>
-                  <option value="Giant">Giant</option>
-                </select>
+                />
+                <div className="filter-dropdown age">
+                  <div className="dropdown-age">
+                    <select
+                      name="yearsOrMonths"
+                      className="dropdown-age-select"
+                      onChange={(e) => {
+                        handleChange(e);
+                      }}
+                    >
+                      <option value="choose">Select…</option>
+                      <option value="Months">Months</option>
+                      <option value="Years">Years</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="add-animal-content">
-            <div className="add-animal-title">Suitable for children:</div>
-            <div className="filter-dropdown">
-              <div className="dropdown">
-                <select
-                  name="suitableForChildren"
-                  className="dropdown-select"
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                >
-                  <option value="choose">Select…</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
+            <div className="add-animal-content">
+              <div className="add-animal-title">Breed:</div>
+              <input
+                className="animal-form-box"
+                autoComplete="off"
+                type="text"
+                id="breed"
+                name="breed"
+                value={animal.breed}
+                onInput={(e) => {
+                  handleChange(e); //copy person from the state, then get name from object and change it
+                }}
+              />
+            </div>
+            <div className="add-animal-content">
+              <div className="add-animal-title">Size:</div>
+              <div className="filter-dropdown">
+                <div className="dropdown">
+                  <select
+                    name="size"
+                    className="dropdown-select"
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  >
+                    <option value="choose">Select…</option>
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
+                    <option value="Giant">Giant</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="add-animal-content">
-            <div className="add-animal-title">Suitable for animals:</div>
-            <div className="filter-dropdown">
-              <div className="dropdown">
-                <select
-                  name="suitableForAnimals"
-                  className="dropdown-select"
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                >
-                  <option value="choose">Select…</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
+            <div className="add-animal-content">
+              <div className="add-animal-title">Suitable for children:</div>
+              <div className="filter-dropdown">
+                <div className="dropdown">
+                  <select
+                    name="suitableForChildren"
+                    className="dropdown-select"
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  >
+                    <option value="choose">Select…</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
+            <div className="add-animal-content">
+              <div className="add-animal-title">Suitable for animals:</div>
+              <div className="filter-dropdown">
+                <div className="dropdown">
+                  <select
+                    name="suitableForAnimals"
+                    className="dropdown-select"
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  >
+                    <option value="choose">Select…</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
+              </div>
+            </div>
 
-          <div className="add-animal-content">
-            <div className="add-animal-title">Adopted:</div>
-            <div className="filter-dropdown">
-              <div className="dropdown">
-                <select
-                  name="adopted"
-                  className="dropdown-select"
-                  onChange={(e) => {
-                    handleChange(e);
-                  }}
-                >
-                  <option value="choose">Select…</option>
-                  <option value="Yes">Yes</option>
-                  <option value="No">No</option>
-                </select>
+            <div className="add-animal-content">
+              <div className="add-animal-title">Adopted:</div>
+              <div className="filter-dropdown">
+                <div className="dropdown">
+                  <select
+                    name="adopted"
+                    className="dropdown-select"
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                  >
+                    <option value="choose">Select…</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="add-animal-content">
-            <div className="add-animal-title">Animal Image</div>
-            <input
-              type="file"
-              id="file"
-              accept="image/*"
-              name="image"
-              // value={animal.image}
-              onChange={(e) => {
-                // onFileResize(e);
-                handleChange(e);
-                // uploadImage(e);
-              }}
-            />
-          </div>
-          {fileUploaded ? <img src={fileUploaded} alt="Animal Uploaded" height="200px" width="200px" /> : <div> No File Chosen </div>}
+            <div className="add-animal-content">
+              <div className="add-animal-title">Animal Image</div>
+              <input
+                type="file"
+                id="file"
+                accept="image/*"
+                name="image"
+                // value={animal.image}
+                onChange={(e) => {
+                  // onFileResize(e);
+                  handleChange(e);
+                  // uploadImage(e);
+                }}
+              />
+            </div>
+            {fileUploaded ? <img src={fileUploaded} alt="Animal Uploaded" height="200px" width="200px" /> : <div> No File Chosen </div>}
 
-          <div className="add-animal-content">
-            <div className="add-animal-title">Description:</div>
-            <textarea
-              className="animal-text-area"
-              autoComplete="off"
-              type="text"
-              id="desc"
-              name="desc"
-              value={animal.desc}
-              onInput={(e) => {
-                handleChange(e); //copy person from the state, then get name from object and change it
-              }}
-            />
-          </div>
+            <div className="add-animal-content">
+              <div className="add-animal-title">Description:</div>
+              <textarea
+                className="animal-text-area"
+                autoComplete="off"
+                type="text"
+                id="desc"
+                name="desc"
+                value={animal.desc}
+                onInput={(e) => {
+                  handleChange(e); //copy person from the state, then get name from object and change it
+                }}
+              />
+            </div>
 
-          <button type="submit" className="button add-animal-button">
-            Add Animal
-          </button>
-        </div>
-      </form>
-      {/* <button className="button add-animal-button" onClick={() => console.log(animal)}></button> */}
-    </div>
+            <button type="submit" className="button add-animal-button">
+              Add Animal
+            </button>
+          </div>
+        </form>
+        {/* <button className="button add-animal-button" onClick={() => console.log(animal)}></button> */}
+      </div>
+    </>
   );
 }
 

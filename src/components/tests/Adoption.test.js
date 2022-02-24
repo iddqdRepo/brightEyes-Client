@@ -6,6 +6,8 @@ import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import axios from "axios";
 import "@testing-library/jest-dom";
+import { HelmetProvider } from "react-helmet-async";
+
 jest.mock("axios");
 
 beforeEach(() =>
@@ -28,7 +30,7 @@ beforeEach(() =>
           yearsOrMonths: "Years",
         },
         {
-          adopted: "No",
+          adopted: "Yes",
           age: "9",
           breed: "Test",
           desc: " description test",
@@ -54,9 +56,11 @@ describe("Adoption Component Tests", () => {
     const history = createMemoryHistory({ initialEntries: ["/adoption"] });
     await act(async () => {
       render(
-        <Router location={history.location} navigator={history}>
-          <Adoption />
-        </Router>
+        <HelmetProvider>
+          <Router location={history.location} navigator={history}>
+            <Adoption />
+          </Router>
+        </HelmetProvider>
       );
     });
     const button = screen.getByRole("button", { name: /adoption form/i });
@@ -69,9 +73,11 @@ describe("Adoption Component Tests", () => {
     const history = createMemoryHistory({ initialEntries: ["/adoption"] });
     await act(async () => {
       render(
-        <Router location={history.location} navigator={history}>
-          <Adoption />
-        </Router>
+        <HelmetProvider>
+          <Router location={history.location} navigator={history}>
+            <Adoption />
+          </Router>
+        </HelmetProvider>
       );
     });
 
@@ -85,26 +91,30 @@ describe("Adoption Component Tests", () => {
     expect(history.location.pathname).toBe("/donate");
   });
 
-  test("should show the correct number of animals received from db", async () => {
+  test("should show the correct number of animals received from db & doesn't show adopted animals", async () => {
     const history = createMemoryHistory({ initialEntries: ["/adoption"] });
     await act(async () => {
       render(
-        <Router location={history.location} navigator={history}>
-          <Adoption />
-        </Router>
+        <HelmetProvider>
+          <Router location={history.location} navigator={history}>
+            <Adoption />
+          </Router>
+        </HelmetProvider>
       );
     });
     const animals = screen.getAllByTestId("AnimalContainer");
-    expect(animals).toHaveLength(2);
+    expect(animals).toHaveLength(1);
   });
 
   test("view button on individual animal should redirect to viewBio", async () => {
     const history = createMemoryHistory({ initialEntries: ["/adoption"] });
     await act(async () => {
       render(
-        <Router location={history.location} navigator={history}>
-          <Adoption />
-        </Router>
+        <HelmetProvider>
+          <Router location={history.location} navigator={history}>
+            <Adoption />
+          </Router>
+        </HelmetProvider>
       );
     });
     const viewAnimalButton = screen.getByRole("button", { name: /view koda/i });

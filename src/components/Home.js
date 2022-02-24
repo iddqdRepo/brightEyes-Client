@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Map from "./Map";
 import { Link } from "react-router-dom";
 import * as api from "../api/apiIndex";
+import { Helmet } from "react-helmet-async";
 
 function Home() {
   const [senderEmail, setSenderEmail] = useState("");
@@ -46,6 +47,11 @@ function Home() {
 
   return (
     <>
+      <Helmet>
+        <title>Home</title>
+        <meta name="description" content="Bright Eyes was established in 1989 and is based in Co.Fermanagh, Northern Ireland." />
+        <link rel="canonical" href="/" />
+      </Helmet>
       <div className="hero-image"></div>
 
       <div className="about-us-container">
@@ -55,7 +61,7 @@ function Home() {
           <div className="about-us-split-text">
             <div className="about-us-split-text-title">Bright Eyes Animal Sanctuary</div>
 
-            <div className="about-us-split-text-description">
+            <h1 className="about-us-split-text-description">
               Bright Eyes was established in 1989 and is based in <span className="slanted-about-us-bold-desc">Co.Fermanagh, Northern Ireland </span>.
               <br />
               Our main purpose is a reduction in unnecessary suffering and distress of companion animals through the provision of a rescue and
@@ -64,7 +70,7 @@ function Home() {
               We offer volunteering opportunities, training and education on animal welfare and support the local community. <br />
               We receive no government funding and rely purely on the generosity of the public to help us continue our work.
               <br /> All animals rehomed from us are neutered/spayed, vaccinated, microchipped, dewormed and deflead.
-            </div>
+            </h1>
           </div>
 
           <div className="about-us-split-image"> </div>

@@ -6,6 +6,7 @@ import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import "@testing-library/jest-dom";
 import axios from "axios";
+import { HelmetProvider } from "react-helmet-async";
 
 jest.mock("axios");
 
@@ -13,9 +14,11 @@ describe("Home Component Tests", () => {
   test("should take user to about page when learn more is clicked", () => {
     const history = createMemoryHistory({ initialEntries: ["/"] });
     render(
-      <Router location={history.location} navigator={history}>
-        <Home />
-      </Router>
+      <HelmetProvider>
+        <Router location={history.location} navigator={history}>
+          <Home />
+        </Router>
+      </HelmetProvider>
     );
     const learnMoreButton = screen.getByRole("button", {
       name: /learn more/i,
@@ -28,9 +31,11 @@ describe("Home Component Tests", () => {
   test("should take user to adoption page when more info is clicked", () => {
     const history = createMemoryHistory({ initialEntries: ["/"] });
     const { getByTestId } = render(
-      <Router location={history.location} navigator={history}>
-        <Home />
-      </Router>
+      <HelmetProvider>
+        <Router location={history.location} navigator={history}>
+          <Home />
+        </Router>
+      </HelmetProvider>
     );
 
     expect(history.location.pathname).toBe("/");
@@ -41,9 +46,11 @@ describe("Home Component Tests", () => {
   test("should take user to donate page when more info is clicked", () => {
     const history = createMemoryHistory({ initialEntries: ["/"] });
     const { getByTestId } = render(
-      <Router location={history.location} navigator={history}>
-        <Home />
-      </Router>
+      <HelmetProvider>
+        <Router location={history.location} navigator={history}>
+          <Home />
+        </Router>
+      </HelmetProvider>
     );
     expect(history.location.pathname).toBe("/");
     fireEvent.click(getByTestId("moreInfoDonateButton"));
@@ -53,9 +60,11 @@ describe("Home Component Tests", () => {
   test("should take user to volunteer page when more info is clicked", () => {
     const history = createMemoryHistory({ initialEntries: ["/"] });
     const { getByTestId } = render(
-      <Router location={history.location} navigator={history}>
-        <Home />
-      </Router>
+      <HelmetProvider>
+        <Router location={history.location} navigator={history}>
+          <Home />
+        </Router>
+      </HelmetProvider>
     );
     expect(history.location.pathname).toBe("/");
     fireEvent.click(getByTestId("moreInfoVolunteerButton"));
@@ -65,9 +74,11 @@ describe("Home Component Tests", () => {
   test("should update fields when user types", () => {
     const history = createMemoryHistory({ initialEntries: ["/"] });
     render(
-      <Router location={history.location} navigator={history}>
-        <Home />
-      </Router>
+      <HelmetProvider>
+        <Router location={history.location} navigator={history}>
+          <Home />
+        </Router>
+      </HelmetProvider>
     );
     const name = screen.getByRole("textbox", {
       name: /name/i,
@@ -92,9 +103,11 @@ describe("Home Component Tests", () => {
 
     const history = createMemoryHistory({ initialEntries: ["/"] });
     render(
-      <Router location={history.location} navigator={history}>
-        <Home />
-      </Router>
+      <HelmetProvider>
+        <Router location={history.location} navigator={history}>
+          <Home />
+        </Router>
+      </HelmetProvider>
     );
     //! Needs to have a label with htmlFor property to work
     //! needs id, type, name atteibutes to work
@@ -132,9 +145,11 @@ describe("Home Component Tests", () => {
 
     const history = createMemoryHistory({ initialEntries: ["/"] });
     render(
-      <Router location={history.location} navigator={history}>
-        <Home />
-      </Router>
+      <HelmetProvider>
+        <Router location={history.location} navigator={history}>
+          <Home />
+        </Router>
+      </HelmetProvider>
     );
     //! Needs to have a label with htmlFor property to work
     //! needs id, type, name atteibutes to work
@@ -165,5 +180,18 @@ describe("Home Component Tests", () => {
     userEvent.click(button);
     const emailErrorTextAfter = screen.queryByText(/Please enter a valid email address/i);
     expect(emailErrorTextAfter).toBeInTheDocument();
+  });
+
+  test("should show the nav bar", () => {
+    const history = createMemoryHistory({ initialEntries: ["/"] });
+    render(
+      <HelmetProvider>
+        <Router location={history.location} navigator={history}>
+          <Home />
+        </Router>
+      </HelmetProvider>
+    );
+
+    screen.debug();
   });
 });

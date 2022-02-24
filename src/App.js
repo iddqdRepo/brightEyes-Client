@@ -5,7 +5,6 @@ import Home from "./components/Home";
 import About from "./components/About";
 import Adoption from "./components/Adoption";
 import Donate from "./components/Donate";
-import Volunteer from "./components/Volunteer";
 import Forms from "./components/Forms";
 import AdminNav from "./components/AdminComponents/AdminNav";
 import AdminAddAnimal from "./components/AdminComponents/AdminAddAnimal";
@@ -73,7 +72,7 @@ const App = () => {
               </>
             }
           />
-          <Route
+          {/* <Route
             path="/volunteer"
             element={
               <>
@@ -81,7 +80,7 @@ const App = () => {
                 <Volunteer />
               </>
             }
-          />
+          /> */}
           <Route
             path="/forms"
             element={

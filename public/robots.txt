@@ -1,3 +1,10 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /admin
+Disallow: /admin/add
+Disallow: /admin/edit
+Disallow: /admin/forms
+Disallow: /admin/animalArchive
+Disallow: /admin/formsArchive
+Disallow: /admin/info
+Disallow: /admin/addUser

@@ -3,6 +3,7 @@ import * as api from "../api/apiIndex";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import DonateSlantedComponent from "./DonateSlantedComponent";
+import { Helmet } from "react-helmet-async";
 
 function Adoption() {
   let navigate = useNavigate();
@@ -35,6 +36,11 @@ function Adoption() {
 
   return (
     <>
+      <Helmet>
+        <title>Adoption</title>
+        <meta name="description" content="View our animals up for adoption and find your perfect companion." />
+        <link rel="canonical" href="/adoption" />
+      </Helmet>
       <div className="adoption-container">
         <div className="adoption-header">Adoption Criteria</div>
         <div className="adoption-subtext">

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { fetchSingleForm } from "../../api/apiIndex";
 import { useLocation } from "react-router-dom";
 import titleMap from "../../mappingTitles";
+import { Helmet } from "react-helmet-async";
+
 function AdminViewSingleForm() {
   const [form, setForm] = useState("");
   const [dogForm, setDogForm] = useState("");
@@ -114,81 +116,89 @@ function AdminViewSingleForm() {
     );
   };
 
-  return !form ? (
-    <div className="single-form-page-container">
-      <div className="admin-title">VIEW FORM</div>
-      <div className="single-form-content-container">
-        <>
-          <div className="Loading-ring">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+  return (
+    <>
+      <Helmet>
+        <title>View Form</title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
+      {!form ? (
+        <div className="single-form-page-container">
+          <div className="admin-title">VIEW FORM</div>
+          <div className="single-form-content-container">
+            <>
+              <div className="Loading-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </>
           </div>
-        </>
-      </div>
-    </div>
-  ) : (
-    <div className="single-form-page-container">
-      <div className="admin-title">VIEW FORM</div>
-      <div className="admin-subtitle">
-        Viewing {form.type} form for {form.aboutQuestions.name}
-      </div>
-      <div className="single-form-content-container">
-        {form.type === "Dog" || form.type === "Cat"
-          ? form.type === "Dog"
-            ? //^ If it is a dog form, dont show cat categories */
-              Object.keys(dogForm).map((topLevelKey) => {
-                return <DogCatForm topLevelKey={topLevelKey} form={dogForm} key={topLevelKey + form.aboutQuestions.name} />;
-              })
-            : //^ If it is a cat form, dont show dog categories
-              Object.keys(catForm).map((topLevelKey) => {
-                return <DogCatForm topLevelKey={topLevelKey} form={catForm} key={topLevelKey + form.aboutQuestions.name} />;
-              })
-          : //^ NOT a Cat Or Dog form (IS volunteer or GiftAid)
-            Object.keys(form).map((topLevelKey) => {
-              return typeof form[topLevelKey] === "object" ? (
-                <fieldset className="fieldset" key={topLevelKey + form.aboutQuestions.name}>
-                  <legend>{topLevelKey}</legend>
-                  {/* {console.log(topLevelKey + form.aboutQuestions.name)} */}
+        </div>
+      ) : (
+        <div className="single-form-page-container">
+          <div className="admin-title">VIEW FORM</div>
+          <div className="admin-subtitle">
+            Viewing {form.type} form for {form.aboutQuestions.name}
+          </div>
+          <div className="single-form-content-container">
+            {form.type === "Dog" || form.type === "Cat"
+              ? form.type === "Dog"
+                ? //^ If it is a dog form, dont show cat categories */
+                  Object.keys(dogForm).map((topLevelKey) => {
+                    return <DogCatForm topLevelKey={topLevelKey} form={dogForm} key={topLevelKey + form.aboutQuestions.name} />;
+                  })
+                : //^ If it is a cat form, dont show dog categories
+                  Object.keys(catForm).map((topLevelKey) => {
+                    return <DogCatForm topLevelKey={topLevelKey} form={catForm} key={topLevelKey + form.aboutQuestions.name} />;
+                  })
+              : //^ NOT a Cat Or Dog form (IS volunteer or GiftAid)
+                Object.keys(form).map((topLevelKey) => {
+                  return typeof form[topLevelKey] === "object" ? (
+                    <fieldset className="fieldset" key={topLevelKey + form.aboutQuestions.name}>
+                      <legend>{topLevelKey}</legend>
+                      {/* {console.log(topLevelKey + form.aboutQuestions.name)} */}
 
-                  {Object.keys(form[topLevelKey]).map((parentSubcategoryKey, index, arr) => {
-                    {
-                      /* //^ NOT a Cat Or Dog & topLevelKey IS an object (parentSubcategory) */
-                    }
-                    return (
-                      <div
-                        className="single-form-content"
-                        key={titleMap[parentSubcategoryKey] + form.aboutQuestions.name + form.aboutQuestions.postcode}
-                      >
-                        <div className="single-form-title">{titleMap[parentSubcategoryKey]}</div>
-                        <div>{form[topLevelKey][parentSubcategoryKey]}</div>
-                      </div>
-                    );
-                  })}
-                </fieldset>
-              ) : (
-                <>
-                  {/* //^ NOT a Cat Or Dog & topLevelKey is NOT an object, so it's NOT a parentSubcategory */}
-
-                  {!titleMap[topLevelKey] ? (
-                    <div key={titleMap[topLevelKey] + form.aboutQuestions.name + form.aboutQuestions.postcode}></div>
+                      {Object.keys(form[topLevelKey]).map((parentSubcategoryKey, index, arr) => {
+                        {
+                          /* //^ NOT a Cat Or Dog & topLevelKey IS an object (parentSubcategory) */
+                        }
+                        return (
+                          <div
+                            className="single-form-content"
+                            key={titleMap[parentSubcategoryKey] + form.aboutQuestions.name + form.aboutQuestions.postcode}
+                          >
+                            <div className="single-form-title">{titleMap[parentSubcategoryKey]}</div>
+                            <div>{form[topLevelKey][parentSubcategoryKey]}</div>
+                          </div>
+                        );
+                      })}
+                    </fieldset>
                   ) : (
-                    <div className="single-form-content" key={titleMap[topLevelKey] + form.aboutQuestions.name + form.aboutQuestions.postcode}>
-                      <div className="single-form-title">{titleMap[topLevelKey]}</div>
-                      <div>{form[topLevelKey]}</div>
-                    </div>
-                  )}
+                    <>
+                      {/* //^ NOT a Cat Or Dog & topLevelKey is NOT an object, so it's NOT a parentSubcategory */}
 
-                  {/* <div className="single-form-content">
+                      {!titleMap[topLevelKey] ? (
+                        <div key={titleMap[topLevelKey] + form.aboutQuestions.name + form.aboutQuestions.postcode}></div>
+                      ) : (
+                        <div className="single-form-content" key={titleMap[topLevelKey] + form.aboutQuestions.name + form.aboutQuestions.postcode}>
+                          <div className="single-form-title">{titleMap[topLevelKey]}</div>
+                          <div>{form[topLevelKey]}</div>
+                        </div>
+                      )}
+
+                      {/* <div className="single-form-content">
                     <div className="single-form-title">{titleMap[topLevelKey]}</div>
                     <div>{form[topLevelKey]}</div>
                   </div> */}
-                </>
-              );
-            })}
-      </div>
-    </div>
+                    </>
+                  );
+                })}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

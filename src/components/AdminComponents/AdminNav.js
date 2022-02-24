@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import "../../AdminStyles.css";
 import * as React from "react";
+import { Helmet } from "react-helmet-async";
 
 function AdminNav() {
   const logout = () => {
@@ -10,6 +11,10 @@ function AdminNav() {
 
   return (
     <>
+      <Helmet>
+        <title>Nav</title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
       <nav className="mobile-nav">
         <div id="menuToggle">
           <input type="checkbox" />

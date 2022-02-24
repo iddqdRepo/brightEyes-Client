@@ -5,6 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Popup from "reactjs-popup";
 import * as api from "../../api/apiIndex";
+import { Helmet } from "react-helmet-async";
 
 function AdminFormsFormsArchive(props) {
   const [dogAdoptionForms, setDogAdoptionForms] = useState("");
@@ -213,8 +214,6 @@ function AdminFormsFormsArchive(props) {
       </>
     );
   };
-  //! TODO -  working on the onClickArchiveButton to make
-  //! it switch between archive and unarchive
   const GenerateFormLayout = (props) => {
     let dataObj = props.data;
     return dataObj.length === 0 ? (
@@ -353,6 +352,10 @@ function AdminFormsFormsArchive(props) {
 
   return (
     <>
+      <Helmet>
+        <title>Forms</title>
+        <meta name="robots" content="noindex" />
+      </Helmet>
       <div className="admin-forms-page-container">
         {props.type === "archive" ? <div className="admin-title">ARCHIVED FORMS </div> : <div className="admin-title">SUBMITTED FORMS </div>}
         <div className="admin-subtitle">Click on the tabs below to view the forms inside</div>
