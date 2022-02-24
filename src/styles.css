@@ -2218,6 +2218,12 @@ ul.legal-list {
   .slanted-div-about {
     flex-wrap: wrap;
   }
+  .donation-subtext {
+    margin-top: 20px;
+    margin-bottom: -50px;
+    font-size: 1.2em;
+    width: 90%;
+  }
   .slanted-div-donate-content-container {
     display: inline;
   }
