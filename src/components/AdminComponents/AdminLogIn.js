@@ -17,8 +17,8 @@ function AdminLogIn() {
 
   const logIn = async (e) => {
     e.preventDefault();
-    // let userInfo = { username, password };
-    let userInfo = { username: "chris", password: "password" };
+    let userInfo = { username, password };
+    // let userInfo = { username: "chris", password: "password" };
     const data = await api.logUserIn(userInfo);
     console.log(data.data.message);
     if (data.data.message === "Success") {

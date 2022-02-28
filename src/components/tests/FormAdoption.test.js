@@ -32,4 +32,38 @@ describe("Adoption Form Test", () => {
     expect(title.value).toBe("Mr");
     // screen.debug();
   });
+
+  test("form fields", async () => {
+    render(
+      <HelmetProvider>
+        <MemoryRouter
+          initialEntries={[
+            {
+              pathname: "/forms/adoption",
+              state: {
+                detail: "Cat",
+              },
+            },
+          ]}
+        >
+          <FormAdoption />
+        </MemoryRouter>
+      </HelmetProvider>
+    );
+    const formTextBoxes = screen.getAllByRole("textbox");
+    const formComboBoxes = screen.getAllByRole("combobox");
+    const formTextBoxIds = formTextBoxes.map((el) => {
+      return el.id;
+    });
+    const formComboBoxIds = formComboBoxes.map((el) => {
+      return el.id;
+    });
+
+    console.log(formTextBoxIds);
+    console.log(formComboBoxIds);
+    // userEvent.type(title, "Mr");
+
+    // expect(title.value).toBe("Mr");
+    // screen.debug();
+  });
 });

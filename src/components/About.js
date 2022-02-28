@@ -33,7 +33,7 @@ function About() {
               public. <br />
               Pats dedication was recognised by being awarded a lifetime achievement award from the ‘International Fund for Animal Welfare’. Pat sadly
               passed away in 2013 but his legacy lives on. Pat’s ashes now rest here at his beloved sanctuary which he worked so hard to establish.
-              Rest easy friend of animals your work here goes on.
+              Rest easy friend of animals, your work here goes on.
             </div>
           </div>
         </div>
@@ -53,7 +53,7 @@ function About() {
               reduction in unnecessary suffering and distress of companion animals through the provision of a rescue and re-homing service. We provide
               a sanctuary for the care, protection, treatment and temporary or permanent accommodation of such animals.
               <br /> We rely heavily on volunteers to help with the running of the sanctuary and in return we provide social support, education,
-              mental support, animal welfare training (in some cases leading to employment in a related field or academic qualifications). We have
+              mental support and animal welfare training (in some cases leading to employment in a related field or academic qualifications). We have
               undertaken intensive feral cat neutering and spaying over the years resulting in a noticeable reduction in feral cat population. We
               operate a <span className="slanted-about-us-bold-desc">no kill policy</span> at Bright Eyes and if an animal for any reason cannot get a
               home it will have shelter here with us for life. We receive no government funding and rely purely on the generosity of the public to

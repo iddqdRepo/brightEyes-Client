@@ -298,7 +298,7 @@ Black 900 */
 
 .about-us-read-more-button {
   padding: 0.75rem 1.25rem;
-  margin-bottom: 40px;
+  margin: 40px;
 }
 
 .stats-box-container {
@@ -374,7 +374,7 @@ Black 900 */
   align-items: center;
   color: var(--main-color);
   /* width: 95%; */
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .get-involved-header {
@@ -1846,11 +1846,19 @@ ul.legal-list {
 
 .donate-header {
   font-size: 3em;
-  margin: 70px 90px;
+  margin: 40px 90px;
   text-align: center;
   font-family: "Noto Sans", sans-serif;
   font-weight: 600;
   color: var(--main-color);
+}
+
+.donate-subtext {
+  margin: 10px 0px 20px 0px;
+  text-align: center;
+  font-size: 1.6em;
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 400;
 }
 
 .donate-split-content {
@@ -1907,7 +1915,7 @@ ul.legal-list {
   padding: 0.75rem 1.25rem;
 }
 .donate-paypal-content {
-  margin-bottom: 100px;
+  margin-bottom: 20px;
 }
 
 /* *------------------MOBILE NAV------------------ */

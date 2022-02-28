@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import * as api from "../api/apiIndex";
 import { Helmet } from "react-helmet-async";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 function Donate() {
   const [senderEmail, setSenderEmail] = useState("");
@@ -47,6 +54,43 @@ function Donate() {
       }
     }
   };
+  function createData(type, details, fat, carbs, protein) {
+    return { type, details, fat, carbs, protein };
+  }
+
+  const rows = [
+    createData("Bank", "Santander Bank"),
+    createData("Sort Code", "09-01-26"),
+    createData("Account Number", "23320595"),
+    createData("Type", "Business"),
+    createData("Name", "Bright Eyes Animal Sanctuary"),
+    createData("Reference", "Bright Eyes Donation"),
+  ];
+
+  function BasicTable() {
+    return (
+      <div style={{ width: "100%" }}>
+        <Table sx={{ width: 300, margin: "auto" }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Type</TableCell>
+              <TableCell align="right">Details</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow key={row.type} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+                <TableCell component="th" scope="row">
+                  {row.type}
+                </TableCell>
+                <TableCell align="right">{row.details}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    );
+  }
   return (
     <>
       <Helmet>
@@ -86,6 +130,12 @@ function Donate() {
       <div className="donate-container">
         {/* <PayPalButton createOrder={(data, actions) => createOrder(data, actions)} onApprove={(data, actions) => onApprove(data, actions)} /> */}
         <div className="donate-header">Donate</div>
+        <div className="donate-subtext">
+          Perfect for a one off donation <br />
+          or recurring monthly donations <br />
+          if you have a Paypal account.
+        </div>
+        <span className="iconify-inline" data-icon="akar-icons:arrow-down" data-width="40"></span>
         <div className="donate-paypal-content">
           <form action="https://www.paypal.com/donate" method="post" target="_top">
             <input type="hidden" name="hosted_button_id" value="JPRFRRVZHSMY4" />
@@ -102,8 +152,16 @@ function Donate() {
             <img className="paypal-donate" alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
           </form>
         </div>
+        <div className="donate-header">Set up a Standing Order</div>
+        <div className="donate-subtext">
+          Perfect for a recurring <br />
+          donation if you do not have a <br />
+          Paypal account.
+        </div>
+        <span className="iconify-inline" data-icon="akar-icons:arrow-down" data-width="40"></span>
+        <BasicTable />
       </div>
-      <div className="donate-header">What your donation goes towards</div>
+      <div className="donate-header">Your donation goes towards:</div>
       <div className="donate-split-content-container">
         <div className="adoption-split-content">
           <div className="adoption-split-points-left-container">

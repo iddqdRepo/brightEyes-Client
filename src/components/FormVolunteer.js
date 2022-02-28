@@ -138,7 +138,7 @@ function FormVolunteer() {
                   <label htmlFor="title" className="adoption-form-title">
                     Title
                   </label>
-                  <div
+                  <input
                     className="animal-form-box"
                     autoComplete="off"
                     type="text"
@@ -731,9 +731,9 @@ function FormVolunteer() {
               <fieldset className="fieldset">
                 <legend>Agreement</legend>
                 <div className="text-body-form">
-                  People volunteering at Bright Eyes must not persue any activity wholse policies and objectives they know or suspect are inconsistent
+                  People volunteering at Bright Eyes must not persue any activity whose policies and objectives they know or suspect are inconsistent
                   with the objectives or policies of Bright Eyes. <br />
-                  All volunteers working for Bright Eyes will ensure that, inn that capacity, they do not issue any statement or otherwise act in a
+                  All volunteers working for Bright Eyes will ensure that, in that capacity, they do not issue any statement or otherwise act in a
                   manner which would be contrary to the stated objectives or policies of Bright Eyes
                 </div>
               </fieldset>

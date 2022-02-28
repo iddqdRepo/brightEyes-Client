@@ -64,10 +64,10 @@ function Home() {
             <h1 className="about-us-split-text-description">
               Bright Eyes was established in 1989 and is based in <span className="slanted-about-us-bold-desc">Co.Fermanagh, Northern Ireland </span>.
               <br />
-              Our main purpose is a reduction in unnecessary suffering and distress of companion animals through the provision of a rescue and
-              re-homing service. We operate a strict <span className="slanted-about-us-bold-desc">no kill policy</span> at Bright Eyes and if an
-              animal for any reason cannot get a home it will have shelter here with us for life. <br />
-              We offer volunteering opportunities, training and education on animal welfare and support the local community. <br />
+              Our main purpose is to reduce unnecessary suffering and distress of companion animals through the provision of a rescue and re-homing
+              service. We operate a strict <span className="slanted-about-us-bold-desc">no kill policy</span> at Bright Eyes and if an animal, for any
+              reason, cannot get a home it will have shelter here with us for life. <br />
+              We support the local community and offer volunteering opportunities, training and education on animal welfare. <br />
               We receive no government funding and rely purely on the generosity of the public to help us continue our work.
               <br /> All animals rehomed from us are neutered/spayed, vaccinated, microchipped, dewormed and deflead.
             </h1>
@@ -135,7 +135,7 @@ function Home() {
               </button>
             </Link>
             <div className="involved-main-subtext">
-              Our fantastic volunteers are the backbone of Bright Eyes, want to help care for the animals and earn some valuable experience?
+              Our fantastic volunteers are the backbone of Bright Eyes. Want to help care for the animals and earn some valuable experience?
             </div>
           </div>
         </div>
