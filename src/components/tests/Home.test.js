@@ -183,15 +183,14 @@ describe("Home Component Tests", () => {
   });
 
   test("should show the nav bar", () => {
-    const history = createMemoryHistory({ initialEntries: ["/"] });
-    render(
-      <HelmetProvider>
-        <Router location={history.location} navigator={history}>
-          <Home />
-        </Router>
-      </HelmetProvider>
-    );
-
-    screen.debug();
+    // const history = createMemoryHistory({ initialEntries: ["/"] });
+    // render(
+    //   <HelmetProvider>
+    //     <Router location={history.location} navigator={history}>
+    //       <Home />
+    //     </Router>
+    //   </HelmetProvider>
+    // );
+    // screen.debug();
   });
 });

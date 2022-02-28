@@ -38,6 +38,7 @@ function AdminAddAnimal() {
       await capitalize(animal);
       console.log("animalCapitalized = ", animalCapitalized);
       api.addPets(animalCapitalized);
+      window.location.reload();
     }
   };
 
@@ -119,10 +120,13 @@ function AdminAddAnimal() {
         <form onSubmit={(e) => submitAnimal(e)}>
           <div className="add-animal-content-container">
             <div className="add-animal-content">
-              <div className="add-animal-title">Type:</div>
+              <label htmlFor="type" className="add-animal-title">
+                Type:
+              </label>
               <div className="filter-dropdown">
                 <div className="dropdown">
                   <select
+                    id="type"
                     name="type"
                     className="dropdown-select"
                     onChange={(e) => {
@@ -137,7 +141,9 @@ function AdminAddAnimal() {
               </div>
             </div>
             <div className="add-animal-content">
-              <div className="add-animal-title">Name:</div>
+              <label htmlFor="name" className="add-animal-title">
+                Name:
+              </label>
               <input
                 className="animal-form-box"
                 autoComplete="off"
@@ -151,7 +157,9 @@ function AdminAddAnimal() {
               />
             </div>
             <div className="add-animal-content">
-              <div className="add-animal-title">Age:</div>
+              <label htmlFor="age" className="add-animal-title">
+                Age:
+              </label>
               <div className="add-animal-form-dropdown-age-container">
                 <input
                   className="animal-form-box animal-form-age"
@@ -167,6 +175,7 @@ function AdminAddAnimal() {
                 <div className="filter-dropdown age">
                   <div className="dropdown-age">
                     <select
+                      id="yearsOrMonths"
                       name="yearsOrMonths"
                       className="dropdown-age-select"
                       onChange={(e) => {
@@ -182,7 +191,9 @@ function AdminAddAnimal() {
               </div>
             </div>
             <div className="add-animal-content">
-              <div className="add-animal-title">Breed:</div>
+              <label htmlFor="breed" className="add-animal-title">
+                Breed:
+              </label>
               <input
                 className="animal-form-box"
                 autoComplete="off"
@@ -196,10 +207,13 @@ function AdminAddAnimal() {
               />
             </div>
             <div className="add-animal-content">
-              <div className="add-animal-title">Size:</div>
+              <label htmlFor="size" className="add-animal-title">
+                Size:
+              </label>
               <div className="filter-dropdown">
                 <div className="dropdown">
                   <select
+                    id="size"
                     name="size"
                     className="dropdown-select"
                     onChange={(e) => {
@@ -216,10 +230,13 @@ function AdminAddAnimal() {
               </div>
             </div>
             <div className="add-animal-content">
-              <div className="add-animal-title">Suitable for children:</div>
+              <label htmlFor="suitableForChildren" className="add-animal-title">
+                Suitable for children:
+              </label>
               <div className="filter-dropdown">
                 <div className="dropdown">
                   <select
+                    id="suitableForChildren"
                     name="suitableForChildren"
                     className="dropdown-select"
                     onChange={(e) => {
@@ -234,10 +251,13 @@ function AdminAddAnimal() {
               </div>
             </div>
             <div className="add-animal-content">
-              <div className="add-animal-title">Suitable for animals:</div>
+              <label htmlFor="suitableForAnimals" className="add-animal-title">
+                Suitable for animals:
+              </label>
               <div className="filter-dropdown">
                 <div className="dropdown">
                   <select
+                    id="suitableForAnimals"
                     name="suitableForAnimals"
                     className="dropdown-select"
                     onChange={(e) => {
@@ -253,10 +273,13 @@ function AdminAddAnimal() {
             </div>
 
             <div className="add-animal-content">
-              <div className="add-animal-title">Adopted:</div>
+              <label htmlFor="adopted" className="add-animal-title">
+                Adopted:
+              </label>
               <div className="filter-dropdown">
                 <div className="dropdown">
                   <select
+                    id="adopted"
                     name="adopted"
                     className="dropdown-select"
                     onChange={(e) => {
@@ -271,7 +294,9 @@ function AdminAddAnimal() {
               </div>
             </div>
             <div className="add-animal-content">
-              <div className="add-animal-title">Animal Image</div>
+              <label htmlFor="file" className="add-animal-title">
+                Animal Image
+              </label>
               <input
                 type="file"
                 id="file"
@@ -288,7 +313,9 @@ function AdminAddAnimal() {
             {fileUploaded ? <img src={fileUploaded} alt="Animal Uploaded" height="200px" width="200px" /> : <div> No File Chosen </div>}
 
             <div className="add-animal-content">
-              <div className="add-animal-title">Description:</div>
+              <label htmlFor="desc" className="add-animal-title">
+                Description:
+              </label>
               <textarea
                 className="animal-text-area"
                 autoComplete="off"

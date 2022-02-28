@@ -10,15 +10,16 @@ function EditAnimalAnimalArchive(props) {
   let navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log("animal ", animal);
+  //console.log("animal ", animal);
   useEffect(() => {
     setIsLoading(true);
     getAllPets();
   }, [props]);
 
   const getAllPets = async () => {
-    console.log("fetching");
+    // //console.log("fetching");
     const data = await fetchPets();
+    // //console.log(data.data);
     const notAdopted = data.data.filter((x) => {
       return x.adopted === "No";
     });
@@ -30,14 +31,14 @@ function EditAnimalAnimalArchive(props) {
   };
 
   const deleteSelectedPet = async (id) => {
-    console.log("deleting");
+    //console.log("deleting");
     const data = await deletePet(id);
 
     window.location.reload();
   };
 
   const onClickEditButton = (id) => {
-    console.log("ID passed AdminEditRemove is ", id);
+    // //console.log("ID passed AdminEditRemove is ", id);
     navigate(`/admin/editAnimal?id=${id}`, {
       state: {
         detail: { id },
@@ -45,8 +46,8 @@ function EditAnimalAnimalArchive(props) {
     });
   };
   const onClickArchiveButton = async (id) => {
-    console.log("ID passed AdminEditRemove is ", id);
-    console.log(`archiving pet with id of ${id}`);
+    // //console.log("ID passed AdminEditRemove is ", id);
+    // //console.log(`archiving pet with id of ${id}`);
     let toChange = animal;
     let updatedObj;
     toChange.forEach((key) => {
@@ -58,7 +59,7 @@ function EditAnimalAnimalArchive(props) {
 
     const awaitPetUpdate = await updatePet(id, updatedObj);
     if (awaitPetUpdate.data.message === "Pet updated successfully") {
-      console.log("Pet updated successfully");
+      // //console.log("Pet updated successfully");
       setAnimal(toChange);
     }
     window.location.reload();
@@ -70,8 +71,8 @@ function EditAnimalAnimalArchive(props) {
   );
 
   const onClickDeleteButton = (id) => {
-    console.log("ID passed AdminEditRemove is ", id);
-    console.log(`deleting pet with id of ${id}`);
+    //console.log("ID passed AdminEditRemove is ", id);
+    //console.log(`deleting pet with id of ${id}`);
     deleteSelectedPet(id);
   };
 
@@ -83,7 +84,7 @@ function EditAnimalAnimalArchive(props) {
   //     // when successful
   //     if (b.data.message) {
   //       if (b.data.message === "Pet updated successfully") {
-  //         console.log("Pet updated successfully");
+  //         //console.log("Pet updated successfully");
   //         setAnimal(change);
   //       }
   //     }
@@ -92,21 +93,21 @@ function EditAnimalAnimalArchive(props) {
 
   // const awaitUpdatePet = async (id, key, change) => {
   //   const b = await updatePet(id, key);
-  //   // console.log(b)
+  //   // //console.log(b)
   //   if (b.data.message === "Pet updated successfully") {
-  //     console.log("Pet updated successfully");
+  //     //console.log("Pet updated successfully");
   //     setAnimal(change);
   //   }
 
-  //   // myReject(console.log("ERROR SETTING ANIMAL")); // when error
+  //   // myReject(//console.log("ERROR SETTING ANIMAL")); // when error
   // };
 
   const onClickUnArchiveButton = async (id) => {
-    console.log("ID passed AdminEditRemove is ", id);
-    console.log(`archiving pet with id of ${id}`);
+    //console.log("ID passed AdminEditRemove is ", id);
+    //console.log(`archiving pet with id of ${id}`);
     let toChange = animal;
     let updatedObj;
-    console.log("toChange = ", toChange);
+    //console.log("toChange = ", toChange);
 
     toChange.forEach((key) => {
       if (key._id === id) {
@@ -118,7 +119,7 @@ function EditAnimalAnimalArchive(props) {
     const awaitPetUpdate = await updatePet(id, updatedObj);
 
     if (awaitPetUpdate.data.message === "Pet updated successfully") {
-      console.log("Pet updated successfully");
+      //console.log("Pet updated successfully");
       setAnimal(toChange);
     }
     window.location.reload();
@@ -171,13 +172,13 @@ function EditAnimalAnimalArchive(props) {
                   if (search === "") {
                     return val;
                   } else {
-                    console.log("filteredAnimals ", search);
+                    //console.log("filteredAnimals ", search);
                     return val.name.toLowerCase().includes(search.toLowerCase());
                   }
                 })
                 .map((obj) => {
                   return props.type === "archive" ? (
-                    <div key={obj._id} className="edit-animal-content">
+                    <div key={obj._id} data-testid="AnimalContainer" className="edit-animal-content">
                       <div className="edit-animal-content-left">
                         <div
                           className="edit-animal-image"
@@ -216,7 +217,7 @@ function EditAnimalAnimalArchive(props) {
                                   <button
                                     className="button"
                                     onClick={() => {
-                                      console.log("modal closed ");
+                                      //console.log("modal closed ");
                                       close();
                                     }}
                                   >
@@ -256,7 +257,7 @@ function EditAnimalAnimalArchive(props) {
                                   <button
                                     className="button"
                                     onClick={() => {
-                                      console.log("modal closed ");
+                                      //console.log("modal closed ");
                                       close();
                                     }}
                                   >
@@ -309,7 +310,7 @@ function EditAnimalAnimalArchive(props) {
                                   <button
                                     className="button"
                                     onClick={() => {
-                                      console.log("modal closed ");
+                                      //console.log("modal closed ");
                                       close();
                                     }}
                                   >
@@ -355,7 +356,7 @@ function EditAnimalAnimalArchive(props) {
                                   <button
                                     className="button"
                                     onClick={() => {
-                                      console.log("modal closed ");
+                                      //console.log("modal closed ");
                                       close();
                                     }}
                                   >
