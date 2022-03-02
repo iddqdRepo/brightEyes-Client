@@ -128,7 +128,7 @@ function FormVolunteer() {
         <div className="individual-form-page-content-container">
           <div className="individual-form-header">Application to volunteer at Bright Eyes Animal Sanctuary</div>
           <div className="individual-form-sub-header">Please answer ALL the following questions:</div>
-          {warningText ? <div className="admin-warning">Please Fill in all fields</div> : <div> </div>}
+          {warningText ? <div className="admin-warning">{warningText}</div> : <div> </div>}
 
           <form onSubmit={(e) => submitForm(e)}>
             <div className="adoption-form-content-container">

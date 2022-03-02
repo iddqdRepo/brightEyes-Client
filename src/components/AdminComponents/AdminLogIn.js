@@ -67,7 +67,7 @@ function AdminLogIn() {
                 name="password"
                 value={password}
                 onInput={(e) => {
-                  handleChange(e); //copy person from the state, then get name from object and change it
+                  handleChange(e);
                 }}
               />
             </div>

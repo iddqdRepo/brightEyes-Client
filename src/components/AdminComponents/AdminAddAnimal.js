@@ -50,7 +50,6 @@ function AdminAddAnimal() {
         setPopupText(animalAdded.data.message);
       } catch (error) {
         setloading(false);
-
         setPopupText("ERROR Adding Animal, Disconnected from Server");
       }
     }

@@ -32,7 +32,7 @@ function AdminFormsFormsArchive(props) {
         console.log("adoption data type = Dog ", adoption[key]);
         dogAdoption.push(adoption[key]);
       } else {
-        console.log("adoption data type = Cog ", adoption[key]);
+        console.log("adoption data type = Cat ", adoption[key]);
         catAdoption.push(adoption[key]);
       }
     });

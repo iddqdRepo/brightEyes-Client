@@ -4,10 +4,8 @@ import { Helmet } from "react-helmet-async";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 
 function Donate() {
   const [senderEmail, setSenderEmail] = useState("");
@@ -15,6 +13,7 @@ function Donate() {
   const [message, setMessage] = useState("");
   const [messageSentAlert, setMessageSentAlert] = useState("");
   const [errorAlertText, setErrorAlertText] = useState("");
+  const type = "message";
   const regex =
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -41,6 +40,7 @@ function Donate() {
       name,
       senderEmail,
       message,
+      type,
     };
     if (data.name === "" || data.senderEmail === "" || data.message === "") {
       setErrorAlertText("Please fill in all fields");
@@ -54,8 +54,8 @@ function Donate() {
       }
     }
   };
-  function createData(type, details, fat, carbs, protein) {
-    return { type, details, fat, carbs, protein };
+  function createData(type, details) {
+    return { type, details };
   }
 
   const rows = [

@@ -196,7 +196,7 @@ function FormAdoption() {
         <div className="individual-form-page-content-container">
           <h1 className="individual-form-header">Application to Re-home a {animalForm.type} from Bright Eyes Animal Sanctuary</h1>
           <div className="individual-form-sub-header">Please answer ALL the following questions:</div>
-          {warningText ? <div className="admin-warning">Please Fill in all fields</div> : <div> </div>}
+          {warningText ? <div className="admin-warning">{warningText}</div> : <div> </div>}
 
           <form onSubmit={(e) => submitForm(e)}>
             <div className="adoption-form-content-container">

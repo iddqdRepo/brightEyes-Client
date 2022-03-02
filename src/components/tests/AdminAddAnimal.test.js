@@ -49,7 +49,7 @@ describe("Adoption Component Tests", () => {
     expect(screen.getByText(/please fill in all fields/i)).toBeInTheDocument();
   });
 
-  test("Fill in form fields' ", async () => {
+  test("Fill in form fields and test correct pop up notification shows' ", async () => {
     const message = { message: "was added successfully" };
     // const message = { message: "Error saving animal to the databse" };
     const response = { data: message };
@@ -97,10 +97,11 @@ describe("Adoption Component Tests", () => {
     userEvent.selectOptions(suitableForChildren, "Yes");
 
     //^Test clicking the button when all fields aren't filled in
-    // await act(async () => {
-    //   userEvent.click(addAnimalButton);
-    // });
-    // expect(screen.getByText("Please fill in all fields")).toBeInTheDocument();
+    await act(async () => {
+      userEvent.click(addAnimalButton);
+    });
+    expect(screen.getByText("Please fill in all fields")).toBeInTheDocument();
+    userEvent.click(screen.getByRole("button", { name: /ok/i }));
 
     const suitableForAnimals = screen.getByRole("combobox", { name: /suitable for animals:/i });
     userEvent.selectOptions(suitableForAnimals, "Yes");
@@ -119,26 +120,55 @@ describe("Adoption Component Tests", () => {
     expect(screen.getByText("Koda was added successfully")).toBeInTheDocument();
   });
 
-  // test("Form should prompt 'Please fill in all fields' ", async () => {
-  //   const history = createMemoryHistory({ initialEntries: ["/"] });
-  //   render(
-  //     <HelmetProvider>
-  //       <Router location={history.location} navigator={history}>
-  //         <AdminAddAnimal />
-  //       </Router>
-  //     </HelmetProvider>
-  //   );
+  test("Should return Error saving animal to the database' ", async () => {
+    const message = { message: "Error saving animal to the database" };
+    const response = { data: message };
+    axios.post.mockImplementationOnce(() => Promise.resolve(response));
+    const history = createMemoryHistory({ initialEntries: ["/"] });
+    render(
+      <HelmetProvider>
+        <Router location={history.location} navigator={history}>
+          <AdminAddAnimal />
+        </Router>
+      </HelmetProvider>
+    );
+    const addAnimalButton = screen.getByRole("button", { name: /add animal/i });
 
-  //   axios.get.mockImplementationOnce(() =>
-  //   Promise.resolve({
-  //     data: {
-  //       message: "was added successfully"
-  //     },
-  //   })
-  // )
-  //   const addAnimalButton = screen.getByRole("button", { name: /add animal/i });
-  //   userEvent.click(addAnimalButton);
+    const type = screen.getByRole("combobox", { name: /type:/i });
+    userEvent.selectOptions(type, "Dog");
 
-  //   expect(screen.getByText(/please fill in all fields/i)).toBeInTheDocument();
-  // });
+    const name = screen.getByRole("textbox", { name: /name:/i });
+    userEvent.type(name, "Koda");
+
+    const age = screen.getByRole("textbox", { name: /age:/i });
+    userEvent.type(age, "8");
+
+    const yearsOrMonths = screen.getByTestId("yearsOrMonths");
+    userEvent.selectOptions(yearsOrMonths, "Years");
+
+    const breed = screen.getByRole("textbox", { name: /breed:/i });
+    userEvent.type(breed, "spitz");
+
+    const size = screen.getByRole("combobox", { name: /size:/i });
+    userEvent.selectOptions(size, "Medium");
+
+    const suitableForChildren = screen.getByRole("combobox", { name: /suitable for children:/i });
+    userEvent.selectOptions(suitableForChildren, "Yes");
+
+    const suitableForAnimals = screen.getByRole("combobox", { name: /suitable for animals:/i });
+    userEvent.selectOptions(suitableForAnimals, "Yes");
+
+    const adopted = screen.getByRole("combobox", { name: /adopted:/i });
+    userEvent.selectOptions(adopted, "No");
+
+    const desc = screen.getByRole("textbox", { name: /description:/i });
+    userEvent.type(desc, "Lorem Ipsum");
+
+    const fileUpload = screen.getByLabelText(/animal image/i);
+
+    await act(async () => {
+      userEvent.click(addAnimalButton);
+    });
+    expect(screen.getByText("Error saving animal to the database")).toBeInTheDocument();
+  });
 });

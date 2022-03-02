@@ -104,7 +104,7 @@ function FormGiftAid() {
             <br />
             <br /> The Tax year starts on the 6th of April and ends on the 5th of April the next year.
           </div>
-          {warningText ? <div className="admin-warning">Please Fill in all fields</div> : <div> </div>}
+          {warningText ? <div className="admin-warning">{warningText}</div> : <div> </div>}
 
           <form onSubmit={(e) => submitForm(e)}>
             <div className="adoption-form-content-container">
