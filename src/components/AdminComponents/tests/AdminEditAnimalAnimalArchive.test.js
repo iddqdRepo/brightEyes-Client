@@ -1,7 +1,7 @@
 import { act, render, screen, cleanup, getAllByTestId } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import AdminEditAnimalAnimalArchive from "../AdminComponents/AdminEditAnimalAnimalArchive";
+import AdminEditAnimalAnimalArchive from "../AdminEditAnimalAnimalArchive";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import axios from "axios";

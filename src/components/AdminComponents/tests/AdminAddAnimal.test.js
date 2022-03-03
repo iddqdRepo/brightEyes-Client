@@ -1,7 +1,7 @@
 import { act, render, screen, cleanup, getAllByTestId, getAllByRole } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
-import AdminAddAnimal from "../AdminComponents/AdminAddAnimal";
+import AdminAddAnimal from "../AdminAddAnimal";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import axios from "axios";
@@ -10,7 +10,7 @@ import { HelmetProvider } from "react-helmet-async";
 jest.mock("axios");
 
 describe("Adoption Component Tests", () => {
-  test("All form fields should be visible with no image chosen", async () => {
+  test("should show all form fields, and initially no image chosen", async () => {
     const history = createMemoryHistory({ initialEntries: ["/"] });
     render(
       <HelmetProvider>
@@ -33,7 +33,7 @@ describe("Adoption Component Tests", () => {
     expect(comboboxes.length).toBe(6);
   });
 
-  test("Form should prompt 'Please fill in all fields' ", async () => {
+  test("should prompt 'Please fill in all fields'", async () => {
     const history = createMemoryHistory({ initialEntries: ["/"] });
     render(
       <HelmetProvider>
@@ -49,7 +49,7 @@ describe("Adoption Component Tests", () => {
     expect(screen.getByText(/please fill in all fields/i)).toBeInTheDocument();
   });
 
-  test("Fill in form fields and test correct pop up notification shows' ", async () => {
+  test("should show correct pop up notifications' ", async () => {
     const message = { message: "was added successfully" };
     // const message = { message: "Error saving animal to the databse" };
     const response = { data: message };
@@ -120,7 +120,7 @@ describe("Adoption Component Tests", () => {
     expect(screen.getByText("Koda was added successfully")).toBeInTheDocument();
   });
 
-  test("Should return Error saving animal to the database' ", async () => {
+  test("should return Error saving animal to the database' ", async () => {
     const message = { message: "Error saving animal to the database" };
     const response = { data: message };
     axios.post.mockImplementationOnce(() => Promise.resolve(response));

@@ -20,7 +20,7 @@ function AdminAddUser() {
 
   const addUser = async (e) => {
     e.preventDefault();
-    let userInfo = { username, password };
+    let userInfo = { username: username.trim().toLowerCase(), password: password.trim().toLowerCase() };
     if (password !== confirmPassword) {
       setWarningText("Passwords do not match");
     } else if (password === "") {

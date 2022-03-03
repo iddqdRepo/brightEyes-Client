@@ -181,16 +181,4 @@ describe("Home Component Tests", () => {
     const emailErrorTextAfter = screen.queryByText(/Please enter a valid email address/i);
     expect(emailErrorTextAfter).toBeInTheDocument();
   });
-
-  test("should show the nav bar", () => {
-    // const history = createMemoryHistory({ initialEntries: ["/"] });
-    // render(
-    //   <HelmetProvider>
-    //     <Router location={history.location} navigator={history}>
-    //       <Home />
-    //     </Router>
-    //   </HelmetProvider>
-    // );
-    // screen.debug();
-  });
 });

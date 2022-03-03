@@ -6,7 +6,7 @@ function AdminLogIn() {
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [warningText, setWarningText] = useState("");
-
+  let b = "";
   const handleChange = (e) => {
     if (e.target.name === "username") {
       setUser(e.target.value);
@@ -17,8 +17,10 @@ function AdminLogIn() {
 
   const logIn = async (e) => {
     e.preventDefault();
-    let userInfo = { username, password };
+
+    let userInfo = { username: username.trim().toLowerCase(), password: password.trim().toLowerCase() };
     // let userInfo = { username: "chris", password: "password" };
+
     const data = await api.logUserIn(userInfo);
     console.log(data.data.message);
     if (data.data.message === "Success") {
@@ -53,7 +55,7 @@ function AdminLogIn() {
                 name="username"
                 value={username}
                 onInput={(e) => {
-                  handleChange(e); //copy person from the state, then get name from object and change it
+                  handleChange(e);
                 }}
               />
             </div>

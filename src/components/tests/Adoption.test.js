@@ -69,7 +69,7 @@ describe("Adoption Component Tests", () => {
     expect(history.location.pathname).toBe("/forms");
   });
 
-  test("should take user to forms when adoption form button is clicked", async () => {
+  test("should take user to donate when donate button is clicked", async () => {
     const history = createMemoryHistory({ initialEntries: ["/adoption"] });
     await act(async () => {
       render(
@@ -106,7 +106,7 @@ describe("Adoption Component Tests", () => {
     expect(animals).toHaveLength(1);
   });
 
-  test("view button on individual animal should redirect to viewBio", async () => {
+  test("should redirect to viewBio when view animal button is clicked", async () => {
     const history = createMemoryHistory({ initialEntries: ["/adoption"] });
     await act(async () => {
       render(
