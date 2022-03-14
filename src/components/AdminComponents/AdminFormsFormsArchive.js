@@ -204,14 +204,14 @@ function AdminFormsFormsArchive(props) {
 
   const Loading = () => {
     return (
-      <>
+      <div className="loading-container">
         <div className="Loading-ring">
           <div></div>
           <div></div>
           <div></div>
           <div></div>
         </div>
-      </>
+      </div>
     );
   };
   const GenerateFormLayout = (props) => {
@@ -222,6 +222,7 @@ function AdminFormsFormsArchive(props) {
       </>
     ) : (
       <div className="admin-forms-content-container">
+        {console.log(dataObj)}
         {dataObj.map((form) => {
           return (
             <div key={form._id} className="admin-forms-content">

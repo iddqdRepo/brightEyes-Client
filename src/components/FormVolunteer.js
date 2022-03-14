@@ -78,23 +78,23 @@ function FormVolunteer() {
   const handleChange = (e, category = "") => {
     const key = e.target.name;
     let value = e.target.value;
-    console.log("category is ", category);
+    // console.log("category is ", category);
     if (e.target.type === "checkbox") {
       if (e.target.checked) {
-        console.log("e.target.checked ");
+        // console.log("e.target.checked ");
 
         value = e.target.value;
       } else {
-        console.log("e.target.unchecked ");
+        // console.log("e.target.unchecked ");
         value = "";
       }
     }
     if (category) {
       const chosenCategory = { ...volunteerForm[category] };
       chosenCategory[key] = value;
-      console.log("chosenCategory ", chosenCategory);
-      console.log("key ", key);
-      console.log("value ", value);
+      // console.log("chosenCategory ", chosenCategory);
+      // console.log("key ", key);
+      // console.log("value ", value);
       setVolunteerForm({ ...volunteerForm, [category]: chosenCategory });
     } else {
       setVolunteerForm({ ...volunteerForm, [key]: value });
@@ -109,11 +109,18 @@ function FormVolunteer() {
 
       // console.log(animal);
     } else {
-      //   //^Submit the
       e.preventDefault();
-      setSubmittedSuccessfully(true);
-      api.addForm("volunteer", volunteerForm);
-      sendFormEmail();
+      setWarningText("");
+
+      try {
+        await api.addForm("volunteer", volunteerForm);
+        setSubmittedSuccessfully(true);
+        sendFormEmail();
+      } catch (error) {
+        setSubmittedSuccessfully(false);
+        setWarningText("ERROR SUBMITTING FORM, PLEASE CHECK YOUR INTERNET CONNECTION");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
   };
 

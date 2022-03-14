@@ -2,13 +2,20 @@ import { act, render, screen, cleanup, getAllByTestId } from "@testing-library/r
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import Adoption from "../Adoption";
-import { Router } from "react-router-dom";
+import AnimalBio from "../AnimalBio";
+import { Router, BrowserRouter, MemoryRouter, StaticRouter } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import axios from "axios";
 import "@testing-library/jest-dom";
 import { HelmetProvider } from "react-helmet-async";
-
+import routeData from "react-router";
 jest.mock("axios");
+const mockedNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockedNavigate,
+}));
 
 beforeEach(() =>
   axios.get.mockImplementationOnce(() =>
@@ -28,6 +35,7 @@ beforeEach(() =>
           type: "Dog",
           updatedAt: "2021-12-27T13:00:41.248Z",
           yearsOrMonths: "Years",
+          _id: "621f5364b07143de54ac61fe",
         },
         {
           adopted: "Yes",
@@ -43,6 +51,7 @@ beforeEach(() =>
           type: "Dog",
           updatedAt: "2021-12-27T13:00:41.248Z",
           yearsOrMonths: "Years",
+          _id: "testidCopper",
         },
       ],
     })
@@ -106,7 +115,7 @@ describe("Adoption Component Tests", () => {
     expect(animals).toHaveLength(1);
   });
 
-  test("should redirect to viewBio when view animal button is clicked", async () => {
+  test("should redirect to proper id path for viewBio when view animal button is clicked", async () => {
     const history = createMemoryHistory({ initialEntries: ["/adoption"] });
     await act(async () => {
       render(
@@ -117,8 +126,13 @@ describe("Adoption Component Tests", () => {
         </HelmetProvider>
       );
     });
+
     const viewAnimalButton = screen.getByRole("button", { name: /view koda/i });
-    userEvent.click(viewAnimalButton);
-    expect(history.location.pathname).toBe("/adoption/viewBio");
+    await act(async () => {
+      userEvent.click(viewAnimalButton);
+    });
+    expect(mockedNavigate).toHaveBeenCalledWith("/adoption/viewBio?id=621f5364b07143de54ac61fe", {
+      state: { detail: { id: "621f5364b07143de54ac61fe" } },
+    });
   });
 });

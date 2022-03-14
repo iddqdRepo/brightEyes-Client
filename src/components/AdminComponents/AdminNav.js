@@ -37,9 +37,6 @@ function AdminNav() {
             <Link to="/admin/formsArchive">
               <li>Form Archive</li>
             </Link>
-            <Link to="/admin/info">
-              <li>Instructions</li>
-            </Link>
             <Link to="/admin/addUser">
               <li>Add User</li>
             </Link>
@@ -69,9 +66,6 @@ function AdminNav() {
           </li>
           <li>
             <Link to="/admin/formsArchive">&nbsp; Form Archive</Link>
-          </li>
-          <li>
-            <Link to="/admin/info">&nbsp; Instructions</Link>
           </li>
           <li>
             <Link to="/admin/addUser">&nbsp; Add User</Link>

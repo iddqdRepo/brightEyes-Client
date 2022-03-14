@@ -9,10 +9,10 @@ function AnimalBio() {
   const navigate = useNavigate();
   const [animalBio, setAnimalBio] = useState("");
   const type = animalBio.type;
+  const animalId = location.state.detail.id;
 
   const getSinglePet = async () => {
-    const data = await api.fetchSinglePet(location.state.detail.id);
-    console.log(data.data);
+    const data = await api.fetchSinglePet(animalId);
     setAnimalBio(data.data);
   };
 

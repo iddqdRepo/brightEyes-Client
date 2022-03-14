@@ -6,54 +6,15 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
+import ContactUsComponent from "./ContactUsComponent";
 
 function Donate() {
-  const [senderEmail, setSenderEmail] = useState("");
-  const [name, setName] = useState("");
-  const [message, setMessage] = useState("");
-  const [messageSentAlert, setMessageSentAlert] = useState("");
-  const [errorAlertText, setErrorAlertText] = useState("");
-  const type = "message";
-  const regex =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
   useEffect(() => {
     //^When donate button is clicked from another page
     //^ React-Router-Link goes to bottom of this page, this is to offset that
     window.scrollTo(0, 0);
   }, []);
 
-  const updateForm = (e) => {
-    console.log(e.target.name);
-    if (e.target.name === "email") {
-      setSenderEmail(e.target.value);
-    } else if (e.target.name === "name") {
-      setName(e.target.value);
-    } else if (e.target.name === "message") {
-      setMessage(e.target.value);
-    }
-  };
-
-  const sendFormEmail = async (e) => {
-    e.preventDefault();
-    const data = {
-      name,
-      senderEmail,
-      message,
-      type,
-    };
-    if (data.name === "" || data.senderEmail === "" || data.message === "") {
-      setErrorAlertText("Please fill in all fields");
-    } else {
-      if (!data.senderEmail.match(regex)) {
-        setErrorAlertText("Please enter a valid email address");
-      } else {
-        setMessageSentAlert("loading");
-        const messageSentRes = await api.sendMail(data);
-        setMessageSentAlert(messageSentRes.data.message);
-      }
-    }
-  };
   function createData(type, details) {
     return { type, details };
   }
@@ -221,97 +182,8 @@ function Donate() {
           </div>
         </div>
       </div>
-      <div className="contact-us-container">
-        <div className="contact-us-header">Contact Us</div>
 
-        <div className="contact-us-split-content">
-          <div className="contact-us-split-name-email-message">
-            {messageSentAlert === "" ? (
-              <>
-                <div className="errorAlertText">{errorAlertText}</div>
-                <form onSubmit={(e) => sendFormEmail(e)}>
-                  <div className="contact-us-name-email-row">
-                    <div className="contact-us-name-col">
-                      <div className="name-text">Name</div>
-                      <input
-                        className="name-form-box"
-                        onInput={(e) => {
-                          updateForm(e);
-                        }}
-                        value={name}
-                        type="text"
-                        name="name"
-                      />
-                    </div>
-                    <div className="contact-us-email-col">
-                      <div className="email-text">Email</div>
-                      <input
-                        className="email-form-box"
-                        onInput={(e) => {
-                          updateForm(e);
-                        }}
-                        value={senderEmail}
-                        type="text"
-                        name="email"
-                      />
-                    </div>
-                  </div>
-                  <div className="contact-us-message">
-                    <div className="message-text">Message</div>
-                    <textarea
-                      className="message-form-box"
-                      onInput={(e) => {
-                        updateForm(e);
-                      }}
-                      value={message}
-                      type="text"
-                      name="message"
-                    />
-                  </div>
-                  <button
-                    className="button contact-us-submit-button"
-                    type="submit"
-                    // onClick={() => {
-                    //   contactUsSubmitHandler();
-                    // }}
-                  >
-                    Submit
-                  </button>
-                </form>
-              </>
-            ) : (
-              <>
-                {messageSentAlert === "loading" ? (
-                  <>
-                    <div className="Loading-ring">
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                      <div></div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    {messageSentAlert === "Success" ? (
-                      <>
-                        <div className="messageSentContainer">
-                          <div className="messageSentContent">Message sent successfully.</div>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div>Message sending failed, please try again</div>
-                      </>
-                    )}
-                  </>
-                )}
-              </>
-            )}
-          </div>
-
-          <div className="contact-us-split-image"> </div>
-        </div>
-      </div>
+      <ContactUsComponent />
     </>
   );
 }

@@ -8,7 +8,6 @@ import Donate from "./components/Donate";
 import Forms from "./components/Forms";
 import AdminNav from "./components/AdminComponents/AdminNav";
 import AdminAddAnimal from "./components/AdminComponents/AdminAddAnimal";
-import AdminInstructions from "./components/AdminComponents/AdminInstructions";
 import AdminEditSingleAnimal from "./components/AdminComponents/AdminEditSingleAnimal";
 import AdminViewSingleForm from "./components/AdminComponents/AdminViewSingleForm";
 // import AdminEditRemoveAnimal from "./components/AdminComponents/AdminEditRemoveAnimal";
@@ -189,15 +188,6 @@ const App = () => {
                 <>
                   <AdminNav />
                   <AdminViewSingleForm />
-                </>
-              }
-            />
-            <Route
-              path="/admin/info"
-              element={
-                <>
-                  <AdminNav />
-                  <AdminInstructions />
                 </>
               }
             />

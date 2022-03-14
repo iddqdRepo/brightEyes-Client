@@ -45,7 +45,7 @@ function AdminAddAnimal() {
 
       try {
         const animalAdded = await api.addPets(animalCapitalized);
-        console.log("animalAdded ", animalAdded);
+        // console.log("animalAdded ", animalAdded);
         setloading(false);
         setPopupText(animalAdded.data.message);
       } catch (error) {

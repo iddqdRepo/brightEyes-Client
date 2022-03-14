@@ -43,7 +43,10 @@ Light 300
 Regular 400
 Bold 700
 Black 900 */
-
+.loading-container {
+  display: flex;
+  justify-content: center;
+}
 .Loading-ring {
   display: inline-block;
   position: relative;

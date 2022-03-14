@@ -5,12 +5,15 @@ import { Helmet } from "react-helmet-async";
 function FormGiftAid() {
   const type = "GiftAid";
   const [warningText, setWarningText] = useState("");
-  const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
+  const [submittedText, setSubmittedSubmittedText] = useState("");
+
+  const [loading, setloading] = useState(false);
   const [giftAidForm, setGiftAidForm] = useState({
     type: "GiftAid",
     date: new Date(),
     giftAidFuture: "",
     giftAidPast: "",
+
     aboutQuestions: {
       name: "",
       address: "",
@@ -41,8 +44,8 @@ function FormGiftAid() {
   const handleChange = (e, category = "") => {
     const key = e.target.name;
     let value = e.target.value;
-    console.log("type = ", e.target.type);
-    console.log("category is ", category);
+    // console.log("type = ", e.target.type);
+    // console.log("category is ", category);
 
     if (e.target.type === "checkbox") {
       if (e.target.checked) {
@@ -77,11 +80,23 @@ function FormGiftAid() {
       // console.log("Please fill in all fields");
       // console.log(animal);
     } else {
-      //^Submit the
+      //^Submit the Form
       e.preventDefault();
-      setSubmittedSuccessfully(true);
-      sendFormEmail();
-      api.addForm("giftAid", giftAidForm);
+      setWarningText("");
+      try {
+        setloading(true);
+        await api.addForm("giftAid", giftAidForm);
+        setSubmittedSubmittedText("Thank You");
+        setloading(false);
+        sendFormEmail();
+      } catch (error) {
+        setloading(false);
+        setSubmittedSubmittedText("");
+        setWarningText("ERROR SUBMITTING FORM, PLEASE CHECK YOUR INTERNET CONNECTION");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      // setSubmittedSuccessfully(true);
     }
   };
 
@@ -233,13 +248,23 @@ function FormGiftAid() {
                   <li className="legal-list-item">Higher rate taxpayers can claim back the difference between basic rate and higher rate tax.</li>
                 </ul>
               </fieldset>
-
-              {submittedSuccessfully ? (
-                <div className="individual-form-header">Thank you</div>
+              {!loading ? (
+                submittedText === "" ? (
+                  <button className="button submit-form-button" type="submit">
+                    Submit Form
+                  </button>
+                ) : (
+                  <div className="individual-form-header">{submittedText}</div>
+                )
               ) : (
-                <button className="button submit-form-button" type="submit">
-                  Submit Form
-                </button>
+                <div className="loading-container">
+                  <div className="Loading-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
               )}
             </div>
           </form>

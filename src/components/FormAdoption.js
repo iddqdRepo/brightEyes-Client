@@ -134,6 +134,7 @@ function FormAdoption() {
   });
 
   const [warningText, setWarningText] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const sendFormEmail = async () => {
     const data = {
@@ -179,9 +180,19 @@ function FormAdoption() {
     } else {
       //^Submit the
       e.preventDefault();
-      sendFormEmail();
-      setSubmittedSuccessfully(true);
-      api.addForm("petAdoption", animalForm);
+      setWarningText("");
+      setLoading(true);
+      try {
+        await api.addForm("petAdoption", animalForm);
+        setLoading(false);
+        setSubmittedSuccessfully(true);
+        sendFormEmail();
+      } catch (error) {
+        setLoading(false);
+        setWarningText("ERROR SUBMITTING FORM, PLEASE CHECK YOUR INTERNET CONNECTION");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setSubmittedSuccessfully(false);
+      }
     }
   };
 
@@ -956,7 +967,7 @@ function FormAdoption() {
                           <input
                             className="animal-form-box"
                             autoComplete="off"
-                            type="number"
+                            type="text"
                             id="dogHomeAloneHours"
                             name="dogHomeAloneHours"
                             placeholder=""
@@ -1350,7 +1361,7 @@ function FormAdoption() {
                           <input
                             className="animal-form-box"
                             autoComplete="off"
-                            type="number"
+                            type="text"
                             id="catHomeAloneHours"
                             name="catHomeAloneHours"
                             placeholder=""
@@ -1703,6 +1714,15 @@ function FormAdoption() {
               </fieldset>
               {submittedSuccessfully ? (
                 <div className="individual-form-header">Thank you</div>
+              ) : loading ? (
+                <div className="loading-container">
+                  <div className="Loading-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
               ) : (
                 <button className="button submit-form-button" type="submit">
                   Submit Form
