@@ -15,11 +15,11 @@ function AdminEditSingleAnimal() {
 
   useEffect(() => {
     const getSinglePet = async () => {
-      console.log("animalID ", location.state.detail.id);
-      console.log("fetching pet");
+      // console.log("animalID ", location.state.detail.id);
+      // console.log("fetching pet");
       const data = await fetchSinglePet(location.state.detail.id);
       setAnimal(data.data);
-      console.log(data.data);
+      // console.log(data.data);
     };
     getSinglePet();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -29,7 +29,7 @@ function AdminEditSingleAnimal() {
     //^compress the file then store in base64
     return new Promise((resolve, reject) => {
       //^ Wait until the image is compressed before storing
-      console.log(e.target.files[0]);
+      // console.log(e.target.files[0]);
       const file = e.target.files[0];
 
       Compress.imageFileResizer(
@@ -85,14 +85,14 @@ function AdminEditSingleAnimal() {
       //^If the animal submitted has blank fields
       e.preventDefault();
       setWarningText("Please fill in all fields");
-      console.log("Please fill in all fields");
-      console.log(animal);
+      // console.log("Please fill in all fields");
+      // console.log(animal);
     } else {
       //^Submit the
       e.preventDefault();
-      console.log(animal);
+      // console.log(animal);
       await capitalize(animal);
-      console.log("animalCapitalized = ", animalCapitalized);
+      // console.log("animalCapitalized = ", animalCapitalized);
       // api.addPets(animalCapitalized);
       await updatePet(location.state.detail.id, animal);
       navigate(`/admin/edit`);

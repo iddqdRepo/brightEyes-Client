@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import * as api from "../api/apiIndex.js";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useEffect } from "react";
 
 function FormAdoption() {
   const location = useLocation();
@@ -9,7 +10,7 @@ function FormAdoption() {
   const type = "Adoption";
   const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
 
-  const [animalForm, setAnimalForm] = useState({
+  const animalForm = useRef({
     type: animalType,
     aboutQuestions: {
       title: "",
@@ -135,10 +136,11 @@ function FormAdoption() {
 
   const [warningText, setWarningText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showFormField, setShowFormField] = useState(false);
 
   const sendFormEmail = async () => {
     const data = {
-      name: animalForm.aboutQuestions.name,
+      name: animalForm.current.aboutQuestions.name,
       senderEmail: "",
       message: "",
       type,
@@ -146,33 +148,19 @@ function FormAdoption() {
 
     await api.sendMail(data);
   };
+
+  useEffect(() => {
+    console.log("Updated");
+    if (animalForm.current.homeQuestions.gardenOrYard === "Yes") {
+      setShowFormField(true);
+    }
+    setShowFormField(false);
+  }, [animalForm]);
+
   // const handleCheckBox = (e, e, category = "", subcategory = "")
 
-  const handleChange = (e, category = "", subcategory = "") => {
-    const key = e.target.name;
-    let value = e.target.value;
-    if (e.target.type === "checkbox") {
-      if (e.target.checked) {
-        value = e.target.value;
-      } else {
-        value = "";
-      }
-    }
-    if (subcategory) {
-      const chosenCategory = { ...animalForm[category] };
-      const chosenSubcategory = { ...chosenCategory[subcategory] };
-      chosenSubcategory[key] = value;
-      let chosenCategoryTemp = { ...chosenCategory, [subcategory]: chosenSubcategory };
-      setAnimalForm({ ...animalForm, [category]: chosenCategoryTemp });
-    } else {
-      const chosenCategory = { ...animalForm[category] };
-      chosenCategory[key] = value;
-      setAnimalForm({ ...animalForm, [category]: chosenCategory });
-    }
-  };
-
   const submitForm = async (e) => {
-    if (Object.values(animalForm.aboutQuestions).some((x) => x === "")) {
+    if (Object.values(animalForm.current.aboutQuestions).some((x) => x === "")) {
       //^If the animal submitted has blank fields
       e.preventDefault();
       setWarningText("Please fill in all fields");
@@ -195,11 +183,32 @@ function FormAdoption() {
       }
     }
   };
-  const CreateTextField = (props) => {
-    const { title, idName, value, handle } = props;
+
+  const handleChange = (e, category = "", subcategory = "") => {
+    {
+      console.log("animalForm.current.homeQuestions.gardenOrYard ", animalForm.current.homeQuestions.gardenOrYard);
+    }
+
+    const key = e.target.name;
+    let value = e.target.value;
+    if (e.target.type === "checkbox") {
+      if (e.target.checked) {
+        value = e.target.value;
+      } else {
+        value = "";
+      }
+    }
+    if (subcategory) {
+      animalForm.current[category][subcategory][key] = value;
+    } else {
+      animalForm.current[category][key] = value;
+    }
+  };
+
+  function CreateTextBox({ title, idName, placeholder, category, subcategory }) {
     return (
       <div className="adoption-form-content">
-        <label htmlFor="title" className="adoption-form-title">
+        <label htmlFor={idName} className="adoption-form-title">
           {title}
         </label>
         <input
@@ -208,14 +217,46 @@ function FormAdoption() {
           type="text"
           id={idName}
           name={idName}
-          value={value}
-          onInput={(e) => {
-            handleChange(e, handle);
+          placeholder={placeholder}
+          onChange={(e) => {
+            handleChange(e, category, subcategory);
           }}
         />
       </div>
     );
-  };
+  }
+  function CreateComboBox({ title, idName, optionObject, category, subcategory }) {
+    console.log("Object.keys(optionObject)", Object.keys(optionObject));
+    return (
+      <div className="adoption-form-content">
+        <label htmlFor={idName} className="adoption-form-title">
+          {title}
+        </label>
+        <div className="filter-dropdown">
+          <div className="dropdown">
+            <select
+              id={idName}
+              name={idName}
+              className="dropdown-select"
+              onChange={(e) => {
+                handleChange(e, category, subcategory);
+              }}
+            >
+              <option value="choose">Select…</option>
+              {Object.keys(optionObject).map((key) => {
+                return (
+                  <option key={optionObject[key] + key} value={key}>
+                    {optionObject[key]}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <Helmet>
@@ -225,7 +266,7 @@ function FormAdoption() {
       </Helmet>
       <div className="individual-form-page-container">
         <div className="individual-form-page-content-container">
-          <h1 className="individual-form-header">Application to Re-home a {animalForm.type} from Bright Eyes Animal Sanctuary</h1>
+          <h1 className="individual-form-header">Application to Re-home a {animalForm.current.type} from Bright Eyes Animal Sanctuary</h1>
           <div className="individual-form-sub-header">Please answer ALL the following questions:</div>
           {warningText ? <div className="admin-warning">{warningText}</div> : <div> </div>}
 
@@ -233,534 +274,165 @@ function FormAdoption() {
             <div className="adoption-form-content-container">
               <fieldset className="fieldset">
                 <legend>About You</legend>
-                <div className="adoption-form-content">
-                  <label htmlFor="title" className="adoption-form-title">
-                    Title
-                  </label>
-                  <input
-                    className="animal-form-box"
-                    autoComplete="off"
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={animalForm.aboutQuestions.title}
-                    onInput={(e) => {
-                      handleChange(e, "aboutQuestions");
-                    }}
-                  />
-                </div>
-
-                <div className="adoption-form-content">
-                  <label htmlFor="name" className="adoption-form-title">
-                    Name
-                  </label>
-                  <input
-                    className="animal-form-box"
-                    autoComplete="off"
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={animalForm.aboutQuestions.name}
-                    onInput={(e) => {
-                      handleChange(e, "aboutQuestions");
-                    }}
-                  />
-                </div>
-                <div className="adoption-form-content">
-                  <label htmlFor="address" className="adoption-form-title">
-                    Address
-                  </label>
-                  <textarea
-                    className="animal-form-box"
-                    autoComplete="off"
-                    type="text"
-                    id="address"
-                    name="address"
-                    value={animalForm.aboutQuestions.address}
-                    onInput={(e) => {
-                      handleChange(e, "aboutQuestions");
-                    }}
-                  />
-                </div>
-                <div className="adoption-form-content">
-                  <label htmlFor="postcode" className="adoption-form-title">
-                    Postcode
-                  </label>
-                  <input
-                    className="animal-form-box"
-                    autoComplete="off"
-                    type="text"
-                    id="postcode"
-                    name="postcode"
-                    value={animalForm.aboutQuestions.postcode}
-                    onInput={(e) => {
-                      handleChange(e, "aboutQuestions");
-                    }}
-                  />
-                </div>
-                <div className="adoption-form-content">
-                  <label htmlFor="phone" className="adoption-form-title">
-                    Phone
-                  </label>
-                  <input
-                    className="animal-form-box"
-                    autoComplete="off"
-                    type="text"
-                    id="phone"
-                    name="phone"
-                    value={animalForm.aboutQuestions.phone}
-                    onInput={(e) => {
-                      handleChange(e, "aboutQuestions");
-                    }}
-                  />
-                </div>
-                <div className="adoption-form-content">
-                  <label htmlFor="mobile" className="adoption-form-title">
-                    Mobile
-                  </label>
-                  <input
-                    className="animal-form-box"
-                    autoComplete="off"
-                    type="text"
-                    id="mobile"
-                    name="mobile"
-                    value={animalForm.aboutQuestions.mobile}
-                    onInput={(e) => {
-                      handleChange(e, "aboutQuestions");
-                    }}
-                  />
-                </div>
-                <div className="adoption-form-content">
-                  <label htmlFor="email" className="adoption-form-title">
-                    Email
-                  </label>
-                  <input
-                    className="animal-form-box"
-                    autoComplete="off"
-                    type="text"
-                    id="email"
-                    name="email"
-                    value={animalForm.aboutQuestions.email}
-                    onInput={(e) => {
-                      handleChange(e, "aboutQuestions");
-                    }}
-                  />
-                </div>
+                <CreateTextBox title="Title" idName="title" category="aboutQuestions" />
+                <CreateTextBox title="Name" idName="name" category="aboutQuestions" />
+                <CreateTextBox title="Address" idName="address" category="aboutQuestions" />
+                <CreateTextBox title="Postcode" idName="postcode" category="aboutQuestions" />
+                <CreateTextBox title="Phone" idName="phone" category="aboutQuestions" />
+                <CreateTextBox title="Mobile" idName="mobile" category="aboutQuestions" />
+                <CreateTextBox title="Email" idName="email" category="aboutQuestions" />
               </fieldset>
 
               <fieldset className="fieldset">
                 <legend>Matching Questions</legend>
-                {animalForm.type === "Dog" ? (
+                {animalForm.current.type === "Dog" ? (
                   <>
-                    <div className="adoption-form-content">
-                      <label htmlFor="dogName" className="adoption-form-title">
-                        If you know the name of the dog, please enter it here.
-                      </label>
-                      <input
-                        className="animal-form-box"
-                        autoComplete="off"
-                        type="text"
-                        id="dogName"
-                        name="dogName"
-                        value={animalForm.dogMatchingQuestions.dogName}
-                        onInput={(e) => {
-                          handleChange(e, "dogMatchingQuestions");
-                        }}
-                      />
-                    </div>
-                    <div className="adoption-form-content">
-                      <label htmlFor="dogSize" className="adoption-form-title">
-                        What SIZE of dog are you looking for?
-                      </label>
-                      <div className="filter-dropdown">
-                        <div className="dropdown">
-                          <select
-                            id="dogSize"
-                            name="dogSize"
-                            className="dropdown-select"
-                            onChange={(e) => {
-                              handleChange(e, "dogMatchingQuestions");
-                            }}
-                          >
-                            <option value="choose">Select…</option>
-                            <option value="Small">Small (e.g. Terrier)</option>
-                            <option value="Medium">Medium (e.g. Collie)</option>
-                            <option value="Large">Large (e.g. Labrador)</option>
-                            <option value="Any Size">Any Size</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="adoption-form-content">
-                      <label htmlFor="dogType" className="adoption-form-title">
-                        What TYPE of dog are you looking for?
-                      </label>
-                      <input
-                        className="animal-form-box"
-                        autoComplete="off"
-                        type="text"
-                        id="dogType"
-                        name="dogType"
-                        value={animalForm.dogMatchingQuestions.dogType}
-                        onInput={(e) => {
-                          handleChange(e, "dogMatchingQuestions");
-                        }}
-                      />
-                    </div>
-                    <div className="adoption-form-content">
-                      <label htmlFor="dogAge" className="adoption-form-title">
-                        What AGE of dog are you looking for?
-                      </label>
-                      <div className="filter-dropdown">
-                        <div className="dropdown">
-                          <select
-                            id="dogAge"
-                            name="dogAge"
-                            className="dropdown-select"
-                            onChange={(e) => {
-                              handleChange(e, "dogMatchingQuestions");
-                            }}
-                          >
-                            <option value="choose">Select…</option>
-                            <option value="Puppy">Puppy</option>
-                            <option value="Less than 2 years">Less than 2 years</option>
-                            <option value="2-8 years">2-8 years</option>
-                            <option value="8+ years">8+ years</option>
-                            <option value="Any age">Any age</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="adoption-form-content">
-                      <label htmlFor="dogSex" className="adoption-form-title">
-                        What SEX of dog are you looking for?
-                      </label>
-                      <div className="filter-dropdown">
-                        <div className="dropdown">
-                          <select
-                            id="dogSex"
-                            name="dogSex"
-                            className="dropdown-select"
-                            onChange={(e) => {
-                              handleChange(e, "dogMatchingQuestions");
-                            }}
-                          >
-                            <option value="choose">Select…</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Either">Either</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
+                    <CreateTextBox title="If you know the name of the dog, please enter it here." idName="dogName" category="dogMatchingQuestions" />
+                    <CreateComboBox
+                      title="What SIZE of dog are you looking for?"
+                      idName="dogSize"
+                      optionObject={{
+                        Small: "Small (e.g. Terrier)",
+                        Medium: "Medium (e.g. Collie)",
+                        Large: "Large (e.g. Labrador)",
+                        "Any Size": "Any Size",
+                      }}
+                      category="dogMatchingQuestions"
+                    />
+                    <CreateTextBox title="What TYPE of dog are you looking for?" idName="dogType" category="dogMatchingQuestions" />
+
+                    <CreateComboBox
+                      title="What AGE of dog are you looking for?"
+                      idName="dogAge"
+                      optionObject={{
+                        Puppy: "Puppy",
+                        "Less than 2 years": "Less than 2 years",
+                        "2-8 years": "2-8 years",
+                        "8+ years": "8+ years",
+                        "Any age": "Any age",
+                      }}
+                      category="dogMatchingQuestions"
+                    />
+
+                    <CreateComboBox
+                      title="What SEX of dog are you looking for?"
+                      idName="dogSex"
+                      optionObject={{ Male: "Male", Female: "Female", Either: "Either" }}
+                      category="dogMatchingQuestions"
+                    />
                   </>
                 ) : (
                   <>
-                    <div className="adoption-form-content">
-                      <label htmlFor="catName" className="adoption-form-title">
-                        If you know the name of the cat, please enter it here.
-                      </label>
-                      <input
-                        className="animal-form-box"
-                        autoComplete="off"
-                        type="text"
-                        id="catName"
-                        name="catName"
-                        value={animalForm.catMatchingQuestions.catName}
-                        onInput={(e) => {
-                          handleChange(e, "catMatchingQuestions");
-                        }}
-                      />
-                    </div>
+                    <CreateTextBox title="If you know the name of the cat, please enter it here." idName="catName" category="catMatchingQuestions" />
+                    <CreateComboBox
+                      title="What TYPE of cat are you looking for?"
+                      idName="catType"
+                      optionObject={{ "Short Haired": "Short Haired", "Semi Long Haired": "Semi Long Haired", "Long Haired": "Long Haired" }}
+                      category="catMatchingQuestions"
+                    />
+                    <CreateComboBox
+                      title="What AGE of cat are you looking for?"
+                      idName="catAge"
+                      optionObject={{
+                        Kitten: "Kitten",
+                        "Less than 2 years": "Less than 2 years",
+                        "2-8 years": "2-8 years",
+                        "8+ years": "8+ years",
+                        "Any age": "Any age",
+                      }}
+                      category="catMatchingQuestions"
+                    />
 
-                    <div className="adoption-form-content">
-                      <label htmlFor="catType" className="adoption-form-title">
-                        What TYPE of cat are you looking for?
-                      </label>
-                      <div className="filter-dropdown">
-                        <div className="dropdown">
-                          <select
-                            id="catType"
-                            name="catType"
-                            className="dropdown-select"
-                            onChange={(e) => {
-                              handleChange(e, "catMatchingQuestions");
-                            }}
-                          >
-                            <option value="choose">Select…</option>
-                            <option value="Short Haired">Short Haired</option>
-                            <option value="Semi Long Haired">Semi Long Haired</option>
-                            <option value="Long Haired">Long Haired</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="adoption-form-content">
-                      <label htmlFor="catAge" className="adoption-form-title">
-                        What AGE of cat are you looking for?
-                      </label>
-                      <div className="filter-dropdown">
-                        <div className="dropdown">
-                          <select
-                            id="catAge"
-                            name="catAge"
-                            className="dropdown-select"
-                            onChange={(e) => {
-                              handleChange(e, "catMatchingQuestions");
-                            }}
-                          >
-                            <option value="choose">Select…</option>
-                            <option value="Kitten">Kitten</option>
-                            <option value="Less than 2 years">Less than 2 years</option>
-                            <option value="2-8 years">2-8 years</option>
-                            <option value="8+ years">8+ years</option>
-                            <option value="Any age">Any age</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="adoption-form-content">
-                      <label htmlFor="catSex" className="adoption-form-title">
-                        What SEX of cat are you looking for?
-                      </label>
-                      <div className="filter-dropdown">
-                        <div className="dropdown">
-                          <select
-                            id="catSex"
-                            name="catSex"
-                            className="dropdown-select"
-                            onChange={(e) => {
-                              handleChange(e, "catMatchingQuestions");
-                            }}
-                          >
-                            <option value="choose">Select…</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Either">Either</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="adoption-form-content">
-                      <label htmlFor="catColour" className="adoption-form-title">
-                        What COLOUR of cat are you looking for?
-                      </label>
-                      <input
-                        className="animal-form-box"
-                        autoComplete="off"
-                        type="text"
-                        id="catColour"
-                        name="catColour"
-                        placeholder="e.g. Black"
-                        value={animalForm.catMatchingQuestions.catColour}
-                        onInput={(e) => {
-                          handleChange(e, "catMatchingQuestions");
-                        }}
-                      />
-                    </div>
-                    <div className="adoption-form-content">
-                      <label htmlFor="catAllergy" className="adoption-form-title">
-                        Does anyone in the household have an allergy to cat fur?
-                      </label>
-                      <div className="filter-dropdown">
-                        <div className="dropdown">
-                          <select
-                            id="catAllergy"
-                            name="catAllergy"
-                            className="dropdown-select"
-                            onChange={(e) => {
-                              handleChange(e, "catMatchingQuestions");
-                            }}
-                          >
-                            <option value="choose">Select…</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
+                    <CreateComboBox
+                      title="What SEX of cat are you looking for?"
+                      idName="catSex"
+                      optionObject={{ Male: "Male", Female: "Female", Either: "Either" }}
+                      category="catMatchingQuestions"
+                    />
+
+                    <CreateTextBox
+                      title="What COLOUR of cat are you looking for?"
+                      idName="catColour"
+                      placeholder="e.g. Black"
+                      category="catMatchingQuestions"
+                    />
+
+                    <CreateComboBox
+                      title="Does anyone in the household have an allergy to cat fur?"
+                      idName="catAllergy"
+                      optionObject={{ Yes: "Yes", No: "No" }}
+                      category="catMatchingQuestions"
+                    />
                   </>
                 )}
               </fieldset>
 
               <fieldset className="fieldset">
                 <legend>Home Questions</legend>
-                <div className="adoption-form-content">
-                  <label htmlFor="homeType" className="adoption-form-title">
-                    Your home is a:
-                  </label>
-                  <div className="filter-dropdown">
-                    <div className="dropdown">
-                      <select
-                        id="homeType"
-                        name="homeType"
-                        className="dropdown-select"
-                        onChange={(e) => {
-                          handleChange(e, "homeQuestions");
-                        }}
-                      >
-                        <option value="choose">Select…</option>
-                        <option value="House">House</option>
-                        <option value="Flat">Flat</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div className="adoption-form-content">
-                  <label htmlFor="rentOrOwn" className="adoption-form-title">
-                    Do you:
-                  </label>
-                  <div className="filter-dropdown">
-                    <div className="dropdown">
-                      <select
-                        id="rentOrOwn"
-                        name="rentOrOwn"
-                        className="dropdown-select"
-                        onChange={(e) => {
-                          handleChange(e, "homeQuestions");
-                        }}
-                      >
-                        <option value="choose">Select…</option>
-                        <option value="Own">Own</option>
-                        <option value="Rent">Rent</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div className="adoption-form-content">
-                  <label htmlFor="townOrCountry" className="adoption-form-title">
-                    Do you live in the:
-                  </label>
-                  <div className="filter-dropdown">
-                    <div className="dropdown">
-                      <select
-                        id="townOrCountry"
-                        name="townOrCountry"
-                        className="dropdown-select"
-                        onChange={(e) => {
-                          handleChange(e, "homeQuestions");
-                        }}
-                      >
-                        <option value="choose">Select…</option>
-                        <option value="Town">Town</option>
-                        <option value="Country">Country</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div className="adoption-form-content">
-                  <label htmlFor="nextToRoad" className="adoption-form-title">
-                    Is your home next to a:
-                  </label>
-                  <div className="filter-dropdown">
-                    <div className="dropdown">
-                      <select
-                        id="nextToRoad"
-                        name="nextToRoad"
-                        className="dropdown-select"
-                        onChange={(e) => {
-                          handleChange(e, "homeQuestions");
-                        }}
-                      >
-                        <option value="choose">Select…</option>
-                        <option value="Main Road">Main Road</option>
-                        <option value="Side Road">Side Road</option>
-                        <option value="Neither">Neither</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div className="adoption-form-content">
-                  <label htmlFor="gardenOrYard" className="adoption-form-title">
-                    Do you have a garden or yard?
-                  </label>
-                  <div className="filter-dropdown">
-                    <div className="dropdown">
-                      <select
-                        id="gardenOrYard"
-                        name="gardenOrYard"
-                        className="dropdown-select"
-                        onChange={(e) => {
-                          handleChange(e, "homeQuestions");
-                        }}
-                      >
-                        <option value="choose">Select…</option>
-                        <option value="Yes">Yes</option>
-                        <option value="No">No</option>
-                        <option value="Communal">Communal</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                {animalForm.homeQuestions.gardenOrYard === "Yes" ? (
-                  <>
-                    <div className="adoption-form-content">
-                      <label htmlFor="gardenOrYardSize" className="adoption-form-title">
-                        Please estimate the size of your garden/yard
-                      </label>
-                      <input
-                        className="animal-form-box"
-                        autoComplete="off"
-                        type="text"
-                        id="gardenOrYardSize"
-                        name="gardenOrYardSize"
-                        placeholder="e.g. 50ft x 50ft"
-                        value={animalForm.homeQuestions.gardenOrYardInfo.gardenOrYardSize}
-                        onInput={(e) => {
-                          handleChange(e, "homeQuestions", "gardenOrYardInfo");
-                        }}
-                      />
-                    </div>
-                    {animalForm.type === "Dog" ? (
-                      <>
-                        <div className="adoption-form-content">
-                          <label htmlFor="fullyEnclosed" className="adoption-form-title">
-                            Is your garden/yard fully enclosed?
-                          </label>
-                          <div className="filter-dropdown">
-                            <div className="dropdown">
-                              <select
-                                id="fullyEnclosed"
-                                name="fullyEnclosed"
-                                className="dropdown-select"
-                                onChange={(e) => {
-                                  handleChange(e, "homeQuestions", "gardenOrYardInfo");
-                                }}
-                              >
-                                <option value="choose">Select…</option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
 
-                        {animalForm.homeQuestions.gardenOrYardInfo.fullyEnclosed === "Yes" ? (
-                          <div className="adoption-form-content">
-                            <label htmlFor="fenceHeight" className="adoption-form-title">
-                              What height is the fence?
-                            </label>
-                            <div className="filter-dropdown">
-                              <div className="dropdown">
-                                <select
-                                  id="fenceHeight"
-                                  name="fenceHeight"
-                                  className="dropdown-select"
-                                  onChange={(e) => {
-                                    handleChange(e, "homeQuestions", "gardenOrYardInfo");
-                                  }}
-                                >
-                                  <option value="choose">Select…</option>
-                                  <option value="less than 4ft">less than 4ft</option>
-                                  <option value="4ft-5ft">4ft-5ft</option>
-                                  <option value="5ft-6ft">5ft-6ft</option>
-                                  <option value="over 6ft">over 6ft</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
+                <CreateComboBox
+                  title="Your home is a:"
+                  idName="homeType"
+                  optionObject={{ House: "House", Flat: "Flat", Other: "Other" }}
+                  category="homeQuestions"
+                />
+
+                <CreateComboBox
+                  title="Do you:"
+                  idName="rentOrOwn"
+                  optionObject={{ Own: "Own", Rent: "Rent", Other: "Other" }}
+                  category="homeQuestions"
+                />
+
+                <CreateComboBox
+                  title="Do you live in the:"
+                  idName="townOrCountry"
+                  optionObject={{ Town: "Town", Country: "Country" }}
+                  category="homeQuestions"
+                />
+
+                <CreateComboBox
+                  title="Is your home next to a:"
+                  idName="nextToRoad"
+                  optionObject={{ "Main Road": "Main Road", "Side Road": "Side Road", Neither: "Neither" }}
+                  category="homeQuestions"
+                />
+
+                <CreateComboBox
+                  title="Do you have a garden or yard?"
+                  idName="gardenOrYard"
+                  optionObject={{ Yes: "Yes", No: "No", Communal: "Communal" }}
+                  category="homeQuestions"
+                />
+
+                {animalForm.current.homeQuestions.gardenOrYard === "Yes" ? (
+                  <>
+                    <CreateTextBox
+                      title="Please estimate the size of your garden/yard"
+                      placeholder="e.g. 50ft x 50ft"
+                      idName="gardenOrYardSize"
+                      category="homeQuestions"
+                      subcategory="gardenOrYardInfo"
+                    />
+
+                    {animalForm.current.type === "Dog" ? (
+                      <>
+                        <CreateComboBox
+                          title="Is your garden/yard fully enclosed?"
+                          idName="fullyEnclosed"
+                          optionObject={{ Yes: "Yes", No: "No" }}
+                          category="homeQuestions"
+                          subcategory="gardenOrYardInfo"
+                        />
+
+                        {animalForm.current.homeQuestions.gardenOrYardInfo.fullyEnclosed === "Yes" ? (
+                          <CreateComboBox
+                            title="What height is the fence?"
+                            idName="fenceHeight"
+                            optionObject={{ "less than 4ft": "less than 4ft", "4ft-5ft": "4ft-5ft", "5ft-6ft": "5ft-6ft", "over 6ft": "over 6ft" }}
+                            category="homeQuestions"
+                            subcategory="gardenOrYardInfo"
+                          />
                         ) : (
                           <></>
                         )}
@@ -772,23 +444,8 @@ function FormAdoption() {
                 ) : (
                   <></>
                 )}
+                <CreateTextBox title="How many adults live at your home?" idName="numAdults" category="homeQuestions" />
 
-                <div className="adoption-form-content">
-                  <label htmlFor="numAdults" className="adoption-form-title">
-                    How many adults live at your home?
-                  </label>
-                  <input
-                    className="animal-form-box"
-                    autoComplete="off"
-                    type="text"
-                    id="numAdults"
-                    name="numAdults"
-                    value={animalForm.homeQuestions.numAdults}
-                    onInput={(e) => {
-                      handleChange(e, "homeQuestions");
-                    }}
-                  />
-                </div>
                 <div className="adoption-form-content">
                   <label htmlFor="numChildren" className="adoption-form-title">
                     How many children live at your home?
@@ -799,7 +456,6 @@ function FormAdoption() {
                     type="text"
                     id="numChildren"
                     name="numChildren"
-                    value={animalForm.homeQuestions.numChildren}
                     onInput={(e) => {
                       handleChange(e, "homeQuestions");
                     }}
@@ -816,7 +472,6 @@ function FormAdoption() {
                     id="childrenAges"
                     name="childrenAges"
                     placeholder="Leave blank if no children."
-                    value={animalForm.homeQuestions.childrenAges}
                     onInput={(e) => {
                       handleChange(e, "homeQuestions");
                     }}
@@ -843,7 +498,7 @@ function FormAdoption() {
                     </div>
                   </div>
                 </div>
-                {animalForm.homeQuestions.otherChildrenVisitInfo.otherChildrenVisit === "Yes" ? (
+                {animalForm.current.homeQuestions.otherChildrenVisitInfo.otherChildrenVisit === "Yes" ? (
                   <>
                     <div className="adoption-form-content">
                       <label htmlFor="otherChildrenAges" className="adoption-form-title">
@@ -856,7 +511,6 @@ function FormAdoption() {
                         id="otherChildrenAges"
                         name="otherChildrenAges"
                         placeholder="e.g. 7 & 10"
-                        value={animalForm.homeQuestions.otherChildrenVisitInfo.otherChildrenAges}
                         onInput={(e) => {
                           handleChange(e, "homeQuestions", "otherChildrenVisitInfo");
                         }}
@@ -873,7 +527,6 @@ function FormAdoption() {
                         id="otherChildrenVisitFrequency"
                         name="otherChildrenVisitFrequency"
                         placeholder="e.g. Once a week?"
-                        value={animalForm.homeQuestions.otherChildrenVisitInfo.otherChildrenVisitFrequency}
                         onInput={(e) => {
                           handleChange(e, "homeQuestions", "otherChildrenVisitInfo");
                         }}
@@ -932,8 +585,8 @@ function FormAdoption() {
               </fieldset>
 
               <fieldset className="fieldset">
-                <legend>{animalForm.type} Questions</legend>
-                {animalForm.type === "Dog" ? (
+                <legend>{animalForm.current.type} Questions</legend>
+                {animalForm.current.type === "Dog" ? (
                   <>
                     <div className="adoption-form-content">
                       <label htmlFor="dogReason" className="adoption-form-title">
@@ -979,7 +632,7 @@ function FormAdoption() {
                       </div>
                     </div>
 
-                    {animalForm.dogQuestions.dogHomeAloneInfo.dogHomeAlone === "Yes" ? (
+                    {animalForm.current.dogQuestions.dogHomeAloneInfo.dogHomeAlone === "Yes" ? (
                       <>
                         <div className="adoption-form-content">
                           <label htmlFor="dogHomeAloneHours" className="adoption-form-title">
@@ -992,7 +645,6 @@ function FormAdoption() {
                             id="dogHomeAloneHours"
                             name="dogHomeAloneHours"
                             placeholder=""
-                            value={animalForm.dogQuestions.dogHomeAloneInfo.dogHomeAloneHours}
                             onInput={(e) => {
                               handleChange(e, "dogQuestions", "dogHomeAloneInfo");
                             }}
@@ -1009,7 +661,6 @@ function FormAdoption() {
                             id="dogHomeAloneFrequency"
                             name="dogHomeAloneFrequency"
                             placeholder="e.g. every day"
-                            value={animalForm.dogQuestions.dogHomeAloneInfo.dogHomeAloneFrequency}
                             onInput={(e) => {
                               handleChange(e, "dogQuestions", "dogHomeAloneInfo");
                             }}
@@ -1031,7 +682,6 @@ function FormAdoption() {
                         id="exerciseType"
                         name="exerciseType"
                         placeholder="e.g. Walking, playing fetch"
-                        value={animalForm.dogQuestions.exerciseType}
                         onInput={(e) => {
                           handleChange(e, "dogQuestions");
                         }}
@@ -1048,7 +698,6 @@ function FormAdoption() {
                         id="exerciseTime"
                         name="exerciseTime"
                         placeholder="e.g. 2 Hours"
-                        value={animalForm.dogQuestions.exerciseTime}
                         onInput={(e) => {
                           handleChange(e, "dogQuestions");
                         }}
@@ -1065,7 +714,6 @@ function FormAdoption() {
                         id="dogSleepLocation"
                         name="dogSleepLocation"
                         placeholder="e.g. In the kitchen"
-                        value={animalForm.dogQuestions.dogSleepLocation}
                         onInput={(e) => {
                           handleChange(e, "dogQuestions");
                         }}
@@ -1093,7 +741,7 @@ function FormAdoption() {
                         </div>
                       </div>
                     </div>
-                    {animalForm.dogQuestions.ownOtherDogsCurrentInfo.ownOtherCurrentDogs === "Yes" ? (
+                    {animalForm.current.dogQuestions.ownOtherDogsCurrentInfo.ownOtherCurrentDogs === "Yes" ? (
                       <>
                         <div className="adoption-form-content">
                           <label htmlFor="otherCurrentDogBreed" className="adoption-form-title">
@@ -1106,7 +754,6 @@ function FormAdoption() {
                             id="otherCurrentDogBreed"
                             name="otherCurrentDogBreed"
                             placeholder="e.g. Collie"
-                            value={animalForm.dogQuestions.ownOtherDogsCurrentInfo.otherCurrentDogBreed}
                             onInput={(e) => {
                               handleChange(e, "dogQuestions", "ownOtherDogsCurrentInfo");
                             }}
@@ -1144,14 +791,13 @@ function FormAdoption() {
                             id="otherCurrentDogTime"
                             name="otherCurrentDogTime"
                             placeholder="e.g. 2 years"
-                            value={animalForm.dogQuestions.ownOtherDogsCurrentInfo.otherCurrentDogTime}
                             onInput={(e) => {
                               handleChange(e, "dogQuestions", "ownOtherDogsCurrentInfo");
                             }}
                           />
                         </div>
                       </>
-                    ) : animalForm.dogQuestions.ownOtherDogsCurrentInfo.ownOtherCurrentDogs === "No" ? (
+                    ) : animalForm.current.dogQuestions.ownOtherDogsCurrentInfo.ownOtherCurrentDogs === "No" ? (
                       <div className="adoption-form-content">
                         <label htmlFor="ownOtherPastDogs" className="adoption-form-title">
                           Have you owned a dog before?
@@ -1177,8 +823,8 @@ function FormAdoption() {
                     ) : (
                       <> </>
                     )}
-                    {animalForm.dogQuestions.ownOtherDogsPastInfo.ownOtherPastDogs === "As Child" ||
-                    animalForm.dogQuestions.ownOtherDogsPastInfo.ownOtherPastDogs === "As Adult" ? (
+                    {animalForm.current.dogQuestions.ownOtherDogsPastInfo.ownOtherPastDogs === "As Child" ||
+                    animalForm.current.dogQuestions.ownOtherDogsPastInfo.ownOtherPastDogs === "As Adult" ? (
                       <>
                         <div className="adoption-form-content">
                           <label htmlFor="otherPastDogTime" className="adoption-form-title">
@@ -1191,7 +837,6 @@ function FormAdoption() {
                             id="otherPastDogTime"
                             name="otherPastDogTime"
                             placeholder="e.g. 2 years"
-                            value={animalForm.dogQuestions.ownOtherDogsPastInfo.otherPastDogTime}
                             onInput={(e) => {
                               handleChange(e, "dogQuestions", "ownOtherDogsPastInfo");
                             }}
@@ -1208,7 +853,6 @@ function FormAdoption() {
                             id="otherDogFate"
                             name="otherDogFate"
                             placeholder="e.g. Died of old age"
-                            value={animalForm.dogQuestions.ownOtherDogsPastInfo.otherDogFate}
                             onInput={(e) => {
                               handleChange(e, "dogQuestions", "ownOtherDogsPastInfo");
                             }}
@@ -1241,7 +885,7 @@ function FormAdoption() {
                       </div>
                     </div>
 
-                    {animalForm.dogQuestions.dogOwnOtherPetsCurrentInfo.dogOwnOtherCurrentPets === "Yes" ? (
+                    {animalForm.current.dogQuestions.dogOwnOtherPetsCurrentInfo.dogOwnOtherCurrentPets === "Yes" ? (
                       <>
                         <div className="adoption-form-content">
                           <label htmlFor="dogOtherCurrentPetTypes" className="adoption-form-title">
@@ -1254,7 +898,6 @@ function FormAdoption() {
                             id="dogOtherCurrentPetTypes"
                             name="dogOtherCurrentPetTypes"
                             placeholder="e.g. 2 Cats, Hamster, Snake"
-                            value={animalForm.dogQuestions.dogOwnOtherPetsCurrentInfo.dogOtherCurrentPetTypes}
                             onInput={(e) => {
                               handleChange(e, "dogQuestions", "dogOwnOtherPetsCurrentInfo");
                             }}
@@ -1319,7 +962,6 @@ function FormAdoption() {
                         id="dogFurtherInfo"
                         name="dogFurtherInfo"
                         placeholder="Enter further information here"
-                        value={animalForm.dogQuestions.dogFurtherInfo}
                         onInput={(e) => {
                           handleChange(e, "dogQuestions");
                         }}
@@ -1373,7 +1015,7 @@ function FormAdoption() {
                       </div>
                     </div>
 
-                    {animalForm.catQuestions.catHomeAloneInfo.catHomeAlone === "Yes" ? (
+                    {animalForm.current.catQuestions.catHomeAloneInfo.catHomeAlone === "Yes" ? (
                       <>
                         <div className="adoption-form-content">
                           <label htmlFor="catHomeAloneHours" className="adoption-form-title">
@@ -1386,7 +1028,6 @@ function FormAdoption() {
                             id="catHomeAloneHours"
                             name="catHomeAloneHours"
                             placeholder=""
-                            value={animalForm.catQuestions.catHomeAloneInfo.catHomeAloneHours}
                             onInput={(e) => {
                               handleChange(e, "catQuestions", "catHomeAloneInfo");
                             }}
@@ -1403,7 +1044,6 @@ function FormAdoption() {
                             id="catHomeAloneFrequency"
                             name="catHomeAloneFrequency"
                             placeholder="e.g. every day"
-                            value={animalForm.catQuestions.catHomeAloneInfo.catHomeAloneFrequency}
                             onInput={(e) => {
                               handleChange(e, "catQuestions", "catHomeAloneInfo");
                             }}
@@ -1424,7 +1064,6 @@ function FormAdoption() {
                         id="catSleepLocation"
                         name="catSleepLocation"
                         placeholder="e.g. In the kitchen"
-                        value={animalForm.catQuestions.catSleepLocation}
                         onInput={(e) => {
                           handleChange(e, "catQuestions");
                         }}
@@ -1452,9 +1091,9 @@ function FormAdoption() {
                         </div>
                       </div>
                     </div>
-                    {animalForm.catQuestions.ownOtherCatsCurrentInfo.ownOtherCurrentCats === "Yes" ? (
+                    {animalForm.current.catQuestions.ownOtherCatsCurrentInfo.ownOtherCurrentCats === "Yes" ? (
                       <></>
-                    ) : animalForm.catQuestions.ownOtherCatsCurrentInfo.ownOtherCurrentCats === "No" ? (
+                    ) : animalForm.current.catQuestions.ownOtherCatsCurrentInfo.ownOtherCurrentCats === "No" ? (
                       <div className="adoption-form-content">
                         <label htmlFor="ownOtherPastCats" className="adoption-form-title">
                           Have you owned a cat before?
@@ -1480,8 +1119,8 @@ function FormAdoption() {
                     ) : (
                       <> </>
                     )}
-                    {animalForm.catQuestions.ownOtherCatsPastInfo.ownOtherPastCats === "As Child" ||
-                    animalForm.catQuestions.ownOtherCatsPastInfo.ownOtherPastCats === "As Adult" ? (
+                    {animalForm.current.catQuestions.ownOtherCatsPastInfo.ownOtherPastCats === "As Child" ||
+                    animalForm.current.catQuestions.ownOtherCatsPastInfo.ownOtherPastCats === "As Adult" ? (
                       <>
                         <div className="adoption-form-content">
                           <label htmlFor="otherPastCatTime" className="adoption-form-title">
@@ -1494,7 +1133,6 @@ function FormAdoption() {
                             id="otherPastCatTime"
                             name="otherPastCatTime"
                             placeholder="e.g. 2 years"
-                            value={animalForm.catQuestions.ownOtherCatsPastInfo.otherPastCatTime}
                             onInput={(e) => {
                               handleChange(e, "catQuestions", "ownOtherCatsPastInfo");
                             }}
@@ -1511,7 +1149,6 @@ function FormAdoption() {
                             id="otherCatFate"
                             name="otherCatFate"
                             placeholder="e.g. Died of old age"
-                            value={animalForm.catQuestions.ownOtherCatsPastInfo.otherCatFate}
                             onInput={(e) => {
                               handleChange(e, "catQuestions", "ownOtherCatsPastInfo");
                             }}
@@ -1544,7 +1181,7 @@ function FormAdoption() {
                       </div>
                     </div>
 
-                    {animalForm.catQuestions.ownOtherPetsCurrentInfo.ownOtherCurrentPets === "Yes" ? (
+                    {animalForm.current.catQuestions.ownOtherPetsCurrentInfo.ownOtherCurrentPets === "Yes" ? (
                       <>
                         <div className="adoption-form-content">
                           <label htmlFor="otherCurrentPetTypes" className="adoption-form-title">
@@ -1557,7 +1194,6 @@ function FormAdoption() {
                             id="otherCurrentPetTypes"
                             name="otherCurrentPetTypes"
                             placeholder="e.g. 2 Cats, Hamster, Snake"
-                            value={animalForm.catQuestions.ownOtherPetsCurrentInfo.otherCurrentPetTypes}
                             onInput={(e) => {
                               handleChange(e, "catQuestions", "ownOtherPetsCurrentInfo");
                             }}
@@ -1570,7 +1206,7 @@ function FormAdoption() {
 
                     <div className="adoption-form-content">
                       <label htmlFor="catAwareOfCostsAndLegal" className="adoption-form-title">
-                        Are you fully aware of the costs {animalForm.type === "Dog" ? "and legal implications" : ""} of keeping a cat?
+                        Are you fully aware of the costs {animalForm.current.type === "Dog" ? "and legal implications" : ""} of keeping a cat?
                       </label>
                       <div className="filter-dropdown">
                         <div className="dropdown">
@@ -1622,7 +1258,6 @@ function FormAdoption() {
                         id="catFurtherInfo"
                         name="catFurtherInfo"
                         placeholder="Enter further information here"
-                        value={animalForm.catQuestions.catFurtherInfo}
                         onInput={(e) => {
                           handleChange(e, "catQuestions");
                         }}
@@ -1637,37 +1272,37 @@ function FormAdoption() {
                 <ul className="legal-list">
                   <span className="legal-header"> By submitting this form you understand and agree to the following:</span>
                   <li className="legal-list-item">
-                    I understand that the {animalForm.type} will be rehomed to me as a house pet and is not to be kept closed in a kennel or shed, the{" "}
-                    {animalForm.type} will NOT be chained up outside.
+                    I understand that the {animalForm.current.type} will be rehomed to me as a house pet and is not to be kept closed in a kennel or
+                    shed, the {animalForm.current.type} will NOT be chained up outside.
                   </li>
                   <li className="legal-list-item">
-                    The {animalForm.type} is being rehomed to me as a companion, not as a guard animal or for fighting or breeding purposes
+                    The {animalForm.current.type} is being rehomed to me as a companion, not as a guard animal or for fighting or breeding purposes
                   </li>
                   <li className="legal-list-item">
-                    Bright Eyes Animal Sanctuary will at all times retain ownership of the {animalForm.type}, and reserve the right to reclaim it if
-                    they feel the {animalForm.type} is not being fed, housed or cared for to their satisfaction.
+                    Bright Eyes Animal Sanctuary will at all times retain ownership of the {animalForm.current.type}, and reserve the right to reclaim
+                    it if they feel the {animalForm.current.type} is not being fed, housed or cared for to their satisfaction.
                   </li>
                   <li className="legal-list-item">
-                    Should I wish to no longer care for the {animalForm.type} I will return it to Bright Eyes Animal Sanctuary. I will not sell, give
-                    away or dispose of the {animalForm.type} in any other way. The {animalForm.type} may only be “Put to Sleep” on the advice of a
-                    qualified vet, and Bright Eyes Animal Sanctuary must be notified in Advance.
+                    Should I wish to no longer care for the {animalForm.current.type} I will return it to Bright Eyes Animal Sanctuary. I will not
+                    sell, give away or dispose of the {animalForm.current.type} in any other way. The {animalForm.current.type} may only be “Put to
+                    Sleep” on the advice of a qualified vet, and Bright Eyes Animal Sanctuary must be notified in Advance.
                   </li>
                   <li className="legal-list-item">
-                    I understand that when I'm away on holiday, I will need to place the {animalForm.type} in registered kennels or cattery, or
-                    arrange for the {animalForm.type} to be looked after by a responsible adult.
+                    I understand that when I'm away on holiday, I will need to place the {animalForm.current.type} in registered kennels or cattery,
+                    or arrange for the {animalForm.current.type} to be looked after by a responsible adult.
                   </li>
                   <li className="legal-list-item">
-                    I understand that all {animalForm.type}'s leaving Bright Eyes Animal Sanctuary must be neutered. Where the {animalForm.type} has
-                    been rehomed but is not neutered I agree that I will return the {animalForm.type} to be neutered or undertake to ensure that the
-                    neutering is carried out by a fully qualified vet.
+                    I understand that all {animalForm.current.type}'s leaving Bright Eyes Animal Sanctuary must be neutered. Where the{" "}
+                    {animalForm.current.type} has been rehomed but is not neutered I agree that I will return the {animalForm.current.type} to be
+                    neutered or undertake to ensure that the neutering is carried out by a fully qualified vet.
                   </li>
                   <li className="legal-list-item">
                     I understand that full liability for any veterinary fees, or costs arising from any incident, damages or injury incurred at any
-                    future date will be mine and remain mine while I am responsible for the {animalForm.type}.
+                    future date will be mine and remain mine while I am responsible for the {animalForm.current.type}.
                   </li>
                   <li className="legal-list-item">
-                    I understand that although Bright Eyes Animal Sanctuary tells me everything they know about the {animalForm.type}, they do not
-                    always have a complete history and therefore cannot guarantee behaviour etc.
+                    I understand that although Bright Eyes Animal Sanctuary tells me everything they know about the {animalForm.current.type}, they do
+                    not always have a complete history and therefore cannot guarantee behaviour etc.
                   </li>
                   <li className="legal-list-item">
                     I confirm that Bright Eyes Animal Sanctuary may contact my landlord to confirm that my tenancy agreement allows pets.
@@ -1676,9 +1311,9 @@ function FormAdoption() {
                     I confirm that Bright Eyes Animal Sanctuary may contact my Vet to confirm that I am a responsible owner.
                   </li>
                   <li className="legal-list-item">
-                    I understand that I must bring valid photographic I.D. when collecting the {animalForm.type} I am rehoming.
+                    I understand that I must bring valid photographic I.D. when collecting the {animalForm.current.type} I am rehoming.
                   </li>
-                  <li className="legal-list-item">A MINIMUM REHOMING DONATION OF £{animalForm.type === "Dog" ? 125 : 30} IS REQUESTED.</li>
+                  <li className="legal-list-item">A MINIMUM REHOMING DONATION OF £{animalForm.current.type === "Dog" ? 125 : 30} IS REQUESTED.</li>
                 </ul>
               </fieldset>
               <fieldset className="fieldset">
@@ -1711,7 +1346,7 @@ function FormAdoption() {
                     </div>
                   </div>
                 </div>
-                {animalForm.hearAboutUsInfo.hearAboutUs === "Other" ? (
+                {animalForm.current.hearAboutUsInfo.hearAboutUs === "Other" ? (
                   <div className="adoption-form-content">
                     <label htmlFor="other" className="adoption-form-title">
                       We'd love to know where you heard of us!
@@ -1723,7 +1358,7 @@ function FormAdoption() {
                       id="other"
                       name="other"
                       placeholder="It lets us know how to advertise ourselves!"
-                      value={animalForm.hearAboutUsInfo.other}
+                      value={animalForm.current.hearAboutUsInfo.other}
                       onInput={(e) => {
                         handleChange(e, "hearAboutUsInfo");
                       }}

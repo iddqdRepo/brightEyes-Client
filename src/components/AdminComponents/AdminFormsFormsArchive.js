@@ -29,10 +29,8 @@ function AdminFormsFormsArchive(props) {
     let adoption = adoptionData.data;
     Object.keys(adoption).forEach((key) => {
       if (adoption[key].type === "Dog") {
-        console.log("adoption data type = Dog ", adoption[key]);
         dogAdoption.push(adoption[key]);
       } else {
-        console.log("adoption data type = Cat ", adoption[key]);
         catAdoption.push(adoption[key]);
       }
     });
@@ -85,8 +83,6 @@ function AdminFormsFormsArchive(props) {
 
   const onClickDeleteButton = (type, id) => {
     let arrayOfForms;
-    console.log("ID passed AdminEditRemove is ", id);
-    console.log(`deleting pet with id of ${id}`);
     if (type === "GiftAid") {
       arrayOfForms = [...giftAidForms];
       arrayOfForms.forEach((key, index, arr) => {
@@ -154,7 +150,6 @@ function AdminFormsFormsArchive(props) {
       type = "petAdoption";
       arrayOfForms = [...catAdoptionForms];
       arrayOfForms.forEach((key) => {
-        console.log("key = ", key._id);
         if (key._id === id) {
           archiveOrUnarchive === "archive" ? (key["archive"] = "Yes") : (key["archive"] = "No");
           api.updateForm(type, id, key);
@@ -167,7 +162,6 @@ function AdminFormsFormsArchive(props) {
       type = "petAdoption";
       arrayOfForms = [...dogAdoptionForms];
       arrayOfForms.forEach((key) => {
-        console.log("key = ", key._id);
         if (key._id === id) {
           archiveOrUnarchive === "archive" ? (key["archive"] = "Yes") : (key["archive"] = "No");
           api.updateForm(type, id, key);
@@ -179,7 +173,6 @@ function AdminFormsFormsArchive(props) {
     if (type === "GiftAid") {
       arrayOfForms = [...giftAidForms];
       arrayOfForms.forEach((key) => {
-        console.log("key = ", key._id);
         if (key._id === id) {
           archiveOrUnarchive === "archive" ? (key["archive"] = "Yes") : (key["archive"] = "No");
           api.updateForm(type, id, key);
@@ -191,7 +184,6 @@ function AdminFormsFormsArchive(props) {
     if (type === "Volunteer") {
       arrayOfForms = [...volunteerForms];
       arrayOfForms.forEach((key) => {
-        console.log("key = ", key._id);
         if (key._id === id) {
           archiveOrUnarchive === "archive" ? (key["archive"] = "Yes") : (key["archive"] = "No");
           api.updateForm(type, id, key);
@@ -222,11 +214,9 @@ function AdminFormsFormsArchive(props) {
       </>
     ) : (
       <div className="admin-forms-content-container">
-        {console.log(dataObj)}
         {dataObj.map((form) => {
           return (
             <div key={form._id} className="admin-forms-content">
-              {console.log("form = ", form)}
               <div className="admin-forms-content-left">
                 <div className="admin-forms-name">{form.aboutQuestions.name}</div>
               </div>
@@ -332,7 +322,6 @@ function AdminFormsFormsArchive(props) {
                           <button
                             className="button"
                             onClick={() => {
-                              console.log("modal closed ");
                               close();
                             }}
                           >

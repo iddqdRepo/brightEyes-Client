@@ -106,7 +106,6 @@ function FormVolunteer() {
       e.preventDefault();
       setWarningText("Please fill in all fields");
       window.scrollTo({ top: 0, behavior: "smooth" });
-
       // console.log(animal);
     } else {
       e.preventDefault();

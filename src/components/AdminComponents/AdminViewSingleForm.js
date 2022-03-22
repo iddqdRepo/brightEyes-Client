@@ -19,22 +19,16 @@ function AdminViewSingleForm() {
     const data = await fetchSingleForm(location.state.detail.type, location.state.detail.id);
     const obj = data.data;
     // console.log("obj ", obj);
-    console.log("Data pased in for form to show is : ", data.data);
     setForm(data.data);
 
     Object.keys(obj).forEach((element) => {
-      console.log("element.slice(0, 3)", element.slice(0, 3));
-
       if (element.slice(0, 3) !== "cat") {
         dogTemp = { ...dogTemp, [element]: obj[element] };
       }
       if (element.slice(0, 3) !== "dog") {
-        console.log("[element]: obj[element]", [element], obj[element]);
         catTemp = { ...catTemp, [element]: obj[element] };
       }
     });
-    console.log("dogTemp =  : ", dogTemp);
-    console.log("catTemp =  : ", catTemp);
     setDogForm(dogTemp);
     setCatForm(catTemp);
     // console.log("dogTemp ", dogTemp);
@@ -58,7 +52,6 @@ function AdminViewSingleForm() {
 
           {Object.keys(form[topLevelKey]).map((parentSubcategoryKey) => {
             //^ If it is a Dog subcategory (one object deep)
-            console.log("form = ", form);
             return (
               <DogCatFormSubCategory
                 key={form.aboutQuestions.name + form.aboutQuestions.postcode + parentSubcategoryKey}
@@ -85,7 +78,6 @@ function AdminViewSingleForm() {
     );
   };
   const DogCatFormSubCategory = (props) => {
-    console.log("DogCatFormSubCategory");
     const topLevelKey = props.topLevelKey;
     const parentSubcategoryKey = props.parentSubcategoryKey;
     const form = props.form;
@@ -98,7 +90,6 @@ function AdminViewSingleForm() {
             {/* //^ childSubcategoryKey is NOT blank */}
             <div className="single-form-title">{titleMap[childSubcategoryKey]}</div>
             {/* {console.log("form[key][formKey][formKeysub].length = ", form[key][formKey][formKeysub].length)} */}
-            {console.log(titleMap[topLevelKey] + form.aboutQuestions.name + form.aboutQuestions.postcode)}
             <div>{form[topLevelKey][parentSubcategoryKey][childSubcategoryKey]}</div>
           </div>
         ) : (
@@ -108,7 +99,7 @@ function AdminViewSingleForm() {
     ) : (
       <>
         {/* //^ parentSubcategory is NOT an object, so it's NOT a childSubcategory */}
-        <div className="single-form-content">
+        <div className="single-form-content" key={titleMap[parentSubcategoryKey] + form.aboutQuestions.name + form.aboutQuestions.postcode}>
           <div className="single-form-title">{titleMap[parentSubcategoryKey]}</div>
           <div>{form[topLevelKey][parentSubcategoryKey]}</div>
         </div>

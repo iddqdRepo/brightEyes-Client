@@ -76,32 +76,6 @@ function EditAnimalAnimalArchive(props) {
     deleteSelectedPet(id);
   };
 
-  // const awaitUpdatePet = (id, key, change) => {
-  //   return new Promise(function (myResolve, myReject) {
-  //     const b = updatePet(id, key);
-  //     // "Producing Code" (May take some time)
-  //     // b.then(setAnimal(change)).then(myResolve());
-  //     // when successful
-  //     if (b.data.message) {
-  //       if (b.data.message === "Pet updated successfully") {
-  //         //console.log("Pet updated successfully");
-  //         setAnimal(change);
-  //       }
-  //     }
-  //   });
-  // };
-
-  // const awaitUpdatePet = async (id, key, change) => {
-  //   const b = await updatePet(id, key);
-  //   // //console.log(b)
-  //   if (b.data.message === "Pet updated successfully") {
-  //     //console.log("Pet updated successfully");
-  //     setAnimal(change);
-  //   }
-
-  //   // myReject(//console.log("ERROR SETTING ANIMAL")); // when error
-  // };
-
   const onClickUnArchiveButton = async (id) => {
     //console.log("ID passed AdminEditRemove is ", id);
     //console.log(`archiving pet with id of ${id}`);

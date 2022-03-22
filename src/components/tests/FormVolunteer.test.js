@@ -7,6 +7,7 @@ import FormVolunteer from "../FormVolunteer";
 import { createMemoryHistory } from "history";
 import "@testing-library/jest-dom";
 import { HelmetProvider } from "react-helmet-async";
+jest.mock("axios");
 global.scrollTo = jest.fn();
 afterAll(() => {
   jest.clearAllMocks();
@@ -31,10 +32,8 @@ describe("Volunteer Form Test", () => {
     expect(formTextBoxes.length).toEqual(25);
     expect(formComboBoxes.length).toEqual(5);
     expect(formCheckBoxes.length).toBe(1);
-
     expect(submitButton).toBeInTheDocument();
   });
-
   test("should correctly show and remove error message for gift aid", async () => {
     const history = createMemoryHistory({ initialEntries: ["/"] });
     render(
@@ -46,11 +45,9 @@ describe("Volunteer Form Test", () => {
     );
     let errorMessage = screen.queryByText(/please fill in all fields/i);
     expect(errorMessage).not.toBeInTheDocument();
-
     userEvent.click(screen.getByRole("button", { name: /submit form/i }));
     errorMessage = screen.getByText(/please fill in all fields/i);
     expect(errorMessage).toBeInTheDocument();
-
     userEvent.type(screen.getAllByRole("textbox", { name: /title/i })[0], "value");
     userEvent.type(screen.getAllByRole("textbox", { name: /name/i })[0], "value");
     userEvent.type(screen.getAllByRole("textbox", { name: /address/i })[0], "value");
@@ -61,17 +58,13 @@ describe("Volunteer Form Test", () => {
     userEvent.type(screen.getAllByRole("textbox", { name: /email/i })[0], "value");
     userEvent.type(screen.getByRole("textbox", { name: /occupation/i }), "value");
     userEvent.click(screen.getByRole("checkbox", { name: /i am over 16/i }));
-
     userEvent.click(screen.getByRole("button", { name: /submit form/i }));
-
     errorMessage = screen.queryByText(/please fill in all fields/i);
     expect(errorMessage).not.toBeInTheDocument();
-
     await waitFor(() => {
       expect(screen.queryByText(/thank you/i)).toBeInTheDocument();
     });
   });
-
   test("should reveal all hidden volunteer fields on correct input", async () => {
     const history = createMemoryHistory({ initialEntries: ["/"] });
     render(
@@ -81,12 +74,10 @@ describe("Volunteer Form Test", () => {
         </Router>
       </HelmetProvider>
     );
-
     userEvent.selectOptions(
       screen.getByRole("combobox", { name: /Do you have any health conditions or special needs that could affect your ability to volunteer\?/i }),
       "Yes"
     );
-
     userEvent.selectOptions(screen.getByRole("combobox", { name: /Have you any unspent criminal convictions registered against you\?/i }), "Yes");
     const formTextBoxes = screen.getAllByRole("textbox");
     const formComboBoxes = screen.getAllByRole("combobox");

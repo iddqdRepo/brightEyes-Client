@@ -22,7 +22,6 @@ function AdminLogIn() {
     // let userInfo = { username: "chris", password: "password" };
 
     const data = await api.logUserIn(userInfo);
-    console.log(data.data.message);
     if (data.data.message === "Success") {
       localStorage.setItem("token", data.data.token);
       setTimeout(() => {

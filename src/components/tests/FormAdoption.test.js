@@ -7,6 +7,7 @@ import "@testing-library/jest-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { filledInputClasses } from "@mui/material";
 global.scrollTo = jest.fn();
+jest.mock("axios");
 afterAll(() => {
   jest.clearAllMocks();
 });
@@ -178,8 +179,8 @@ let dogTriggerFieldsObj = {
 
 describe("Adoption Form Test", () => {
   test("should show correct number of fields initially for dog", async () => {
-    //initialDogCombo.length = 17
-    //initialDogText.length = 16
+    initialDogCombo.length = 17;
+    initialDogText.length = 16;
     renderAnimal("Dog");
     const formTextBoxes = screen.getAllByRole("textbox").map((el) => {
       return el.name;
@@ -198,11 +199,9 @@ describe("Adoption Form Test", () => {
   });
 
   test("should show correct number of fields initially for cat", async () => {
-    //initialCatCombo.length = 18
-    //initialCatText.length = 14
-
+    initialCatCombo.length = 18;
+    initialCatText.length = 14;
     renderAnimal("Cat");
-
     const formTextBoxes = screen.getAllByRole("textbox").map((el) => {
       return el.name;
     });
@@ -244,7 +243,6 @@ describe("Adoption Form Test", () => {
     // };
     formTextBoxes = screen.getAllByRole("textbox");
     formComboBoxes = screen.getAllByRole("combobox");
-
     mainTextArray = formTextBoxes.map((el) => {
       return el.name;
     });
@@ -253,7 +251,6 @@ describe("Adoption Form Test", () => {
     });
     expect(mainTextArray.length).toBe(initialCatText.length + catHiddenText.length);
     expect(mainTextArray).toEqual(expect.arrayContaining(catHiddenText));
-
     expect(mainComboArray.length).toBe(initialCatCombo.length + catHiddenCombo.length);
     expect(mainComboArray).toEqual(expect.arrayContaining(catHiddenCombo));
   });
@@ -271,23 +268,18 @@ describe("Adoption Form Test", () => {
     let formComboBoxes = screen.getAllByRole("combobox").map((el) => {
       return el.name;
     });
-
     // let dogTriggerFieldsObj = {
     //   gardenOrYard: "Yes",
-    userEvent.selectOptions(screen.getByRole("combobox", { name: /do you have a garden or yard\?/i }), dogTriggerFieldsObj.gardenOrYard);
 
+    userEvent.selectOptions(screen.getByRole("combobox", { name: /do you have a garden or yard\?/i }), dogTriggerFieldsObj.gardenOrYard);
     // fullyEnclosed: "Yes",
     userEvent.selectOptions(screen.getByRole("combobox", { name: /is your garden\/yard fully enclosed\?/i }), dogTriggerFieldsObj.fullyEnclosed);
-
     //   otherChildrenVisit: "Yes",
     userEvent.selectOptions(screen.getByRole("combobox", { name: /Do other children visit your home\?/i }), dogTriggerFieldsObj.otherChildrenVisit);
-
     //   dogHomeAlone: "Yes",
     userEvent.selectOptions(screen.getByRole("combobox", { name: /Will your dog be left at home alone\?/i }), dogTriggerFieldsObj.dogHomeAlone);
-
     //   ownOtherCurrentDogs: "No",
     userEvent.selectOptions(screen.getByRole("combobox", { name: /Do you own other dogs\?/i }), dogTriggerFieldsObj.ownOtherCurrentDogs);
-
     //   ownOtherPastDogs: "As a Child",
     userEvent.selectOptions(screen.getByRole("combobox", { name: /Have you owned a dog before\?/i }), dogTriggerFieldsObj.ownOtherPastDogs);
     mainTextBoxArray.push(...screen.getAllByRole("textbox"));
@@ -295,25 +287,19 @@ describe("Adoption Form Test", () => {
     // ^to undo above
     //   ownOtherPastDogs2: "choose",
     userEvent.selectOptions(screen.getByRole("combobox", { name: /Have you owned a dog before\?/i }), dogTriggerFieldsObj.ownOtherPastDogs2);
-
     //   ownOtherCurrentDogs2: "Yes",
     userEvent.selectOptions(screen.getByRole("combobox", { name: /Do you own other dogs\?/i }), dogTriggerFieldsObj.ownOtherCurrentDogs2);
-
     //   dogHomeAlone: "Yes",
     userEvent.selectOptions(screen.getByRole("combobox", { name: /Will your dog be left at home alone\?/i }), dogTriggerFieldsObj.dogHomeAlone);
-
     //   dogOwnOtherCurrentPets: "Yes",
     userEvent.selectOptions(screen.getByRole("combobox", { name: /Do you own other pets\?/i }), dogTriggerFieldsObj.dogOwnOtherCurrentPets);
-
     //   hearAboutUs: "Other",
     userEvent.selectOptions(screen.getByRole("combobox", { name: /How did you hear about Bright Eyes\?/i }), dogTriggerFieldsObj.hearAboutUs);
-
     // };
     mainTextBoxArray.push(...screen.getAllByRole("textbox"));
     mainComboArray.push(...screen.getAllByRole("combobox"));
     formTextBoxes = screen.getAllByRole("textbox");
     formComboBoxes = screen.getAllByRole("combobox");
-
     let allTextBoxes = new Set(
       mainTextBoxArray.map((el) => {
         return el.name;
@@ -326,10 +312,8 @@ describe("Adoption Form Test", () => {
     );
     allComboBoxes = [...allComboBoxes];
     allTextBoxes = [...allTextBoxes];
-
     expect(allTextBoxes.length).toBe(initialDogText.length + dogHiddenText.length);
     expect(allTextBoxes).toEqual(expect.arrayContaining(dogHiddenText));
-
     expect(allComboBoxes.length).toBe(initialDogCombo.length + dogHiddenCombo.length);
     expect(allComboBoxes).toEqual(expect.arrayContaining(dogHiddenCombo));
   });
@@ -337,7 +321,6 @@ describe("Adoption Form Test", () => {
   test("should correctly show and remove error message for dog form", async () => {
     renderAnimal("Dog");
     let errorMessage = screen.queryByText(/please fill in all fields/i);
-
     expect(errorMessage).not.toBeInTheDocument();
     userEvent.type(screen.getByRole("textbox", { name: /title/i }), "value");
     userEvent.type(screen.getAllByRole("textbox", { name: /name/i })[0], "value");
@@ -345,11 +328,9 @@ describe("Adoption Form Test", () => {
     userEvent.type(screen.getByRole("textbox", { name: /postcode/i }), "value");
     userEvent.type(screen.getByRole("textbox", { name: /phone/i }), "value");
     userEvent.type(screen.getByRole("textbox", { name: /mobile/i }), "value");
-
     userEvent.click(screen.getByRole("button", { name: /submit form/i }));
     errorMessage = screen.getByText(/please fill in all fields/i);
     expect(errorMessage).toBeInTheDocument();
-
     userEvent.type(screen.getByRole("textbox", { name: /email/i }), "value");
     userEvent.click(screen.getByRole("button", { name: /submit form/i }));
     errorMessage = screen.queryByText(/please fill in all fields/i);
@@ -362,7 +343,6 @@ describe("Adoption Form Test", () => {
   test("should correctly show and remove error message for cat form", async () => {
     renderAnimal("Cat");
     let errorMessage = screen.queryByText(/please fill in all fields/i);
-
     expect(errorMessage).not.toBeInTheDocument();
     userEvent.type(screen.getByRole("textbox", { name: /title/i }), "value");
     userEvent.type(screen.getAllByRole("textbox", { name: /name/i })[0], "value");
@@ -370,17 +350,13 @@ describe("Adoption Form Test", () => {
     userEvent.type(screen.getByRole("textbox", { name: /postcode/i }), "value");
     userEvent.type(screen.getByRole("textbox", { name: /phone/i }), "value");
     userEvent.type(screen.getByRole("textbox", { name: /mobile/i }), "value");
-
     userEvent.click(screen.getByRole("button", { name: /submit form/i }));
     errorMessage = screen.getByText(/please fill in all fields/i);
     expect(errorMessage).toBeInTheDocument();
-
     userEvent.type(screen.getByRole("textbox", { name: /email/i }), "value");
     userEvent.click(screen.getByRole("button", { name: /submit form/i }));
-
     errorMessage = screen.queryByText(/please fill in all fields/i);
     expect(errorMessage).not.toBeInTheDocument();
-
     await waitFor(() => {
       expect(screen.queryByText(/thank you/i)).toBeInTheDocument();
     });

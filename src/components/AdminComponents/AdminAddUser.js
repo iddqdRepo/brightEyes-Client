@@ -27,7 +27,7 @@ function AdminAddUser() {
       setWarningText("Enter Password");
     } else {
       const data = await api.addUser(userInfo);
-      console.log(data.data.message);
+      // console.log(data.data.message);
       if (data.data.message === "User Added") {
         setWarningText("User Added");
         setPassword("");
