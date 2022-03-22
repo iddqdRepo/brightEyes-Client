@@ -1,10 +1,11 @@
 import axios from "axios";
 
-const petURL = process.env.REACT_APP_PROD === "FALSE" ? "https://bright-eyes-as-backend.herokuapp.com/pets" : "http://localhost:5000/pets";
-const formURL = process.env.REACT_APP_PROD === "FALSE" ? "https://bright-eyes-as-backend.herokuapp.com/forms" : "http://localhost:5000/forms";
-const userURL = process.env.REACT_APP_PROD === "FALSE" ? "https://bright-eyes-as-backend.herokuapp.com/user" : "http://localhost:5000/user";
-const mailURL = process.env.REACT_APP_PROD === "FALSE" ? "https://bright-eyes-as-backend.herokuapp.com/send" : "http://localhost:5000/send";
+const petURL = process.env.REACT_APP_PROD === "TRUE" ? "https://bright-eyes-as-backend.herokuapp.com/pets" : "http://localhost:5000/pets";
+const formURL = process.env.REACT_APP_PROD === "TRUE" ? "https://bright-eyes-as-backend.herokuapp.com/forms" : "http://localhost:5000/forms";
+const userURL = process.env.REACT_APP_PROD === "TRUE" ? "https://bright-eyes-as-backend.herokuapp.com/user" : "http://localhost:5000/user";
+const mailURL = process.env.REACT_APP_PROD === "TRUE" ? "https://bright-eyes-as-backend.herokuapp.com/send" : "http://localhost:5000/send";
 
+console.log("mailURL = ", mailURL);
 export const fetchPets = () => axios.get(petURL);
 export const fetchSinglePet = (id) => axios.get(`${petURL}/${id}`);
 export const addPets = (animalToAdd) => axios.post(petURL, animalToAdd);
