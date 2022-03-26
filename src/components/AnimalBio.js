@@ -37,17 +37,12 @@ function AnimalBio() {
         <link rel="canonical" href={`/adoption/viewBio?id=${location.state.detail.id}`} />
       </Helmet>
       {!animalBio ? (
-        <div className="single-form-page-container">
-          <div className="admin-title">{AnimalBio.name} </div>
-          <div className="single-form-content-container">
-            <>
-              <div className="Loading-ring">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </>
+        <div className="loading-container">
+          <div className="Loading-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
           </div>
         </div>
       ) : (
