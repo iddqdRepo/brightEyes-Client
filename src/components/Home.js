@@ -51,7 +51,7 @@ function Home() {
         </div>
         <div className="stats-box-2">
           <div className="stats-box-title">20+</div>
-          <div className="stats-box-info">Voulnteers</div>
+          <div className="stats-box-info">Volunteers</div>
         </div>
         <div className="stats-box-3">
           <div className="stats-box-title">30+</div>
